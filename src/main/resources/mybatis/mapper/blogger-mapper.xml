@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="clan.midnight.tortolla.mappers.BloggerMapper">
+
+    <select id="findById" parameterType="long" resultType="clan.midnight.tortolla.models.Blogger">
+        SELECT * FROM blogger where id=#{id};
+    </select>
+
+    <insert id="insert" parameterType="clan.midnight.tortolla.models.Blogger">
+        INSERT into blogger(username, password_hash, full_name, created_time) values
+        (#{username}, MD5(#{password}), #{fullName}, #{createdTime});
+    </insert>
+
+    <update id="update" parameterType="clan.midnight.tortolla.models.Blogger">
+        UPDATE blogger SET username=#{userName}, password_hash=MD5(#{password}), full_name=#{fullName}
+        WHERE id=#{id};
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE from blogger where id=#{id};
+    </delete>
+
+    <select id="getId" resultType="Long">
+        SELECT id FROM blogger where username=#{username} and password_hash=MD5(#{password});
+    </select>
+</mapper>

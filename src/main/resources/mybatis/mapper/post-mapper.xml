@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="clan.midnight.tortolla.mappers.PostMapper">
+
+    <select id="findLatest" parameterType="int" resultType="clan.midnight.tortolla.models.Post">
+        SELECT * FROM post
+        ORDER BY created_time DESC
+        LIMIT #{num};
+    </select>
+
+    <select id="findByBlogger" parameterType="long" resultType="clan.midnight.tortolla.models.Post">
+        SELECT * FROM post
+        ORDER BY created_time DESC
+        WHERE id=#{id};
+    </select>
+
+    <insert id="insert" parameterType="clan.midnight.tortolla.models.Post">
+        INSERT into post(title, body, author_id, created_time, last_modified_time) values
+        (#{title}, MD5(#{body}), #{authorId}, #{createdTime}, #{lastModifiedTime});
+    </insert>
+
+    <update id="update" parameterType="clan.midnight.tortolla.models.Post">
+        UPDATE post SET title=#{title}, body=MD5#{body}, author_id=#{authorId}, last_modified_time=#{lastModifiedTime}
+        WHERE id=#{id};
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE from post where id=#{id};
+    </delete>
+</mapper>
