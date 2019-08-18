@@ -1,2 +1,2 @@
-# tortolla
+# Tortolla
 A personal blog system.
