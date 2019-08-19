@@ -18,11 +18,11 @@
 
     <insert id="insert" parameterType="clan.midnight.tortolla.models.Post">
         INSERT into post(title, body, author_id, created_time, last_modified_time) values
-        (#{title}, MD5(#{body}), #{authorId}, #{createdTime}, #{lastModifiedTime});
+        (#{title}, #{body}, #{authorId}, #{createdTime}, #{lastModifiedTime});
     </insert>
 
     <update id="update" parameterType="clan.midnight.tortolla.models.Post">
-        UPDATE post SET title=#{title}, body=MD5#{body}, author_id=#{authorId}, last_modified_time=#{lastModifiedTime}
+        UPDATE post SET title=#{title}, body=#{body}, author_id=#{authorId}, last_modified_time=#{lastModifiedTime}
         WHERE id=#{id};
     </update>
 

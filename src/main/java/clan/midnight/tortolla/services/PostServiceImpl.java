@@ -50,15 +50,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post create(@NotNull Post post) {
+    public boolean create(@NotNull Post post) {
         post.setCreatedTime(new Date());
         post.setLastModifiedTime(new Date());
-        postMapper.update(post);
-        Post insertedPost = postMapper.findById(post.getId());
-        if (insertedPost == null) {
-            throw new RuntimeException("Insert error");
-        }
-        return insertedPost;
+        return postMapper.insert(post) > 0;
     }
 
     @Override

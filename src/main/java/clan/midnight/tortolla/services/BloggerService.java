@@ -1,5 +1,7 @@
 package clan.midnight.tortolla.services;
 
+import clan.midnight.tortolla.models.Blogger;
+
 /**
  * @author Midnight1000
  */
@@ -22,4 +24,11 @@ public interface BloggerService {
      * @return Is successful
      */
     boolean register(String username, String password, String fullName);
+
+    /**
+     * Get the current authenticated blogger
+     *
+     * @return Current blogger
+     */
+    Blogger getCurrentBlogger();
 }

@@ -5,9 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * Blogger DO
@@ -20,23 +18,19 @@ import java.util.Set;
 public class Blogger {
     private Long id;
     private String username;
-    private String password;
+    private String passwordHash;
     private String fullName;
     private Date createdTime;
 
-    public Blogger(Long id, String username) {
+    public Blogger(Long id, String username, String passwordHash, String fullName, Date createdTime) {
+        this(username, passwordHash, fullName);
         this.id = id;
-        this.username = username;
+        this.createdTime = createdTime;
     }
 
-    public Blogger(String username, String password, String fullName) {
+    public Blogger(String username, String passwordHash, String fullName) {
         this.username = username;
-        this.password = password;
-        this.fullName = fullName;
-    }
-
-    public Blogger(Long id, String username, String fullName) {
-        this(id, username);
+        this.passwordHash = passwordHash;
         this.fullName = fullName;
     }
 

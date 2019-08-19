@@ -12,12 +12,20 @@ import org.apache.ibatis.annotations.Mapper;
 public interface BloggerMapper {
 
     /**
-     * Get the blogger with ID
+     * Get the blogger by ID
      *
      * @param id Blogger's ID
      * @return the instance of blogger
      */
     Blogger findById(long id);
+
+    /**
+     * Get the blogger by name
+     *
+     * @param name Blogger's Name
+     * @return the instance of blogger
+     */
+    Blogger findByName(String name);
 
     /**
      * Insert the blogger to the database

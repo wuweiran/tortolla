@@ -8,13 +8,17 @@
         SELECT * FROM blogger where id=#{id};
     </select>
 
+    <select id="findByName" parameterType="String" resultType="clan.midnight.tortolla.models.Blogger">
+        SELECT * FROM blogger where username=#{name};
+    </select>
+
     <insert id="insert" parameterType="clan.midnight.tortolla.models.Blogger">
         INSERT into blogger(username, password_hash, full_name, created_time) values
-        (#{username}, MD5(#{password}), #{fullName}, #{createdTime});
+        (#{username}, #{passwordHash}, #{fullName}, #{createdTime});
     </insert>
 
     <update id="update" parameterType="clan.midnight.tortolla.models.Blogger">
-        UPDATE blogger SET username=#{userName}, password_hash=MD5(#{password}), full_name=#{fullName}
+        UPDATE blogger SET username=#{userName}, password_hash=#{passwordHash}, full_name=#{fullName}
         WHERE id=#{id};
     </update>
 
@@ -23,6 +27,6 @@
     </delete>
 
     <select id="getId" resultType="Long">
-        SELECT id FROM blogger where username=#{username} and password_hash=MD5(#{password});
+        SELECT id FROM blogger where username=#{username} and password_hash=#{passwordHash};
     </select>
 </mapper>

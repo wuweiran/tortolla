@@ -23,8 +23,7 @@ public class Post {
     private Date createdTime;
     private Date lastModifiedTime;
 
-    public Post(Long id, String title, String body, Long authorId) {
-        this.id = id;
+    public Post(String title, String body, Long authorId) {
         this.title = title;
         this.body = body;
         this.authorId = authorId;

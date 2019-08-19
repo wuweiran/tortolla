@@ -23,11 +23,14 @@
           th:if="${#fields.hasErrors('password')}">Invalid password</span>
 
     <div><label for="fullName" th:value="*{fullName}">Full Name:</label></div>
-    <input id="fullName" name="password" th:value="*{fullName}" type="password"/>
+    <input id="fullName" name="fullName" th:value="*{fullName}" type="text"/>
     <span class="formError" th:errors="*{fullName}"
           th:if="${#fields.hasErrors('fullName')}">Invalid full name.</span>
 
     <div><input type="submit" value="Register"/></div>
+    <input type="hidden"
+           th:name="${_csrf.parameterName}"
+           th:value="${_csrf.token}"/>
 </form>
 
 <footer th:replace="layout :: site-footer"/>

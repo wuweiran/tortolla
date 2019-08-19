@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:fragment="site-head">
     <meta charset="UTF-8"/>
     <link href="../static/css/styles.css" rel="stylesheet" th:href="@{/css/styles.css}"/>
@@ -17,7 +18,7 @@
         <a href="posts/index.html" th:href="@{/posts}">Posts</a>
         <a href="posts/create.html" th:href="@{/posts/create}">Create Post</a>
         <a href="bloggers/index.html" th:href="@{/bloggers}">Bloggers</a>
-        <div id="logged-in-info"><span>Hello, <b>(user)</b></span>
+        <div id="logged-in-info" sec:authorize="isAuthenticated()"><span>Hello, <b sec:authentication="name"></b></span>
             <form method="post" th:action="@{/bloggers/logout}">
                 <input type="submit" value="Logout"/>
             </form>

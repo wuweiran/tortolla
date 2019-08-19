@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
+ * Register DTO
+ *
  * @author Midnight1000
  */
 @Getter

@@ -16,7 +16,7 @@ public interface PostService {
 
     Post findById(Long id);
 
-    Post create(Post post);
+    boolean create(Post post);
 
     Post edit(Post post);
 
