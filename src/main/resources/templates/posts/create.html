@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: site-head">
+    <title>New Post</title>
+</head>
+
+<body>
+
+<header th:replace="layout :: site-header"/>
+
+<h1>New post.</h1>
+
+<form method="post" th:object="${postForm}">
+    <div><label for="title">Title:</label></div>
+    <input id="title" name="title" th:value="*{title}" type="text"/>
+    <span class="formError" th:errors="*{title}"
+          th:if="${#fields.hasErrors('title')}">Invalid title</span>
+
+    <div><label for="body" th:value="*{body}">Body:</label></div>
+    <input id="body" name="body" th:value="*{body}" type="text"/>
+    <span class="formError" th:errors="*{body}"
+          th:if="${#fields.hasErrors('body')}">Invalid body</span>
+
+    <div><input type="submit" value="Post"/></div>
+    <input type="hidden"
+           th:name="${_csrf.parameterName}"
+           th:value="${_csrf.token}"/>
+</form>
+
+<footer th:replace="layout :: site-footer"/>
+
+</body>
+
+</html>

@@ -23,6 +23,14 @@ public class Post {
     private Date createdTime;
     private Date lastModifiedTime;
 
+    public Post(Long id, String title, String body, Long authorId, Date createdTime, Date lastModifiedTime) {
+        this(title, body, authorId);
+        this.id = id;
+        this.authorId = authorId;
+        this.createdTime = createdTime;
+        this.lastModifiedTime = lastModifiedTime;
+    }
+
     public Post(String title, String body, Long authorId) {
         this.title = title;
         this.body = body;

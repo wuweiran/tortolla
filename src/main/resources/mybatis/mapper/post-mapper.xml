@@ -5,14 +5,19 @@
 <mapper namespace="clan.midnight.tortolla.mappers.PostMapper">
 
     <select id="findLatest" parameterType="int" resultType="clan.midnight.tortolla.models.Post">
-        SELECT * FROM post
+        SELECT id, title, body, author_id, created_time, last_modified_time FROM post
         ORDER BY created_time DESC
-        LIMIT #{num};
+        LIMIT ${num};
     </select>
 
-    <select id="findByBlogger" parameterType="long" resultType="clan.midnight.tortolla.models.Post">
+    <select id="findByBloggerId" parameterType="long" resultType="clan.midnight.tortolla.models.Post">
         SELECT * FROM post
         ORDER BY created_time DESC
+        WHERE author_id=#{id};
+    </select>
+
+    <select id="findById" parameterType="long" resultType="clan.midnight.tortolla.models.Post">
+        SELECT * FROM post
         WHERE id=#{id};
     </select>
 

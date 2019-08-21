@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Midnight1000 (wuweiran)
@@ -23,8 +22,7 @@ public class InnController {
         List<Post> latest5Posts = postService.findLatest5();
         model.addAttribute("latest5posts", latest5Posts);
 
-        List<Post> latest3Posts = latest5Posts.stream()
-                .limit(3).collect(Collectors.toList());
+        List<Post> latest3Posts = postService.findLatest3();
         model.addAttribute("latest3posts", latest3Posts);
 
         return "index";

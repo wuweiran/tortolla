@@ -1,6 +1,5 @@
 package clan.midnight.tortolla.mappers;
 
-import clan.midnight.tortolla.models.Blogger;
 import clan.midnight.tortolla.models.Post;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -28,7 +27,7 @@ public interface PostMapper {
      * @param id Id of the blogger
      * @return List of posts
      */
-    List<Post> findByBlogger(long id);
+    List<Post> findByBloggerId(long id);
 
     /**
      * Get the instance of a post

@@ -1,20 +1,20 @@
 body>header {
-background: #eee;
-padding: 5px;
+    background: #eee;
+    padding: 5px;
 }
 
 body>header>a>img, body>header a {
-display: inline-block;
-vertical-align: middle;
-padding: 0px 5px;
-font-size: 1.2em;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0px 5px;
+    font-size: 1.2em;
 }
 
 body>footer {
-background: #eee;
-padding: 5px;
-margin: 10px 0;
-text-align: center;
+    background: #eee;
+    padding: 5px;
+    margin: 10px 0;
+    text-align: center;
 }
 
 body>aside {
@@ -43,34 +43,91 @@ body>main:after {
 }
 
 #logged-in-info {
-float: right;
-margin-top: 18px;
+    float: right;
+    margin-top: 18px;
 }
 
 #logged-in-info form {
-display: inline-block;
-margin-right: 10px;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#lang-switch {
+    float: right;
+    margin: 10px;
+    font-size: 10px;
 }
 
 ul#messages li {
-display: block;
-width: 80%;
-margin: 5px auto;
-text-align: center;
-padding: 5px;
-border-radius: 5px;
+    display: block;
+    width: 80%;
+    margin: 5px auto;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
 }
 
 ul#messages li.info {
-background: #7f7;
+    background: #7f7;
 }
 
 ul#messages li.error {
-background: #d00;
-color: white;
+    background: #d00;
+    color: white;
 }
 
 .formError {
     color: red;
     font-style: italic;
+}
+
+.logged-in-button {
+    border-radius: 4px;
+    border: none;
+    color: white;
+    padding: 12px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.5s;
+    margin: 5px;
+}
+
+.logged-in-button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.logged-in-button span:after {
+  content: '»';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.logged-in-button:hover span {
+  padding-right: 25px;
+}
+
+.logged-in-button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+#login-button {
+    background-color: #008CBA;
+}
+
+#logout-button {
+    background-color: #f44336;
+}
+
+#register-button {
+    background-color: #4CAF50;
 }

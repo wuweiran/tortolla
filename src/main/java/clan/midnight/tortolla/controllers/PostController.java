@@ -1,7 +1,6 @@
 package clan.midnight.tortolla.controllers;
 
 import clan.midnight.tortolla.forms.PostForm;
-import clan.midnight.tortolla.models.Blogger;
 import clan.midnight.tortolla.models.Post;
 import clan.midnight.tortolla.services.BloggerService;
 import clan.midnight.tortolla.services.NotificationService;
@@ -22,7 +21,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/posts")
-public class PostsController {
+public class PostController {
     @Autowired
     private PostService postService;
 
@@ -41,6 +40,11 @@ public class PostsController {
         }
         model.addAttribute("post", post);
         return "posts/view";
+    }
+
+    @RequestMapping("/create")
+    public String create(PostForm postForm) {
+        return "posts/create";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)

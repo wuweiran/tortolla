@@ -24,6 +24,9 @@
 
     <div><input type="submit" value="Login"/>
         <a href="register.html" th:href="@{/bloggers/register}">[Go to Register]</a></div>
+    <input type="hidden"
+           th:name="${_csrf.parameterName}"
+           th:value="${_csrf.token}"/>
 </form>
 
 <footer th:replace="layout :: site-footer"/>

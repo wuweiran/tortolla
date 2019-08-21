@@ -12,16 +12,23 @@
 <header th:fragment="site-header">
     <header>
         <a href="index.html" th:href="@{/}"><img src="../static/img/site-logo.png" th:src="@{/img/site-logo.png}"/></a>
-        <a href="index.html" th:href="@{/}">Home</a>
-        <a href="bloggers/login.html" th:href="@{/bloggers/login}">Login</a>
-        <a href="bloggers/register.html" th:href="@{/bloggers/register}">Register</a>
-        <a href="posts/index.html" th:href="@{/posts}">Posts</a>
-        <a href="posts/create.html" th:href="@{/posts/create}">Create Post</a>
-        <a href="bloggers/index.html" th:href="@{/bloggers}">Bloggers</a>
-        <div id="logged-in-info" sec:authorize="isAuthenticated()"><span>Hello, <b sec:authentication="name"></b></span>
-            <form method="post" th:action="@{/bloggers/logout}">
-                <input type="submit" value="Logout"/>
+        <a href="index.html" th:href="@{/}" th:text="#{header.tab.home}"></a>
+        <a href="posts/index.html" th:href="@{/posts}" th:text="#{header.tab.posts}"></a>
+        <a href="posts/create.html" th:href="@{/posts/create}" th:text="#{header.tab.createpost}"></a>
+        <a href="bloggers/index.html" th:href="@{/bloggers}" th:text="#{header.tab.blogger}"></a>
+        <div id="logged-in-info">
+            <form method="post" th:action="@{/bloggers/logout}" sec:authorize="isAuthenticated()">
+                <span>Hello, <b sec:authentication="name"></b></span>
+                <a href="bloggers/register.html" th:href="@{/bloggers/logout}" sec:authorize="isAuthenticated()">
+                    <button class="logged-in-button" id="logout-button"><span th:text="#{header.login.logout}"></span></button>
+                </a>
             </form>
+            <a href="bloggers/login.html" th:href="@{/bloggers/login}" sec:authorize="!isAuthenticated()">
+                <button class="logged-in-button" id="login-button"><span th:text="#{header.login.login}"></span></button>
+            </a>
+            <a href="bloggers/register.html" th:href="@{/bloggers/register}" sec:authorize="!isAuthenticated()">
+                <button class="logged-in-button" id="register-button"><span th:text="#{header.login.register}"></span></button>
+            </a>
         </div>
     </header>
     <ul id="messages"
@@ -31,10 +38,12 @@
           T(clan.midnight.tortolla.services.NotificationServiceImpl).NOTIFY_MSG_SESSION_KEY)}"></span>
     </ul>
 </header>
-<h1>Welcome</h1>
-<p>Welcome to Tortolla.</p>
 <footer th:fragment="site-footer">
-    &copy; Tortolla Blog System, 2019
+    <div id="copyright" th:text="#{footer.copyright}"></div>
+    <p/><div id="lang-switch">
+    <a href="?lang=zh_CN">中文（中国）</a>
+    <br><a href="?lang=en_US">English(US)</a>
+    </div>
 </footer>
 </body>
 </html>

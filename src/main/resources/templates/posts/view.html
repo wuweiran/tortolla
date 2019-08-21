@@ -13,13 +13,12 @@
     <article>
         <h2 class="title" th:text="${post.title}">DEFAULT</h2>
         <div class="date">
-            <i>Posted on</i>
-            <span th:text="${#dates.format(post.date, 'dd-MMM-yyyy')}">DEFAULT</span>
-            <span th:if="${post.author}" th:remove="tag">
-        <i>by</i>
-        <span th:text="${post.author.fullName != null ?
-                         post.author.fullName : post.author.username}">DEFAULT</span>
-        </span>
+            <i>Posted on </i><span th:text="${#dates.format(post.createdTime, 'yyyy-MM-dd hh:mm')}">DEFAULT</span>
+            <i> and last modified on </i><span th:text="${#dates.format(post.lastModifiedTime, 'yyyy-MM-dd hh:mm')}">DEFAULT</span>
+            <span th:if="${post.authorId}" th:remove="tag">
+                <i> by </i><span th:text="${post.authorId != null ?
+                                post.authorId : post.authorId}">DEFAULT</span>
+            </span>
         </div>
         <p class="content" th:utext="${post.body}">DEFAULT</p>
     </article>

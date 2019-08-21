@@ -23,7 +23,7 @@ public class BloggerController {
     private BloggerService bloggerService;
 
     @Autowired
-    private NotificationService notifyService;
+    private NotificationService notificationService;
 
     @RequestMapping("/login")
     public String login(LoginForm loginForm) {
@@ -33,39 +33,39 @@ public class BloggerController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String loginPage(@Valid LoginForm loginForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            notifyService.addErrorMessage("Please fill the form correctly!");
+            notificationService.addErrorMessage("Please fill the form correctly!");
             return "bloggers/login";
         }
 
         if (!bloggerService.authenticate(
                 loginForm.getUsername(), loginForm.getPassword())) {
-            notifyService.addErrorMessage("Invalid login!");
+            notificationService.addErrorMessage("Invalid login!");
             return "bloggers/login";
         }
 
-        notifyService.addInfoMessage("Login successful");
+        notificationService.addInfoMessage("Login successful");
         return "redirect:/";
     }
 
     @RequestMapping("/register")
-    public String register(RegisterForm loginForm) {
+    public String register(RegisterForm registerForm) {
         return "bloggers/register";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String registerPage(@Valid RegisterForm registerForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            notifyService.addErrorMessage("Please fill the form correctly!");
+            notificationService.addErrorMessage("Please fill the form correctly!");
             return "bloggers/register";
         }
 
         if (!bloggerService.register(
                 registerForm.getUsername(), registerForm.getPassword(), registerForm.getFullName())) {
-            notifyService.addErrorMessage("Invalid registration!");
+            notificationService.addErrorMessage("Invalid registration!");
             return "bloggers/register";
         }
 
-        notifyService.addInfoMessage("Registration successful");
+        notificationService.addInfoMessage("Registration successful");
         return "redirect:/";
     }
 }

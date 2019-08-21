@@ -28,6 +28,7 @@ public class NotificationServiceImpl implements NotificationService {
         addNotificationMessage(NotificationMessageType.ERROR, msg);
     }
 
+    @SuppressWarnings("unchecked")
     private void addNotificationMessage(NotificationMessageType type, String msg) {
         List<NotificationMessage> notifyMessages = (List<NotificationMessage>)
                 httpSession.getAttribute(NOTIFY_MSG_SESSION_KEY);
@@ -49,7 +50,7 @@ public class NotificationServiceImpl implements NotificationService {
         ERROR
     }
 
-    public class NotificationMessage {
+    public static class NotificationMessage {
         NotificationMessageType type;
         String text;
 

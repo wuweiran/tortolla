@@ -4,5 +4,5 @@ $(function() {
     });
     setTimeout(function() {
         $('#messages li').fadeOut();
-    }, 2000);
+    }, 1750);
 });

@@ -12,6 +12,8 @@ public interface PostService {
 
     List<Post> findLatest5();
 
+    List<Post> findLatest3();
+
     List<Post> findByBlogger(Blogger blogger);
 
     Post findById(Long id);
