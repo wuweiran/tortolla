@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="layout :: site-head">
-    <title>Welcome to Spring MVC Blog</title>
-</head>
+<head th:insert="layout :: site-head(#{index.title})"></head>
 
 <body>
 
@@ -13,7 +11,7 @@
 
 <aside>
     <h2 th:text="#{aside.recent}"></h2>
-    <a href="#" th:each="p : ${latest5posts}" th:href="@{/posts/view/{id}/(id=${p.id})}"
+    <a href="#" th:each="p : ${recentPosts}" th:href="@{/posts/view/{id}/(id=${p.id})}"
        th:text="${p.title}">DEFAULT</a>
 </aside>
 
@@ -21,11 +19,10 @@
     <article th:each="p : ${latest3posts}">
         <h2 class="title" th:text="${p.title}">DEFAULT</h2>
         <div class="date">
-            <i th:text="#{post.createdon}"></i><span th:text="${#dates.format(p.createdTime, 'yyyy-MM-dd hh:mm')}"></span>
-            <br/><i th:text="#{post.lastmodifiedon}"></i><span th:text="${#dates.format(p.lastModifiedTime, 'yyyy-MM-dd hh:mm')}"></span>
+            <i th:text="#{post.view.createdon}"></i><span th:text="${#dates.format(p.createdTime, 'yyyy-MM-dd hh:mm')}"></span>
+            <br/><i th:text="#{post.view.lastmodifiedon}"></i><span th:text="${#dates.format(p.lastModifiedTime, 'yyyy-MM-dd hh:mm')}"></span>
             <br/><span th:if="${p.authorId}" th:remove="tag">
-                <i th:text="#{post.author}"></i><span th:text="${p.authorId != null ?
-                                p.authorId : p.authorId}"></span>
+                <i th:text="#{post.view.author}"></i><a th:href="@{/bloggers/view/{id}/(id=${p.authorId})}" th:text="${p.authorId}"></a>
             </span>
         </div>
         <p class="content" th:utext="${p.body}">DEFAULT</p>

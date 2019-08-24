@@ -2,22 +2,22 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="clan.midnight.tortolla.mappers.BloggerMapper">
+<mapper namespace="clan.midnight.tortolla.dao.BloggerMapper">
 
-    <select id="findById" parameterType="long" resultType="clan.midnight.tortolla.models.Blogger">
+    <select id="findById" parameterType="long" resultType="clan.midnight.tortolla.model.Blogger">
         SELECT * FROM blogger where id=#{id};
     </select>
 
-    <select id="findByName" parameterType="String" resultType="clan.midnight.tortolla.models.Blogger">
+    <select id="findByName" parameterType="String" resultType="clan.midnight.tortolla.model.Blogger">
         SELECT * FROM blogger where username=#{name};
     </select>
 
-    <insert id="insert" parameterType="clan.midnight.tortolla.models.Blogger">
+    <insert id="insert" parameterType="clan.midnight.tortolla.model.Blogger">
         INSERT into blogger(username, password_hash, full_name, created_time) values
         (#{username}, #{passwordHash}, #{fullName}, #{createdTime});
     </insert>
 
-    <update id="update" parameterType="clan.midnight.tortolla.models.Blogger">
+    <update id="update" parameterType="clan.midnight.tortolla.model.Blogger">
         UPDATE blogger SET username=#{userName}, password_hash=#{passwordHash}, full_name=#{fullName}
         WHERE id=#{id};
     </update>

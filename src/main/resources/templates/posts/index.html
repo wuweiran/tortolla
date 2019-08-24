@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="layout :: site-head">
-    <title th:text="${post.title}">View Post</title>
-</head>
+<head th:replace="layout :: site-head(#{header.tab.posts})"></head>
 
 <body>
 

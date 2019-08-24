@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: site-head(${blogger.username})"></head>
+
+<body>
+
+<header th:replace="layout :: site-header"/>
+
+<h2 class="title" th:text="${blogger.username}">DEFAULT</h2>
+<div class="date">
+    <i th:text="#{blogger.createdon}"> on </i><span th:text="${#dates.format(blogger.createdTime, 'yyyy-MM-dd hh:mm')}">DEFAULT</span>
+    <p/><span th:if="${blogger.fullName}" th:remove="tag">
+        <i th:text="#{blogger.fullname}"></i><span th:text="${blogger.fullName}"></span>
+    </span>
+</div>
+
+<footer th:replace="layout :: site-footer"/>
+
+</body>
+
+</html>

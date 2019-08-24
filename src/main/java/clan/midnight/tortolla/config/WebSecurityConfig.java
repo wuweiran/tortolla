@@ -27,8 +27,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-            .authorizeRequests()
+            .csrf().ignoringAntMatchers("/posts/uploadImage")
+            .and()
+                .authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers("/posts/uploadImage").hasAuthority("BLOGGER")
                 .antMatchers("/posts/create").hasAuthority("BLOGGER")
             .and()
                 .formLogin().loginPage("/bloggers/login")

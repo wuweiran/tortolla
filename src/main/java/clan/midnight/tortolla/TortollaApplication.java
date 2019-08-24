@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @SpringBootApplication
 @EnableTransactionManagement
-@MapperScan("clan.midnight.tortolla.mappers")
+@MapperScan("clan.midnight.tortolla.dao")
 public class TortollaApplication {
 
     public static void main(String[] args) {
