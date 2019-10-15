@@ -1,2 +1,2 @@
 # Tortolla
-A personal blog system.
+A personal blog system based on Spring Boot, Mybatis and Thymeleaf.
