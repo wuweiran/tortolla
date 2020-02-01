@@ -1,7 +1,7 @@
 package clan.midnight.tortolla.service;
 
 import clan.midnight.tortolla.dao.PostMapper;
-import clan.midnight.tortolla.model.Post;
+import clan.midnight.tortolla.entity.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> findLatest(int num) {
+    public List<Long> findLatest(int num) {
         return postMapper.findLatest(num);
     }
 

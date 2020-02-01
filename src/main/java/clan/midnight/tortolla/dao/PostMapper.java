@@ -1,6 +1,6 @@
 package clan.midnight.tortolla.dao;
 
-import clan.midnight.tortolla.model.Post;
+import clan.midnight.tortolla.entity.Post;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public interface PostMapper {
      * @param num Number of latest posts
      * @return List of posts
      */
-    List<Post> findLatest(int num);
+    List<Long> findLatest(int num);
 
     /**
      * Get posts of a blogger

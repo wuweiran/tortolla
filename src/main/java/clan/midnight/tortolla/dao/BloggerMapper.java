@@ -1,6 +1,6 @@
 package clan.midnight.tortolla.dao;
 
-import clan.midnight.tortolla.model.Blogger;
+import clan.midnight.tortolla.entity.Blogger;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -54,9 +54,9 @@ public interface BloggerMapper {
     /**
      * Get the instance of a blogger by ID
      *
-     * @param username Blogger's user name
-     * @param password Blogger's password
+     * @param username     Blogger's user name
+     * @param passwordHash Blogger's password
      * @return Blogger's ID
      */
-    Long getId(String username, String password);
+    Long getId(String username, String passwordHash);
 }

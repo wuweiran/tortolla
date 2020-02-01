@@ -1,6 +1,6 @@
 package clan.midnight.tortolla.service;
 
-import clan.midnight.tortolla.model.Blogger;
+import clan.midnight.tortolla.entity.Blogger;
 
 /**
  * @author Midnight1000
@@ -9,11 +9,11 @@ public interface BloggerService {
     /**
      * Check if the pair of user name and password is authenticated
      *
-     * @param username Blogger's name
-     * @param password Blogger's password
-     * @return Is successful
+     * @param username blogger's name
+     * @param password blogger's password
+     * @return blogger's uid
      */
-    boolean authenticate(String username, String password);
+    Long authenticate(String username, String password);
 
     /**
      * Register a user
@@ -21,17 +21,9 @@ public interface BloggerService {
      * @param username Blogger's name
      * @param password Blogger's password
      * @param fullName Blogger's full name
-     * @return Is successful
+     * @return blogger's uid
      */
-    boolean register(String username, String password, String fullName);
-
-    /**
-     * Get the current authenticated blogger
-     *
-     * @return Current blogger
-     */
-    Blogger getCurrentBlogger();
-
+    Long register(String username, String password, String fullName);
 
     /**
      * Get the blogger by ID
@@ -40,4 +32,12 @@ public interface BloggerService {
      * @return blogger DO
      */
     Blogger findById(Long id);
+
+    /**
+     * Get the blogger by name
+     *
+     * @param name of the blogger
+     * @return blogger DO
+     */
+    Blogger findByName(String name);
 }

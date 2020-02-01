@@ -1,89 +1,72 @@
 package clan.midnight.tortolla.controller;
 
-import clan.midnight.tortolla.dto.PostForm;
-import clan.midnight.tortolla.model.Post;
+import clan.midnight.tortolla.auth.JWTUtil;
+import clan.midnight.tortolla.entity.Post;
+import clan.midnight.tortolla.response.BaseResponse;
+import clan.midnight.tortolla.response.FailedResponse;
+import clan.midnight.tortolla.response.SuccessfulResponse;
 import clan.midnight.tortolla.service.BloggerService;
-import clan.midnight.tortolla.service.NotificationService;
 import clan.midnight.tortolla.service.PostService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
 /**
  * @author Midnight1000
  */
-@Controller
+@RestController
 @RequestMapping("/posts")
+@Slf4j
 public class PostController {
-    private static final Logger logger = LoggerFactory.getLogger(PostController.class);
-
     @Autowired
     private PostService postService;
 
     @Autowired
     private BloggerService bloggerService;
 
-    @Autowired
-    private NotificationService notifyService;
+    @RequestMapping(value = "", method = GET, produces = "application/json")
+    @ResponseBody
+    public Post getPost(Long id) {
+        return postService.findById(id);
+    }
 
-    @RequestMapping("/view/{id}")
-    public String view(@PathVariable("id") Long id, Model model) {
-        Post post = postService.findById(id);
-        if (post == null) {
-            notifyService.addErrorMessage("Cannot find post #" + id);
-            return "redirect:/";
+    @RequestMapping(value = "/list_top", method = GET, produces = "application/json")
+    @ResponseBody
+    public List<Long> listTop(Integer top) {
+        return postService.findLatest(top);
+    }
+
+    @PostMapping(value = "/create")
+    public BaseResponse create(@RequestBody Map<String, Object> params) {
+        String token = (String) params.get("token");
+        Long authorId = JWTUtil.validToken(token);
+        if (authorId == null) {
+            return new FailedResponse("003", "Invalid token");
         }
-        model.addAttribute("post", post);
-        return "posts/view";
-    }
-
-    @RequestMapping("/create")
-    public String create(PostForm postForm) {
-        return "posts/create";
-    }
-
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@Valid PostForm postForm, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            notifyService.addErrorMessage("Please fill the form correctly!");
-            return "posts/create";
+        String title = (String) params.get("title");
+        String body = (String) params.get("body");
+        if (postService.create(new Post(title, body, authorId))) {
+            return new SuccessfulResponse<>(null);
+        } else {
+            return new FailedResponse("002", "Fail on creation");
         }
-
-        Post post = new Post(postForm.getTitle(), postForm.getBody(), bloggerService.getCurrentBlogger().getId());
-
-        if (!postService.create(post)) {
-            notifyService.addErrorMessage("Post failed!");
-            return "posts/create";
-        }
-
-        notifyService.addInfoMessage("Post Successful!");
-        return "redirect:/";
     }
 
-    @RequestMapping("")
-    public String index(Model model) {
-        List<Post> latest5Posts = postService.findLatest(5);
-        model.addAttribute("posts", latest5Posts);
-        return "posts/index";
-    }
-
-    @PostMapping("/uploadImage")
+    @PostMapping("/upload_image")
     @ResponseBody
     public Map<String, String> uploadImage(@RequestParam("upload") MultipartFile multipartFile) {
-        System.err.println("123123");
-        Map<String, String> result = new HashMap<String, String>(3);
+        log.info("uploading");
+        Map<String, String> result = new HashMap<>(3);
         result.put("uploaded", "false");
 
         if (multipartFile == null || multipartFile.isEmpty()) {
@@ -92,6 +75,10 @@ public class PostController {
         }
 
         String fileName = multipartFile.getOriginalFilename();
+        if (fileName == null) {
+            result.put("error", "Null file name!");
+            return result;
+        }
         String newFileName = UUID.randomUUID().toString()
                 .replaceAll("-", "")
                 .concat(fileName.substring(fileName.lastIndexOf(".")));
@@ -100,17 +87,19 @@ public class PostController {
 
         try {
             File target = new File(fullPath);
-            if (!target.getParentFile().exists()) {
-                target.getParentFile().mkdirs();
+            if (target.getParentFile().exists() || target.getParentFile().mkdirs()) {
+
+                multipartFile.transferTo(target);
+                String imgUrl = "/upload/".concat(newFileName);
+
+                result.put("uploaded", "true");
+                result.put("url", imgUrl);
+            } else {
+                log.error("Failed to create file: {}", target.getParentFile());
+                result.put("error", "Failed to create file");
             }
-
-            multipartFile.transferTo(target);
-            String imgUrl = "/upload/".concat(newFileName);
-
-            result.put("uploaded", "true");
-            result.put("url", imgUrl);
         } catch (IOException ex) {
-            logger.error("Upload image failed", ex);
+            log.error("Upload image failed", ex);
             result.put("error", "Unknown Error");
         }
         return result;

@@ -1,85 +1,64 @@
 package clan.midnight.tortolla.controller;
 
-import clan.midnight.tortolla.dto.LoginForm;
-import clan.midnight.tortolla.dto.RegisterForm;
-import clan.midnight.tortolla.model.Blogger;
+import clan.midnight.tortolla.auth.JWTUtil;
+import clan.midnight.tortolla.entity.Blogger;
+import clan.midnight.tortolla.response.BaseResponse;
+import clan.midnight.tortolla.response.FailedResponse;
+import clan.midnight.tortolla.response.SuccessfulResponse;
 import clan.midnight.tortolla.service.BloggerService;
-import clan.midnight.tortolla.service.NotificationService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+import java.util.Map;
 
 /**
  * @author Midnight1000
  */
-@Controller
+@RestController
 @RequestMapping("/bloggers")
+@Slf4j
 public class BloggerController {
 
     @Autowired
     private BloggerService bloggerService;
 
-    @Autowired
-    private NotificationService notificationService;
-
-    @RequestMapping("/login")
-    public String login(LoginForm loginForm) {
-        return "bloggers/login";
+    @PostMapping(value = "/login")
+    public BaseResponse login(@RequestBody Map<String, Object> params) {
+        Long id = bloggerService.authenticate((String) params.get("username"), (String) params.get("password"));
+        if (id == null) {
+            return new FailedResponse("001");
+        }
+        String token = JWTUtil.createUserToken(id, 1000 * 60 * 10);
+        return new SuccessfulResponse<>(token);
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String loginPage(@Valid LoginForm loginForm, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            notificationService.addErrorMessage("Please fill the form correctly!");
-            return "bloggers/login";
+    @PostMapping(value = "/register")
+    public BaseResponse register(@RequestBody Map<String, Object> params) {
+        Long id = bloggerService.register((String) params.get("username"),
+                (String) params.get("password"), (String) params.get("realname"));
+        if (id == null) {
+            return new FailedResponse("001");
         }
-
-        if (!bloggerService.authenticate(
-                loginForm.getUsername(), loginForm.getPassword())) {
-            notificationService.addErrorMessage("Invalid login!");
-            return "bloggers/login";
-        }
-
-        notificationService.addInfoMessage("Login successful");
-        return "redirect:/";
+        String token = JWTUtil.createUserToken(id, 1000 * 60 * 10);
+        return new SuccessfulResponse<>(token);
     }
 
-    @RequestMapping("/register")
-    public String register(RegisterForm registerForm) {
-        return "bloggers/register";
-    }
-
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registerPage(@Valid RegisterForm registerForm, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            notificationService.addErrorMessage("Please fill the form correctly!");
-            return "bloggers/register";
+    @PostMapping(value = "/get_from_token")
+    public BaseResponse getFromToken(@RequestBody Map<String, Object> params) {
+        String token = (String) params.get("token");
+        Long id = JWTUtil.validToken(token);
+        if (id == null) {
+            return new FailedResponse("0001");
         }
-
-        if (!bloggerService.register(
-                registerForm.getUsername(), registerForm.getPassword(), registerForm.getFullName())) {
-            notificationService.addErrorMessage("Invalid registration!");
-            return "bloggers/register";
-        }
-
-        notificationService.addInfoMessage("Registration successful");
-        return "redirect:/";
-    }
-
-    @RequestMapping("/view/{id}")
-    public String view(@PathVariable("id") Long id, Model model) {
         Blogger blogger = bloggerService.findById(id);
         if (blogger == null) {
-            notificationService.addErrorMessage("Cannot find blogger #" + id);
-            return "redirect:/";
+            log.warn("verified user id, but not exist! id:{}", id);
+            return new FailedResponse("0001");
         }
-        model.addAttribute("blogger", blogger);
-        return "bloggers/view";
+        return new SuccessfulResponse<>(blogger);
     }
 }

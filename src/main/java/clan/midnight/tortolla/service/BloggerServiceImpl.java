@@ -1,16 +1,13 @@
 package clan.midnight.tortolla.service;
 
+import clan.midnight.tortolla.auth.PasswordEncoder;
 import clan.midnight.tortolla.dao.BloggerMapper;
-import clan.midnight.tortolla.model.Blogger;
+import clan.midnight.tortolla.entity.Blogger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * @author Midnight1000
@@ -20,26 +17,18 @@ public class BloggerServiceImpl implements BloggerService {
     @Autowired
     private BloggerMapper bloggerMapper;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @Override
-    public boolean authenticate(@NotNull String username, @NotNull String password) {
-        return Objects.nonNull(bloggerMapper.getId(username, password));
+    public Long authenticate(@NotNull String username, @NotNull String password) {
+        return bloggerMapper.getId(username, PasswordEncoder.encode(password));
     }
 
     @Override
-    public boolean register(@NotNull String username, @NotNull String password, String fullName) {
-        Blogger blogger = new Blogger(username, passwordEncoder.encode(password), fullName);
+    public Long register(@NotNull String username, @NotNull String password, String fullName) {
+        String encodedPassword = PasswordEncoder.encode(password);
+        Blogger blogger = new Blogger(username, encodedPassword, fullName);
         blogger.setCreatedTime(new Date());
-        return bloggerMapper.insert(blogger) > 0;
-    }
-
-    @Override
-    public Blogger getCurrentBlogger() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            return bloggerMapper.findByName(authentication.getName());
+        if (bloggerMapper.insert(blogger) > 0) {
+            return bloggerMapper.getId(username, encodedPassword);
         }
         return null;
     }
@@ -47,5 +36,16 @@ public class BloggerServiceImpl implements BloggerService {
     @Override
     public Blogger findById(Long id) {
         return bloggerMapper.findById(id);
+    }
+
+    /**
+     * Get the blogger by name
+     *
+     * @param name of the blogger
+     * @return blogger DO
+     */
+    @Override
+    public Blogger findByName(String name) {
+        return bloggerMapper.findByName(name);
     }
 }

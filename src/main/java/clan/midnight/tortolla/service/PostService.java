@@ -1,6 +1,6 @@
 package clan.midnight.tortolla.service;
 
-import clan.midnight.tortolla.model.Post;
+import clan.midnight.tortolla.entity.Post;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface PostService {
      * @param num number of posts to find
      * @return list of posts found
      */
-    List<Post> findLatest(int num);
+    List<Long> findLatest(int num);
 
     /**
      * Find posts of a blogger by blogger's ID.
