@@ -1,7 +1,7 @@
 package clan.midnight.tortolla.service;
 
 import clan.midnight.tortolla.dao.PostMapper;
-import clan.midnight.tortolla.entity.Post;
+import clan.midnight.tortolla.entity.PostPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class PostServiceImpl implements PostService {
     private PostMapper postMapper;
 
     @Override
-    public List<Post> findByAuthorId(@NotNull Long authorId) {
+    public List<PostPO> findByAuthorId(@NotNull Long authorId) {
         return postMapper.findByBloggerId(authorId);
     }
 
@@ -28,21 +28,21 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post findById(@NotNull Long id) {
+    public PostPO findById(@NotNull Long id) {
         return postMapper.findById(id);
     }
 
     @Override
-    public boolean create(@NotNull Post post) {
-        post.setCreatedTime(new Date());
-        post.setLastModifiedTime(new Date());
-        return postMapper.insert(post) > 0;
+    public boolean create(@NotNull PostPO postPO) {
+        postPO.setCreatedTime(new Date());
+        postPO.setLastModifiedTime(new Date());
+        return postMapper.insert(postPO) > 0;
     }
 
     @Override
-    public boolean edit(@NotNull Post post) {
-        post.setLastModifiedTime(new Date());
-        return postMapper.update(post) > 0;
+    public boolean edit(@NotNull PostPO postPO) {
+        postPO.setLastModifiedTime(new Date());
+        return postMapper.update(postPO) > 0;
     }
 
     @Override

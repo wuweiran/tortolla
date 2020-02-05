@@ -1,7 +1,6 @@
 package clan.midnight.tortolla.controller;
 
-import clan.midnight.tortolla.auth.JWTUtil;
-import clan.midnight.tortolla.entity.Blogger;
+import clan.midnight.tortolla.dto.BloggerDTO;
 import clan.midnight.tortolla.response.BaseResponse;
 import clan.midnight.tortolla.response.FailedResponse;
 import clan.midnight.tortolla.response.SuccessfulResponse;
@@ -28,37 +27,52 @@ public class BloggerController {
 
     @PostMapping(value = "/login")
     public BaseResponse login(@RequestBody Map<String, Object> params) {
-        Long id = bloggerService.authenticate((String) params.get("username"), (String) params.get("password"));
-        if (id == null) {
-            return new FailedResponse("001");
+        BloggerDTO bloggerDTO = bloggerService.authenticate((String) params.get("username"), (String) params.get("password"));
+        if (bloggerDTO == null) {
+            return new FailedResponse(FailedResponse.ERROR_CODE_NOT_FOUND);
         }
-        String token = JWTUtil.createUserToken(id, 1000 * 60 * 10);
+        String token = bloggerService.createToken(bloggerDTO);
         return new SuccessfulResponse<>(token);
     }
 
     @PostMapping(value = "/register")
     public BaseResponse register(@RequestBody Map<String, Object> params) {
-        Long id = bloggerService.register((String) params.get("username"),
+        BloggerDTO bloggerDTO = bloggerService.register((String) params.get("username"),
                 (String) params.get("password"), (String) params.get("realname"));
-        if (id == null) {
-            return new FailedResponse("001");
+        if (bloggerDTO == null) {
+            return new FailedResponse(FailedResponse.ERROR_CODE_CANNOT_NEW);
         }
-        String token = JWTUtil.createUserToken(id, 1000 * 60 * 10);
+        String token = bloggerService.createToken(bloggerDTO);
         return new SuccessfulResponse<>(token);
     }
 
     @PostMapping(value = "/get_from_token")
     public BaseResponse getFromToken(@RequestBody Map<String, Object> params) {
         String token = (String) params.get("token");
-        Long id = JWTUtil.validToken(token);
+        Long id = bloggerService.validateToken(token);
         if (id == null) {
-            return new FailedResponse("0001");
+            return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
         }
-        Blogger blogger = bloggerService.findById(id);
-        if (blogger == null) {
+        BloggerDTO bloggerDTO = bloggerService.findById(id);
+        if (bloggerDTO == null) {
             log.warn("verified user id, but not exist! id:{}", id);
-            return new FailedResponse("0001");
+            return new FailedResponse(FailedResponse.ERROR_CODE_NOT_FOUND);
         }
-        return new SuccessfulResponse<>(blogger);
+        return new SuccessfulResponse<>(bloggerDTO);
     }
+
+//    @PostMapping(value = "/update_avatar")
+//    public BaseResponse updateAvatar(@RequestParam("upload") MultipartFile multipartFile) {
+//        String token = (String) params.get("token");
+//        Long id = JWTUtil.validToken(token);
+//        if (id == null) {
+//            return new FailedResponse("0001");
+//        }
+//        Blogger blogger = bloggerService.findById(id);
+//        if (blogger == null) {
+//            log.warn("verified user id, but not exist! id:{}", id);
+//            return new FailedResponse("0001");
+//        }
+//        return new SuccessfulResponse<>(blogger);
+//    }
 }

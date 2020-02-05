@@ -1,7 +1,7 @@
 package clan.midnight.tortolla.controller;
 
 import clan.midnight.tortolla.auth.JWTUtil;
-import clan.midnight.tortolla.entity.Post;
+import clan.midnight.tortolla.entity.PostPO;
 import clan.midnight.tortolla.response.BaseResponse;
 import clan.midnight.tortolla.response.FailedResponse;
 import clan.midnight.tortolla.response.SuccessfulResponse;
@@ -36,7 +36,7 @@ public class PostController {
 
     @RequestMapping(value = "", method = GET, produces = "application/json")
     @ResponseBody
-    public Post getPost(Long id) {
+    public PostPO getPost(Long id) {
         return postService.findById(id);
     }
 
@@ -49,16 +49,16 @@ public class PostController {
     @PostMapping(value = "/create")
     public BaseResponse create(@RequestBody Map<String, Object> params) {
         String token = (String) params.get("token");
-        Long authorId = JWTUtil.validToken(token);
+        Long authorId = JWTUtil.validUserToken(token);
         if (authorId == null) {
-            return new FailedResponse("003", "Invalid token");
+            return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED, "Invalid token");
         }
         String title = (String) params.get("title");
         String body = (String) params.get("body");
-        if (postService.create(new Post(title, body, authorId))) {
+        if (postService.create(new PostPO(title, body, authorId))) {
             return new SuccessfulResponse<>(null);
         } else {
-            return new FailedResponse("002", "Fail on creation");
+            return new FailedResponse(FailedResponse.ERROR_CODE_CANNOT_NEW, "Fail on creation");
         }
     }
 

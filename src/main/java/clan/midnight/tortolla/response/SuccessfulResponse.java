@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
  * @author Midnight1000
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode
 public final class SuccessfulResponse<T> extends BaseResponse {
 
     private T resultBody;

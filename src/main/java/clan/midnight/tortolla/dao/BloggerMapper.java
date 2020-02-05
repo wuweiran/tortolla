@@ -1,6 +1,6 @@
 package clan.midnight.tortolla.dao;
 
-import clan.midnight.tortolla.entity.Blogger;
+import clan.midnight.tortolla.entity.BloggerPO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -17,7 +17,7 @@ public interface BloggerMapper {
      * @param id Blogger's ID
      * @return the instance of blogger
      */
-    Blogger findById(long id);
+    BloggerPO getById(long id);
 
     /**
      * Get the blogger by name
@@ -25,7 +25,7 @@ public interface BloggerMapper {
      * @param name Blogger's Name
      * @return the instance of blogger
      */
-    Blogger findByName(String name);
+    BloggerPO getByName(String name);
 
     /**
      * Insert the blogger to the database
@@ -33,7 +33,7 @@ public interface BloggerMapper {
      * @param blogger Instance of Blogger
      * @return Mybatis return value of CRUD
      */
-    int insert(Blogger blogger);
+    int insert(BloggerPO blogger);
 
     /**
      * Update the blogger's information
@@ -41,7 +41,7 @@ public interface BloggerMapper {
      * @param blogger Instance of Blogger
      * @return Mybatis return value of CRUD
      */
-    int update(Blogger blogger);
+    int update(BloggerPO blogger);
 
     /**
      * Delete a blogger by ID
@@ -52,11 +52,11 @@ public interface BloggerMapper {
     int delete(long id);
 
     /**
-     * Get the instance of a blogger by ID
+     * Get the instance of a blogger by name and passwordHash
      *
      * @param username     Blogger's user name
      * @param passwordHash Blogger's password
-     * @return Blogger's ID
+     * @return BloggerPO
      */
-    Long getId(String username, String passwordHash);
+    BloggerPO authenticateAndGet(String username, String passwordHash);
 }

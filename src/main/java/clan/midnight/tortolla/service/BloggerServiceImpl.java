@@ -1,13 +1,14 @@
 package clan.midnight.tortolla.service;
 
+import clan.midnight.tortolla.auth.JWTUtil;
 import clan.midnight.tortolla.auth.PasswordEncoder;
 import clan.midnight.tortolla.dao.BloggerMapper;
-import clan.midnight.tortolla.entity.Blogger;
+import clan.midnight.tortolla.dto.BloggerDTO;
+import clan.midnight.tortolla.entity.BloggerPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 /**
  * @author Midnight1000
@@ -18,34 +19,37 @@ public class BloggerServiceImpl implements BloggerService {
     private BloggerMapper bloggerMapper;
 
     @Override
-    public Long authenticate(@NotNull String username, @NotNull String password) {
-        return bloggerMapper.getId(username, PasswordEncoder.encode(password));
+    public BloggerDTO authenticate(@NotNull String username, @NotNull String password) {
+        return new BloggerDTO(bloggerMapper.authenticateAndGet(username, PasswordEncoder.encode(password)));
     }
 
     @Override
-    public Long register(@NotNull String username, @NotNull String password, String fullName) {
+    public BloggerDTO register(@NotNull String username, @NotNull String password, String fullName) {
         String encodedPassword = PasswordEncoder.encode(password);
-        Blogger blogger = new Blogger(username, encodedPassword, fullName);
-        blogger.setCreatedTime(new Date());
-        if (bloggerMapper.insert(blogger) > 0) {
-            return bloggerMapper.getId(username, encodedPassword);
+        BloggerPO bloggerPO = new BloggerPO(username, encodedPassword, fullName);
+        if (bloggerMapper.insert(bloggerPO) > 0) {
+            return new BloggerDTO(bloggerMapper.getByName(username));
         }
         return null;
     }
 
     @Override
-    public Blogger findById(Long id) {
-        return bloggerMapper.findById(id);
+    public BloggerDTO findById(Long id) {
+        return new BloggerDTO(bloggerMapper.getById(id));
     }
 
-    /**
-     * Get the blogger by name
-     *
-     * @param name of the blogger
-     * @return blogger DO
-     */
     @Override
-    public Blogger findByName(String name) {
-        return bloggerMapper.findByName(name);
+    public BloggerDTO findByName(String name) {
+        return new BloggerDTO(bloggerMapper.getByName(name));
+    }
+
+    @Override
+    public Long validateToken(String token) {
+        return JWTUtil.validUserToken(token);
+    }
+
+    @Override
+    public String createToken(BloggerDTO bloggerDTO) {
+        return JWTUtil.createUserToken(bloggerDTO.getId(), 1000 * 60 * 10);
     }
 }

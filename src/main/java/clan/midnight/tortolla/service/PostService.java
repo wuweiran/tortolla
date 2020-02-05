@@ -1,6 +1,6 @@
 package clan.midnight.tortolla.service;
 
-import clan.midnight.tortolla.entity.Post;
+import clan.midnight.tortolla.entity.PostPO;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public interface PostService {
      * @param authorId id of the author
      * @return list of posts found
      */
-    List<Post> findByAuthorId(Long authorId);
+    List<PostPO> findByAuthorId(Long authorId);
 
     /**
      * Find post by its ID.
@@ -31,23 +31,23 @@ public interface PostService {
      * @param id id of the post
      * @return the post found
      */
-    Post findById(Long id);
+    PostPO findById(Long id);
 
     /**
      * Create a new post.
      *
-     * @param post Post DO
+     * @param postPO Post DO
      * @return is successful
      */
-    boolean create(Post post);
+    boolean create(PostPO postPO);
 
     /**
      * Modify a post.
      *
-     * @param post Post DO
+     * @param postPO Post DO
      * @return edited post
      */
-    boolean edit(Post post);
+    boolean edit(PostPO postPO);
 
     /**
      * Delete a post by its id.

@@ -14,7 +14,7 @@ CREATE TABLE blogger (
 CREATE TABLE post (
 	id BIGINT(30) not null auto_increment,
 	title VARCHAR(100),
-	body VARCHAR(1000),
+	body TEXT,
 	author_id BIGINT(20) not null,
 	created_time TIMESTAMP not null,
 	last_modified_time TIMESTAMP not null,

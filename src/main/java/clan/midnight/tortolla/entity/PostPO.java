@@ -5,7 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * Post DO
@@ -15,7 +14,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-public class Post {
+public class PostPO {
     private Long id;
     private String title;
     private String body;
@@ -23,7 +22,7 @@ public class Post {
     private Date createdTime;
     private Date lastModifiedTime;
 
-    public Post(Long id, String title, String body, Long authorId, Date createdTime, Date lastModifiedTime) {
+    public PostPO(Long id, String title, String body, Long authorId, Date createdTime, Date lastModifiedTime) {
         this(title, body, authorId);
         this.id = id;
         this.authorId = authorId;
@@ -31,26 +30,9 @@ public class Post {
         this.lastModifiedTime = lastModifiedTime;
     }
 
-    public Post(String title, String body, Long authorId) {
+    public PostPO(String title, String body, Long authorId) {
         this.title = title;
         this.body = body;
         this.authorId = authorId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Post post = (Post) o;
-        return id.equals(post.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

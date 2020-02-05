@@ -1,6 +1,6 @@
 package clan.midnight.tortolla.dao;
 
-import clan.midnight.tortolla.entity.Post;
+import clan.midnight.tortolla.entity.PostPO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public interface PostMapper {
      * @param id Id of the blogger
      * @return List of posts
      */
-    List<Post> findByBloggerId(long id);
+    List<PostPO> findByBloggerId(long id);
 
     /**
      * Get the instance of a post
@@ -35,7 +35,7 @@ public interface PostMapper {
      * @param id ID of the post
      * @return Instance of post
      */
-    Post findById(Long id);
+    PostPO findById(Long id);
 
     /**
      * Insert instance of the post
@@ -43,7 +43,7 @@ public interface PostMapper {
      * @param post Instance of post
      * @return Mybatis return value of CRUD
      */
-    int insert(Post post);
+    int insert(PostPO post);
 
     /**
      * Update a post
@@ -51,7 +51,7 @@ public interface PostMapper {
      * @param post Instance of the post
      * @return Mybatis return value of CRUD
      */
-    int update(Post post);
+    int update(PostPO post);
 
     /**
      * Delete a post by ID

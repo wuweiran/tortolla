@@ -1,6 +1,6 @@
 package clan.midnight.tortolla.service;
 
-import clan.midnight.tortolla.entity.Blogger;
+import clan.midnight.tortolla.dto.BloggerDTO;
 
 /**
  * @author Midnight1000
@@ -13,7 +13,7 @@ public interface BloggerService {
      * @param password blogger's password
      * @return blogger's uid
      */
-    Long authenticate(String username, String password);
+    BloggerDTO authenticate(String username, String password);
 
     /**
      * Register a user
@@ -23,21 +23,37 @@ public interface BloggerService {
      * @param fullName Blogger's full name
      * @return blogger's uid
      */
-    Long register(String username, String password, String fullName);
+    BloggerDTO register(String username, String password, String fullName);
 
     /**
      * Get the blogger by ID
      *
      * @param id of the blogger
-     * @return blogger DO
+     * @return blogger DTO
      */
-    Blogger findById(Long id);
+    BloggerDTO findById(Long id);
 
     /**
      * Get the blogger by name
      *
      * @param name of the blogger
-     * @return blogger DO
+     * @return blogger DTO
      */
-    Blogger findByName(String name);
+    BloggerDTO findByName(String name);
+
+    /**
+     * Extract blogger's ID from JWT
+     *
+     * @param token JWT
+     * @return ID of the blogger
+     */
+    Long validateToken(String token);
+
+    /**
+     * Create blogger's ID from JWT
+     *
+     * @param bloggerDTO blogger
+     * @return signed JWT
+     */
+    String createToken(BloggerDTO bloggerDTO);
 }

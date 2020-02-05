@@ -10,23 +10,23 @@
         LIMIT ${num};
     </select>
 
-    <select id="findByBloggerId" parameterType="long" resultType="clan.midnight.tortolla.entity.Post">
+    <select id="findByBloggerId" parameterType="long" resultType="clan.midnight.tortolla.entity.PostPO">
         SELECT * FROM post
         ORDER BY created_time DESC
         WHERE author_id=#{id};
     </select>
 
-    <select id="findById" parameterType="long" resultType="clan.midnight.tortolla.entity.Post">
+    <select id="findById" parameterType="long" resultType="clan.midnight.tortolla.entity.PostPO">
         SELECT * FROM post
-        WHERE id=#{id};
+        WHERE id=#{id} LIMIT 1;
     </select>
 
-    <insert id="insert" parameterType="clan.midnight.tortolla.entity.Post">
+    <insert id="insert" parameterType="clan.midnight.tortolla.entity.PostPO">
         INSERT into post(title, body, author_id, created_time, last_modified_time) values
         (#{title}, #{body}, #{authorId}, #{createdTime}, #{lastModifiedTime});
     </insert>
 
-    <update id="update" parameterType="clan.midnight.tortolla.entity.Post">
+    <update id="update" parameterType="clan.midnight.tortolla.entity.PostPO">
         UPDATE post SET title=#{title}, body=#{body}, author_id=#{authorId}, last_modified_time=#{lastModifiedTime}
         WHERE id=#{id};
     </update>

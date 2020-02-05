@@ -52,7 +52,7 @@ public class JWTUtil {
      * @param tokenString token
      * @return Long
      */
-    public static Long validToken(String tokenString) {
+    public static Long validUserToken(String tokenString) {
         try {
             JWSObject jwsObject = JWSObject.parse(tokenString);
             Payload payload = jwsObject.getPayload();

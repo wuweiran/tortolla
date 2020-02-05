@@ -7,8 +7,14 @@ import lombok.EqualsAndHashCode;
  * @author Midnight1000
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode
 public class FailedResponse extends BaseResponse {
+
+    public static String ERROR_CODE_NOT_FOUND = "001";
+
+    public static String ERROR_CODE_UNAUTHORIZED = "002";
+
+    public static String ERROR_CODE_CANNOT_NEW = "003";
 
     private String errorCode;
 

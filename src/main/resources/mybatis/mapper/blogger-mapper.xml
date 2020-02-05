@@ -4,20 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="clan.midnight.tortolla.dao.BloggerMapper">
 
-    <select id="findById" parameterType="long" resultType="clan.midnight.tortolla.entity.Blogger">
-        SELECT * FROM blogger where id=#{id};
+    <select id="getById" parameterType="long" resultType="clan.midnight.tortolla.entity.BloggerPO">
+        SELECT * FROM blogger where id=#{id} LIMIT 1;
     </select>
 
-    <select id="findByName" parameterType="String" resultType="clan.midnight.tortolla.entity.Blogger">
-        SELECT * FROM blogger where username=#{name};
+    <select id="getByName" parameterType="String" resultType="clan.midnight.tortolla.entity.BloggerPO">
+        SELECT * FROM blogger where username=#{name} LIMIT 1;
     </select>
 
-    <insert id="insert" parameterType="clan.midnight.tortolla.entity.Blogger">
+    <insert id="insert" parameterType="clan.midnight.tortolla.entity.BloggerPO">
         INSERT into blogger(username, password_hash, full_name, created_time) values
         (#{username}, #{passwordHash}, #{fullName}, #{createdTime});
     </insert>
 
-    <update id="update" parameterType="clan.midnight.tortolla.entity.Blogger">
+    <update id="update" parameterType="clan.midnight.tortolla.entity.BloggerPO">
         UPDATE blogger SET username=#{userName}, password_hash=#{passwordHash}, full_name=#{fullName}
         WHERE id=#{id};
     </update>
@@ -26,7 +26,7 @@
         DELETE from blogger where id=#{id};
     </delete>
 
-    <select id="getId" resultType="Long">
-        SELECT id FROM blogger where username=#{username} and password_hash=#{passwordHash};
+    <select id="authenticateAndGet" resultType="clan.midnight.tortolla.entity.BloggerPO">
+        SELECT * FROM blogger where username=#{username} and password_hash=#{passwordHash} LIMIT 1;
     </select>
 </mapper>
