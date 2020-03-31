@@ -1,13 +1,17 @@
 package clan.midnight.tortolla.service;
 
 import clan.midnight.tortolla.dao.PostMapper;
+import clan.midnight.tortolla.dto.PostDTO;
 import clan.midnight.tortolla.entity.PostPO;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Midnight1000 (wuweiran)
@@ -18,18 +22,26 @@ public class PostServiceImpl implements PostService {
     private PostMapper postMapper;
 
     @Override
-    public List<PostPO> findByAuthorId(@NotNull Long authorId) {
-        return postMapper.findByBloggerId(authorId);
+    public List<PostDTO> findByAuthorId(@NotNull Long authorId) {
+        return postMapper.findByBloggerId(authorId).stream()
+                .map(PostDTO::new).collect(Collectors.toList());
     }
 
     @Override
-    public List<Long> findLatest(int num) {
-        return postMapper.findLatest(num);
+    public List<Long> getLatestId(int num) {
+        return postMapper.getLatestId(num);
     }
 
     @Override
-    public PostPO findById(@NotNull Long id) {
-        return postMapper.findById(id);
+    public PageInfo<Long> getLatestIdByPage(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Long> list = postMapper.getLatestId();
+        return new PageInfo<>(list);
+    }
+
+    @Override
+    public PostDTO findById(@NotNull Long id) {
+        return new PostDTO(postMapper.findById(id));
     }
 
     @Override

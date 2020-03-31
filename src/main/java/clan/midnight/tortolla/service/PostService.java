@@ -1,6 +1,8 @@
 package clan.midnight.tortolla.service;
 
+import clan.midnight.tortolla.dto.PostDTO;
 import clan.midnight.tortolla.entity.PostPO;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -15,7 +17,15 @@ public interface PostService {
      * @param num number of posts to find
      * @return list of posts found
      */
-    List<Long> findLatest(int num);
+    List<Long> getLatestId(int num);
+
+    /**
+     * Find a certain number of posts by page.
+     *
+     * @param pageNum number of page
+     * @return list of posts found
+     */
+    PageInfo<Long> getLatestIdByPage(int pageNum, int pageSize);
 
     /**
      * Find posts of a blogger by blogger's ID.
@@ -23,7 +33,7 @@ public interface PostService {
      * @param authorId id of the author
      * @return list of posts found
      */
-    List<PostPO> findByAuthorId(Long authorId);
+    List<PostDTO> findByAuthorId(Long authorId);
 
     /**
      * Find post by its ID.
@@ -31,7 +41,7 @@ public interface PostService {
      * @param id id of the post
      * @return the post found
      */
-    PostPO findById(Long id);
+    PostDTO findById(Long id);
 
     /**
      * Create a new post.

@@ -19,7 +19,14 @@ public interface PostMapper {
      * @param num Number of latest posts
      * @return List of posts
      */
-    List<Long> findLatest(int num);
+    List<Long> getLatestId(int num);
+
+    /**
+     * Get list of latest posts IDs
+     *
+     * @return List of posts
+     */
+    List<Long> getLatestId();
 
     /**
      * Get posts of a blogger

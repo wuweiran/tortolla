@@ -34,5 +34,6 @@ public class PostPO {
         this.title = title;
         this.body = body;
         this.authorId = authorId;
+        this.createdTime = new Date();
     }
 }

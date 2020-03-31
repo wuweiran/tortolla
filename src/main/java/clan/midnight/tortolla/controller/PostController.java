@@ -1,12 +1,15 @@
 package clan.midnight.tortolla.controller;
 
 import clan.midnight.tortolla.auth.JWTUtil;
+import clan.midnight.tortolla.dto.PostDTO;
 import clan.midnight.tortolla.entity.PostPO;
 import clan.midnight.tortolla.response.BaseResponse;
 import clan.midnight.tortolla.response.FailedResponse;
 import clan.midnight.tortolla.response.SuccessfulResponse;
 import clan.midnight.tortolla.service.BloggerService;
 import clan.midnight.tortolla.service.PostService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,14 +39,14 @@ public class PostController {
 
     @RequestMapping(value = "", method = GET, produces = "application/json")
     @ResponseBody
-    public PostPO getPost(Long id) {
+    public PostDTO getPostById(Long id) {
         return postService.findById(id);
     }
 
     @RequestMapping(value = "/list_top", method = GET, produces = "application/json")
     @ResponseBody
-    public List<Long> listTop(Integer top) {
-        return postService.findLatest(top);
+    public PageInfo<Long> listTop( Integer pageNum, Integer pageSize) {
+        return postService.getLatestIdByPage(pageNum, pageSize);
     }
 
     @PostMapping(value = "/create")
