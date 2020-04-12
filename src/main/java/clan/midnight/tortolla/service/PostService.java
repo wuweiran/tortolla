@@ -22,7 +22,8 @@ public interface PostService {
     /**
      * Find a certain number of posts by page.
      *
-     * @param pageNum number of page
+     * @param pageNum  number of page
+     * @param pageSize number of records in one page
      * @return list of posts found
      */
     PageInfo<Long> getLatestIdByPage(int pageNum, int pageSize);

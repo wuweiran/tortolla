@@ -1,6 +1,7 @@
 package clan.midnight.tortolla.service;
 
-import clan.midnight.tortolla.dto.BloggerDTO;
+import clan.midnight.tortolla.dto.BloggerAuthorDTO;
+import clan.midnight.tortolla.dto.BloggerRootDTO;
 
 /**
  * @author Midnight1000
@@ -13,7 +14,7 @@ public interface BloggerService {
      * @param password blogger's password
      * @return blogger's uid
      */
-    BloggerDTO authenticate(String username, String password);
+    BloggerRootDTO authenticate(String username, String password);
 
     /**
      * Register a user
@@ -23,7 +24,7 @@ public interface BloggerService {
      * @param fullName Blogger's full name
      * @return blogger's uid
      */
-    BloggerDTO register(String username, String password, String fullName);
+    BloggerRootDTO register(String username, String password, String fullName);
 
     /**
      * Get the blogger by ID
@@ -31,7 +32,7 @@ public interface BloggerService {
      * @param id of the blogger
      * @return blogger DTO
      */
-    BloggerDTO findById(Long id);
+    BloggerRootDTO findById(Long id);
 
     /**
      * Get the blogger by name
@@ -39,7 +40,7 @@ public interface BloggerService {
      * @param name of the blogger
      * @return blogger DTO
      */
-    BloggerDTO findByName(String name);
+    BloggerRootDTO findByName(String name);
 
     /**
      * Extract blogger's ID from JWT
@@ -52,8 +53,16 @@ public interface BloggerService {
     /**
      * Create blogger's ID from JWT
      *
-     * @param bloggerDTO blogger
+     * @param bloggerRootDTO blogger
      * @return signed JWT
      */
-    String createToken(BloggerDTO bloggerDTO);
+    String createToken(BloggerRootDTO bloggerRootDTO);
+
+    /**
+     * Get blogger Author By ID
+     *
+     * @param id id of the blogger
+     * @return blogger DTO
+     */
+    BloggerAuthorDTO findAuthorById(Long id);
 }

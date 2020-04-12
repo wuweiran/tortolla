@@ -8,7 +8,6 @@ import clan.midnight.tortolla.response.FailedResponse;
 import clan.midnight.tortolla.response.SuccessfulResponse;
 import clan.midnight.tortolla.service.BloggerService;
 import clan.midnight.tortolla.service.PostService;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -39,14 +37,14 @@ public class PostController {
 
     @RequestMapping(value = "", method = GET, produces = "application/json")
     @ResponseBody
-    public PostDTO getPostById(Long id) {
-        return postService.findById(id);
+    public BaseResponse getPostById(Long id) {
+        return new SuccessfulResponse<>(postService.findById(id));
     }
 
     @RequestMapping(value = "/list_top", method = GET, produces = "application/json")
     @ResponseBody
-    public PageInfo<Long> listTop( Integer pageNum, Integer pageSize) {
-        return postService.getLatestIdByPage(pageNum, pageSize);
+    public BaseResponse listTop(Integer pageNum, Integer pageSize) {
+        return new SuccessfulResponse<>(postService.getLatestIdByPage(pageNum, pageSize));
     }
 
     @PostMapping(value = "/create")

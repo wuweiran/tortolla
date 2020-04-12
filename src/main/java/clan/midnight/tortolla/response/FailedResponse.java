@@ -10,6 +10,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class FailedResponse extends BaseResponse {
 
+    public static String ERROR_CODE_WRONG_PARAM = "000";
+
     public static String ERROR_CODE_NOT_FOUND = "001";
 
     public static String ERROR_CODE_UNAUTHORIZED = "002";
