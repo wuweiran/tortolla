@@ -1,6 +1,6 @@
 package clan.midnight.tortolla.controller;
 
-import clan.midnight.tortolla.auth.JWTUtil;
+import clan.midnight.tortolla.auth.JwtUtil;
 import clan.midnight.tortolla.dto.PostDTO;
 import clan.midnight.tortolla.entity.PostPO;
 import clan.midnight.tortolla.response.BaseResponse;
@@ -8,7 +8,6 @@ import clan.midnight.tortolla.response.FailedResponse;
 import clan.midnight.tortolla.response.SuccessfulResponse;
 import clan.midnight.tortolla.service.BloggerService;
 import clan.midnight.tortolla.service.PostService;
-import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 /**
  * @author Midnight1000
@@ -35,22 +34,33 @@ public class PostController {
     @Autowired
     private BloggerService bloggerService;
 
-    @RequestMapping(value = "", method = GET, produces = "application/json")
-    @ResponseBody
-    public BaseResponse getPostById(Long id) {
-        return new SuccessfulResponse<>(postService.findById(id));
+    @RequestMapping(value = "/{id}", method = GET, produces = "application/json")
+    public BaseResponse getPost(@PathVariable long id) {
+        PostDTO postDTO = postService.findById(id);
+        if (postDTO == null) {
+            return new FailedResponse(FailedResponse.ERROR_CODE_NOT_FOUND, "Cannot find post");
+        }
+        return new SuccessfulResponse<>(postDTO);
+    }
+
+    @RequestMapping(value = "/{id}", method = DELETE, produces = "application/json")
+    public BaseResponse deletePost(@PathVariable long id) {
+        boolean success = postService.deleteById(id);
+        if (!success) {
+            return new FailedResponse(FailedResponse.ERROR_CODE_NOT_FOUND, "Cannot delete post");
+        }
+        return new SuccessfulResponse<>(null);
     }
 
     @RequestMapping(value = "/list_top", method = GET, produces = "application/json")
-    @ResponseBody
     public BaseResponse listTop(Integer pageNum, Integer pageSize) {
         return new SuccessfulResponse<>(postService.getLatestIdByPage(pageNum, pageSize));
     }
 
-    @PostMapping(value = "/create")
+    @RequestMapping(value = "/create", method = POST, produces = "application/json")
     public BaseResponse create(@RequestBody Map<String, Object> params) {
         String token = (String) params.get("token");
-        Long authorId = JWTUtil.validUserToken(token);
+        Long authorId = JwtUtil.validUserToken(token);
         if (authorId == null) {
             return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED, "Invalid token");
         }
@@ -64,7 +74,6 @@ public class PostController {
     }
 
     @PostMapping("/upload_image")
-    @ResponseBody
     public Map<String, String> uploadImage(@RequestParam("upload") MultipartFile multipartFile) {
         log.info("uploading");
         Map<String, String> result = new HashMap<>(3);

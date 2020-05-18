@@ -1,15 +1,14 @@
 package clan.midnight.tortolla.service;
 
-import clan.midnight.tortolla.auth.JWTUtil;
+import clan.midnight.tortolla.auth.JwtUtil;
 import clan.midnight.tortolla.auth.PasswordEncoder;
 import clan.midnight.tortolla.dao.BloggerMapper;
 import clan.midnight.tortolla.dto.BloggerAuthorDTO;
 import clan.midnight.tortolla.dto.BloggerRootDTO;
 import clan.midnight.tortolla.entity.BloggerPO;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * @author Midnight1000
@@ -20,12 +19,17 @@ public class BloggerServiceImpl implements BloggerService {
     private BloggerMapper bloggerMapper;
 
     @Override
-    public BloggerRootDTO authenticate(@NotNull String username, @NotNull String password) {
-        return new BloggerRootDTO(bloggerMapper.authenticateAndGet(username, PasswordEncoder.encode(password)));
+    public BloggerRootDTO authenticate(@NonNull String username, @NonNull String password) {
+        BloggerPO bloggerPO = bloggerMapper.authenticateAndGet(username, PasswordEncoder.encode(password));
+        if (bloggerPO == null) {
+            return null;
+        } else {
+            return new BloggerRootDTO(bloggerPO);
+        }
     }
 
     @Override
-    public BloggerRootDTO register(@NotNull String username, @NotNull String password, String fullName) {
+    public BloggerRootDTO register(@NonNull String username, @NonNull String password, String fullName) {
         String encodedPassword = PasswordEncoder.encode(password);
         BloggerPO bloggerPO = new BloggerPO(username, encodedPassword, fullName);
         if (bloggerMapper.insert(bloggerPO) > 0) {
@@ -46,12 +50,12 @@ public class BloggerServiceImpl implements BloggerService {
 
     @Override
     public Long validateToken(String token) {
-        return JWTUtil.validUserToken(token);
+        return JwtUtil.validUserToken(token);
     }
 
     @Override
     public String createToken(BloggerRootDTO bloggerRootDTO) {
-        return JWTUtil.createUserToken(bloggerRootDTO.getId(), 1000 * 60 * 10);
+        return JwtUtil.createUserToken(bloggerRootDTO.getId(), 1000 * 60 * 10);
     }
 
     @Override

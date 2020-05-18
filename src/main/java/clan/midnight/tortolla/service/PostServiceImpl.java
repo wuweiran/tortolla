@@ -5,10 +5,10 @@ import clan.midnight.tortolla.dto.PostDTO;
 import clan.midnight.tortolla.entity.PostPO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +22,7 @@ public class PostServiceImpl implements PostService {
     private PostMapper postMapper;
 
     @Override
-    public List<PostDTO> findByAuthorId(@NotNull Long authorId) {
+    public List<PostDTO> findByAuthorId(@NonNull Long authorId) {
         return postMapper.findByBloggerId(authorId).stream()
                 .map(PostDTO::new).collect(Collectors.toList());
     }
@@ -40,25 +40,29 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDTO findById(@NotNull Long id) {
+    public PostDTO findById(@NonNull Long id) {
+        PostPO postPO = postMapper.findById(id);
+        if (postPO == null) {
+            return null;
+        }
         return new PostDTO(postMapper.findById(id));
     }
 
     @Override
-    public boolean create(@NotNull PostPO postPO) {
+    public boolean create(@NonNull PostPO postPO) {
         postPO.setCreatedTime(new Date());
         postPO.setLastModifiedTime(new Date());
         return postMapper.insert(postPO) > 0;
     }
 
     @Override
-    public boolean edit(@NotNull PostPO postPO) {
+    public boolean edit(@NonNull PostPO postPO) {
         postPO.setLastModifiedTime(new Date());
         return postMapper.update(postPO) > 0;
     }
 
     @Override
-    public boolean deleteById(@NotNull Long id) {
+    public boolean deleteById(@NonNull Long id) {
         return postMapper.delete(id) > 0;
     }
 }

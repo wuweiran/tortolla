@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component
 @Slf4j
-public class JWTInterceptor implements HandlerInterceptor {
+public class JwtInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String token = request.getHeader("token");
         log.info("Validating token: {}", token);
-        return (JWTUtil.validUserToken(token) != null);
+        return (JwtUtil.validUserToken(token) != null);
     }
 }

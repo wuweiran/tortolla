@@ -2,7 +2,6 @@ package clan.midnight.tortolla.dto;
 
 import clan.midnight.tortolla.entity.PostPO;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.util.Date;
@@ -11,14 +10,13 @@ import java.util.Date;
  * @author Midnight1000
  */
 @Getter
-@Setter
 @ToString
 public class PostDTO {
-    private String title;
-    private String body;
-    private Long authorId;
-    private Date createdTime;
-    private Date lastModifiedTime;
+    private final String title;
+    private final String body;
+    private final Long authorId;
+    private final Date createdTime;
+    private final Date lastModifiedTime;
 
     public PostDTO(PostPO postPO) {
         this.title = postPO.getTitle();

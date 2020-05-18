@@ -38,7 +38,7 @@ public class BloggerController {
     @PostMapping(value = "/register")
     public BaseResponse register(@RequestBody Map<String, Object> params) {
         BloggerRootDTO bloggerRootDTO = bloggerService.register((String) params.get("username"),
-                (String) params.get("password"), (String) params.get("realname"));
+                (String) params.get("password"), (String) params.get("realName"));
         if (bloggerRootDTO == null) {
             return new FailedResponse(FailedResponse.ERROR_CODE_CANNOT_NEW);
         }
@@ -46,9 +46,8 @@ public class BloggerController {
         return new SuccessfulResponse<>(token);
     }
 
-    @PostMapping(value = "/get_from_token")
-    public BaseResponse getFromToken(@RequestBody Map<String, Object> params) {
-        String token = (String) params.get("token");
+    @RequestMapping(value = "", method = GET, produces = "application/json")
+    public BaseResponse getFromToken(@RequestParam(name = "token") String token) {
         if (token == null) {
             return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
         }
@@ -65,7 +64,6 @@ public class BloggerController {
     }
 
     @RequestMapping(value = "/author", method = GET, produces = "application/json")
-    @ResponseBody
     public BaseResponse getAuthorById(Long id) {
         if (id == null) {
             return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);

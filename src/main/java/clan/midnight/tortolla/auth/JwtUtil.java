@@ -13,10 +13,10 @@ import java.util.Map;
  * @author Midnight1000
  */
 @Slf4j
-public class JWTUtil {
+public class JwtUtil {
     private static final byte[] SECRET = "1234567890qwertyuiopasdfghjklzxcvbnm".getBytes();
 
-    private static final JWSHeader HEADER = new JWSHeader(JWSAlgorithm.HS256, JOSEObjectType.JWT, null, null, null, null, null, null, null, null, null, null, null);
+    private static final JWSHeader HEADER = new JWSHeader(JWSAlgorithm.HS256);
 
     private static final String ISSUER_KEY = "iss";
 
@@ -26,11 +26,13 @@ public class JWTUtil {
 
     private static final String USER_KEY = "sub";
 
+    private JwtUtil() {}
+
     public static String createUserToken(long userId, long interval) {
         String tokenString = null;
         long createTimeStamp = System.currentTimeMillis();
         Map<String, Object> payload = new HashMap<>(4);
-        payload.put(ISSUER_KEY, JWTUtil.class.getName());
+        payload.put(ISSUER_KEY, JwtUtil.class.getName());
         payload.put(ISSUE_TIME_KEY, createTimeStamp);
         payload.put(EXPIRE_TIME_KEY, createTimeStamp + interval);
         payload.put(USER_KEY, userId);
@@ -62,7 +64,7 @@ public class JWTUtil {
                 return null;
             }
             JSONObject payLoadJson = payload.toJSONObject();
-            if (!JWTUtil.class.getName().equals(payLoadJson.getAsString(ISSUER_KEY))) {
+            if (!JwtUtil.class.getName().equals(payLoadJson.getAsString(ISSUER_KEY))) {
                 log.info("Not issued by this class");
                 return null;
             }
@@ -77,7 +79,6 @@ public class JWTUtil {
             }
             return Long.valueOf(payLoadJson.get(USER_KEY).toString());
         } catch (Exception e) {
-            // Exception caused by illegal token format
             log.error("Illegal token format: {}", tokenString);
             return null;
         }
