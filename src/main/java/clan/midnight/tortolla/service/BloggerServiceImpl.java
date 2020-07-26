@@ -39,12 +39,12 @@ public class BloggerServiceImpl implements BloggerService {
     }
 
     @Override
-    public BloggerRootDTO findById(Long id) {
+    public BloggerRootDTO getById(Long id) {
         return new BloggerRootDTO(bloggerMapper.getById(id));
     }
 
     @Override
-    public BloggerRootDTO findByName(String name) {
+    public BloggerRootDTO getByName(String name) {
         return new BloggerRootDTO(bloggerMapper.getByName(name));
     }
 
@@ -59,7 +59,7 @@ public class BloggerServiceImpl implements BloggerService {
     }
 
     @Override
-    public BloggerAuthorDTO findAuthorById(Long id) {
+    public BloggerAuthorDTO getAuthorById(Long id) {
         return new BloggerAuthorDTO(bloggerMapper.getById(id));
     }
 }

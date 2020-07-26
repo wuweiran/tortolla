@@ -3,8 +3,8 @@ package clan.midnight.tortolla.auth;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
-import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
+import org.slf4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,6 @@ import java.util.Map;
 /**
  * @author Midnight1000
  */
-@Slf4j
 public class JwtUtil {
     private static final byte[] SECRET = "1234567890qwertyuiopasdfghjklzxcvbnm".getBytes();
 
@@ -25,8 +24,10 @@ public class JwtUtil {
     private static final String EXPIRE_TIME_KEY = "exp";
 
     private static final String USER_KEY = "sub";
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(JwtUtil.class);
 
-    private JwtUtil() {}
+    private JwtUtil() {
+    }
 
     public static String createUserToken(long userId, long interval) {
         String tokenString = null;

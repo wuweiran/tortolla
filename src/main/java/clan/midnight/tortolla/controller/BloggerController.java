@@ -6,7 +6,7 @@ import clan.midnight.tortolla.response.BaseResponse;
 import clan.midnight.tortolla.response.FailedResponse;
 import clan.midnight.tortolla.response.SuccessfulResponse;
 import clan.midnight.tortolla.service.BloggerService;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +19,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
  */
 @RestController
 @RequestMapping("/bloggers")
-@Slf4j
 public class BloggerController {
+
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(BloggerController.class);
 
     @Autowired
     private BloggerService bloggerService;
@@ -55,7 +56,7 @@ public class BloggerController {
         if (id == null) {
             return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
         }
-        BloggerRootDTO bloggerRootDTO = bloggerService.findById(id);
+        BloggerRootDTO bloggerRootDTO = bloggerService.getById(id);
         if (bloggerRootDTO == null) {
             log.warn("verified user id, but not exist! id:{}", id);
             return new FailedResponse(FailedResponse.ERROR_CODE_NOT_FOUND);
@@ -68,7 +69,7 @@ public class BloggerController {
         if (id == null) {
             return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
         }
-        BloggerAuthorDTO bloggerAuthorDTO = bloggerService.findAuthorById(id);
+        BloggerAuthorDTO bloggerAuthorDTO = bloggerService.getAuthorById(id);
         if (bloggerAuthorDTO == null) {
             log.warn("Trying to fetch a non-existing author! id:{}", id);
             return new FailedResponse(FailedResponse.ERROR_CODE_NOT_FOUND);

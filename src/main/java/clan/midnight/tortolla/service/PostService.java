@@ -17,7 +17,7 @@ public interface PostService {
      * @param num number of posts to find
      * @return list of posts found
      */
-    List<Long> getLatestId(int num);
+    List<Long> listLatestIds(int num);
 
     /**
      * Find a certain number of posts by page.
@@ -34,7 +34,7 @@ public interface PostService {
      * @param authorId id of the author
      * @return list of posts found
      */
-    List<PostDTO> findByAuthorId(Long authorId);
+    List<PostDTO> getByAuthorId(Long authorId);
 
     /**
      * Find post by its ID.
@@ -42,7 +42,7 @@ public interface PostService {
      * @param id id of the post
      * @return the post found
      */
-    PostDTO findById(Long id);
+    PostDTO getById(Long id);
 
     /**
      * Create a new post.
@@ -50,7 +50,7 @@ public interface PostService {
      * @param postPO Post DO
      * @return is successful
      */
-    boolean create(PostPO postPO);
+    boolean insert(PostPO postPO);
 
     /**
      * Modify a post.
@@ -58,7 +58,7 @@ public interface PostService {
      * @param postPO Post DO
      * @return edited post
      */
-    boolean edit(PostPO postPO);
+    boolean update(PostPO postPO);
 
     /**
      * Delete a post by its id.

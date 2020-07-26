@@ -8,7 +8,7 @@ import clan.midnight.tortolla.response.FailedResponse;
 import clan.midnight.tortolla.response.SuccessfulResponse;
 import clan.midnight.tortolla.service.BloggerService;
 import clan.midnight.tortolla.service.PostService;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,8 +26,10 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
  */
 @RestController
 @RequestMapping("/posts")
-@Slf4j
 public class PostController {
+
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(PostController.class);
+
     @Autowired
     private PostService postService;
 
@@ -36,7 +38,7 @@ public class PostController {
 
     @RequestMapping(value = "/{id}", method = GET, produces = "application/json")
     public BaseResponse getPost(@PathVariable long id) {
-        PostDTO postDTO = postService.findById(id);
+        PostDTO postDTO = postService.getById(id);
         if (postDTO == null) {
             return new FailedResponse(FailedResponse.ERROR_CODE_NOT_FOUND, "Cannot find post");
         }
@@ -66,7 +68,7 @@ public class PostController {
         }
         String title = (String) params.get("title");
         String body = (String) params.get("body");
-        if (postService.create(new PostPO(title, body, authorId))) {
+        if (postService.insert(new PostPO(title, body, authorId))) {
             return new SuccessfulResponse<>(null);
         } else {
             return new FailedResponse(FailedResponse.ERROR_CODE_CANNOT_NEW, "Fail on creation");

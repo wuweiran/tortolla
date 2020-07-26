@@ -32,7 +32,7 @@ public interface BloggerService {
      * @param id of the blogger
      * @return blogger DTO
      */
-    BloggerRootDTO findById(Long id);
+    BloggerRootDTO getById(Long id);
 
     /**
      * Get the blogger by name
@@ -40,7 +40,7 @@ public interface BloggerService {
      * @param name of the blogger
      * @return blogger DTO
      */
-    BloggerRootDTO findByName(String name);
+    BloggerRootDTO getByName(String name);
 
     /**
      * Extract blogger's ID from JWT
@@ -64,5 +64,5 @@ public interface BloggerService {
      * @param id id of the blogger
      * @return blogger DTO
      */
-    BloggerAuthorDTO findAuthorById(Long id);
+    BloggerAuthorDTO getAuthorById(Long id);
 }

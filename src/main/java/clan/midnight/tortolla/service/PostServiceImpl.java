@@ -22,13 +22,13 @@ public class PostServiceImpl implements PostService {
     private PostMapper postMapper;
 
     @Override
-    public List<PostDTO> findByAuthorId(@NonNull Long authorId) {
+    public List<PostDTO> getByAuthorId(@NonNull Long authorId) {
         return postMapper.findByBloggerId(authorId).stream()
                 .map(PostDTO::new).collect(Collectors.toList());
     }
 
     @Override
-    public List<Long> getLatestId(int num) {
+    public List<Long> listLatestIds(int num) {
         return postMapper.getLatestId(num);
     }
 
@@ -40,7 +40,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDTO findById(@NonNull Long id) {
+    public PostDTO getById(@NonNull Long id) {
         PostPO postPO = postMapper.findById(id);
         if (postPO == null) {
             return null;
@@ -49,14 +49,14 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public boolean create(@NonNull PostPO postPO) {
+    public boolean insert(@NonNull PostPO postPO) {
         postPO.setCreatedTime(new Date());
         postPO.setLastModifiedTime(new Date());
         return postMapper.insert(postPO) > 0;
     }
 
     @Override
-    public boolean edit(@NonNull PostPO postPO) {
+    public boolean update(@NonNull PostPO postPO) {
         postPO.setLastModifiedTime(new Date());
         return postMapper.update(postPO) > 0;
     }
