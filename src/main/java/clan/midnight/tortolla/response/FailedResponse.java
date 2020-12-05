@@ -7,13 +7,13 @@ import java.util.Objects;
  */
 public class FailedResponse extends BaseResponse {
 
-    public static String ERROR_CODE_WRONG_PARAM = "A0400";
+    public static final String ERROR_CODE_WRONG_PARAM = "A0400";
 
-    public static String ERROR_CODE_NOT_FOUND = "001";
+    public static final String ERROR_CODE_NOT_FOUND = "001";
 
-    public static String ERROR_CODE_UNAUTHORIZED = "A0300";
+    public static final String ERROR_CODE_UNAUTHORIZED = "A0300";
 
-    public static String ERROR_CODE_CANNOT_NEW = "003";
+    public static final String ERROR_CODE_CANNOT_NEW = "003";
 
     private String errorCode;
 
@@ -69,10 +69,7 @@ public class FailedResponse extends BaseResponse {
         if (!Objects.equals(this.getErrorCode(), other.getErrorCode())) {
             return false;
         }
-        if (!Objects.equals(this.getErrorMsg(), other.getErrorMsg())) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.getErrorMsg(), other.getErrorMsg());
     }
 
     @Override
