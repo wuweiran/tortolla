@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-
 /**
  * @author Midnight1000
  */
@@ -47,7 +45,7 @@ public class BloggerController {
         return new SuccessfulResponse<>(token);
     }
 
-    @RequestMapping(value = "", method = GET, produces = "application/json")
+    @GetMapping(value = "", produces = "application/json")
     public BaseResponse getFromToken(@RequestParam(name = "token") String token) {
         if (token == null) {
             return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
@@ -64,7 +62,7 @@ public class BloggerController {
         return new SuccessfulResponse<>(bloggerRootDTO);
     }
 
-    @RequestMapping(value = "/author", method = GET, produces = "application/json")
+    @GetMapping(value = "/author", produces = "application/json")
     public BaseResponse getAuthorById(Long id) {
         if (id == null) {
             return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);

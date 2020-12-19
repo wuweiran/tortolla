@@ -1,13 +1,14 @@
 package clan.midnight.tortolla.auth;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
-import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.Serializable;
 
 /**
  * @author Midnight1000
@@ -17,33 +18,58 @@ public class JwtUtil {
 
     private static final JWSHeader HEADER = new JWSHeader(JWSAlgorithm.HS256);
 
-    private static final String ISSUER_KEY = "iss";
-
-    private static final String ISSUE_TIME_KEY = "iat";
-
-    private static final String EXPIRE_TIME_KEY = "exp";
-
-    private static final String USER_KEY = "sub";
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(JwtUtil.class);
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     private JwtUtil() {
+    }
+
+    public static class PayLoad implements Serializable {
+        @JsonProperty("iss")
+        String issuerKey;
+        @JsonProperty("iat")
+        Long issueTimeKey;
+        @JsonProperty("exp")
+        Long expireTimeKey;
+        @JsonProperty("sub")
+        Long userId;
+
+        public PayLoad(String issuerKey, Long issueTimeKey, Long expireTimeKey, Long userId) {
+            this.issuerKey = issuerKey;
+            this.issueTimeKey = issueTimeKey;
+            this.expireTimeKey = expireTimeKey;
+            this.userId = userId;
+        }
+
+        public PayLoad() {}
+
+        public String getIssuerKey() {
+            return issuerKey;
+        }
+
+        public Long getIssueTimeKey() {
+            return issueTimeKey;
+        }
+
+        public Long getExpireTimeKey() {
+            return expireTimeKey;
+        }
+
+        public Long getUserId() {
+            return userId;
+        }
     }
 
     public static String createUserToken(long userId, long interval) {
         String tokenString = null;
         long createTimeStamp = System.currentTimeMillis();
-        Map<String, Object> payload = new HashMap<>(4);
-        payload.put(ISSUER_KEY, JwtUtil.class.getName());
-        payload.put(ISSUE_TIME_KEY, createTimeStamp);
-        payload.put(EXPIRE_TIME_KEY, createTimeStamp + interval);
-        payload.put(USER_KEY, userId);
-        JWSObject jwsObject = new JWSObject(HEADER, new Payload(new JSONObject(payload)));
+        JwtUtil.PayLoad payload = new JwtUtil.PayLoad(JwtUtil.class.getName(), createTimeStamp, createTimeStamp + interval, userId);
         try {
+            JWSObject jwsObject = new JWSObject(HEADER, new Payload(mapper.writeValueAsString(payload)));
             jwsObject.sign(new MACSigner(SECRET));
             tokenString = jwsObject.serialize();
-        } catch (JOSEException e) {
-            log.error("Signing error: {}", e.getMessage());
-            e.printStackTrace();
+        } catch (JOSEException | JsonProcessingException e) {
+            log.error("Signing error", e);
         }
         return tokenString;
     }
@@ -64,23 +90,22 @@ public class JwtUtil {
                 log.info("Verification failed");
                 return null;
             }
-            JSONObject payLoadJson = payload.toJSONObject();
-            if (!JwtUtil.class.getName().equals(payLoadJson.getAsString(ISSUER_KEY))) {
+            JwtUtil.PayLoad payLoad = mapper.readValue(payload.toString(), JwtUtil.PayLoad.class);
+            if (!JwtUtil.class.getName().equals(payLoad.getIssuerKey())) {
                 log.info("Not issued by this class");
                 return null;
             }
-            // If the payload contains an exp field, check whether it has expired
-            if (payLoadJson.containsKey(EXPIRE_TIME_KEY)) {
-                long extTime = Long.parseLong(payLoadJson.getAsString(EXPIRE_TIME_KEY));
+            if (payLoad.getExpireTimeKey() != null) {
+                long extTime = payLoad.getExpireTimeKey();
                 long curTime = System.currentTimeMillis();
                 if (curTime > extTime) {
                     log.info("Token expired");
                     return null;
                 }
             }
-            return Long.valueOf(payLoadJson.get(USER_KEY).toString());
+            return payLoad.getUserId();
         } catch (Exception e) {
-            log.error("Illegal token format: {}", tokenString);
+            log.error("Illegal token format: {}", tokenString, e);
             return null;
         }
     }
