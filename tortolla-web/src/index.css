@@ -1,0 +1,38 @@
+.wrapper {
+  display: grid;
+  grid-template-areas: 
+    "header header header"
+    "sider content content"
+    "sider footer footer";
+  grid-template-columns: 1fr 3fr 3fr; /* Adjust the column widths as needed */
+  grid-template-rows: auto 1fr auto; /* Adjust the row heights as needed */
+  height: 100vh; /* Make the grid fill the viewport height */
+}
+
+/* Style the header element */
+.header {
+  grid-area: header;
+  background-color: lightblue;
+  padding: 10px;
+}
+
+/* Style the sider element */
+.sider {
+  grid-area: sider;
+  background-color: lightgreen;
+  padding: 10px;
+}
+
+/* Style the content element */
+.content {
+  grid-area: content;
+  background-color: lightyellow;
+  padding: 10px;
+}
+
+/* Style the footer element */
+.footer {
+  grid-area: footer;
+  background-color: lightpink;
+  padding: 10px;
+}
