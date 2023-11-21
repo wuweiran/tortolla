@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>tortolla-web</artifactId>
+    <artifactId>tortolla-presentation</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>clan.midnight</groupId>
-            <artifactId>tortolla-service</artifactId>
+            <artifactId>tortolla-application</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
