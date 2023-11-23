@@ -19,6 +19,13 @@
 
     <dependencies>
         <dependency>
+            <groupId>clan.midnight</groupId>
+            <artifactId>tortolla-domain</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-cosmos</artifactId>
         </dependency>

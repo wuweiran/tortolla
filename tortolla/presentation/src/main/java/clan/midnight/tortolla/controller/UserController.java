@@ -1,6 +1,7 @@
 package clan.midnight.tortolla.controller;
 
 import clan.midnight.tortolla.User;
+import clan.midnight.tortolla.UserRepository;
 import clan.midnight.tortolla.UserService;
 import clan.midnight.tortolla.request.SignUpRequest;
 import clan.midnight.tortolla.response.*;
@@ -15,6 +16,9 @@ import org.slf4j.LoggerFactory;
 public class UserController {
     @Resource
     private UserService userService;
+
+    @Resource
+    private UserRepository userRepository;
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -39,7 +43,7 @@ public class UserController {
         if (id == null) {
             return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
         }
-        User user = userService.getById(id);
+        User user = userRepository.getById(id);
         if (user == null) {
             log.warn("User ID {} doesn't exist.", id);
             return new FailedResponse(FailedResponse.ERROR_CODE_NOT_FOUND);
@@ -55,7 +59,7 @@ public class UserController {
         if (token == null || userService.validateTokenAndGetUserId(token) == null) {
             return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
         }
-        User user = userService.getById(id);
+        User user = userRepository.getById(id);
         if (user == null) {
             log.warn("User ID {} doesn't exist.", id);
             return new FailedResponse(FailedResponse.ERROR_CODE_NOT_FOUND);

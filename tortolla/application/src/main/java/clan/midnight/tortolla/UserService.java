@@ -1,5 +1,6 @@
 package clan.midnight.tortolla;
 
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,10 +14,6 @@ public class UserService {
     }
 
     public Long validateTokenAndGetUserId(String token) {
-        return null;
-    }
-
-    public User getById(long userId) {
         return null;
     }
 }

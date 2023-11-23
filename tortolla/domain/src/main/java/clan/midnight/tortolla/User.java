@@ -2,6 +2,7 @@ package clan.midnight.tortolla;
 
 import java.util.Date;
 
+@SuppressWarnings("LombokGetterMayBeUsed")
 public class User {
     private String username;
     private String passwordHash;
