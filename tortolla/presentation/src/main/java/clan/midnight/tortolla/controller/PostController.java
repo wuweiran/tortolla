@@ -38,14 +38,14 @@ public class PostController {
     }
 
     @GetMapping(value = "")
-    public Response getPosts(@RequestParam Long offset, @RequestParam Long limit) {
-        if (offset == null) {
-            offset = 0L;
+    public Response getPosts(@RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
+        if (pageNumber == null) {
+            pageNumber = 0;
         }
-        if (limit == null) {
-            limit = 20L;
+        if (pageSize == null) {
+            pageSize = 20;
         }
-        List<Post> posts = postRepository.list(offset, limit);
+        List<Post> posts = postRepository.list(pageNumber, pageSize);
         List<PostWebDTO> result = posts.stream().map(post -> PostWebDTO.fromDomain(post, post.getAuthor(userRepository))).toList();
         return new SuccessfulResponse<>(result);
     }

@@ -23,13 +23,13 @@ public class UserController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @PostMapping(value = "/sign-in")
-    public Response signIn(@ModelAttribute SignInRequest request) {
+    public Response signIn(@RequestBody SignInRequest request) {
         String token = userService.authenticateAndGetToken(request.getUsername(), request.getPassword());
         return new SuccessfulResponse<>(token);
     }
 
     @PostMapping(value = "/sign-up")
-    public Response signUp(@ModelAttribute SignUpRequest request) {
+    public Response signUp(@RequestBody SignUpRequest request) {
         String token = userService.registerAndGetToken(request.getUsername(), request.getPassword(), request.getFullName());
         return new SuccessfulResponse<>(token);
     }

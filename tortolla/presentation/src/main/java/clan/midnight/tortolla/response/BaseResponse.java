@@ -1,8 +1,6 @@
 package clan.midnight.tortolla.response;
 
 public abstract class BaseResponse implements Response {
-    public static final int STATUS_SUCCESS = 0;
-    public static final int STATUS_FAIL = 1;
     protected int status;
 
     @Override

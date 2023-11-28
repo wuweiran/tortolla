@@ -23,6 +23,11 @@
             <artifactId>tortolla-application</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>clan.midnight</groupId>
+            <artifactId>tortolla-infrastructure</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
 
         <dependency>
