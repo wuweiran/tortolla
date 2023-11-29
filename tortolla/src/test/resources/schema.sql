@@ -1,4 +1,4 @@
-CREATE SCHEMA `tortolla` DEFAULT CHARACTER SET utf8mb4;
+CREATE SCHEMA `tortolla`;
 USE tortolla;
 
 CREATE TABLE `user` (

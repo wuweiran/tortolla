@@ -21,7 +21,7 @@ export const createPost = (request: CreatePostRequest) =>
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      "x-ms-user-token": loadLoginUserToken(),
+      "x-fd-user-token": loadLoginUserToken(),
     },
     body: JSON.stringify({
       title: request.title,
