@@ -22,7 +22,6 @@ export const MessageProvider = (props: React.PropsWithChildren) => {
   const [messages, setMessages] = useState<AppMessage[]>([]);
 
   const pushMessage = (message: AppMessage) => {
-    console.log(message);
     setMessages((prevMessages) => [...prevMessages, message]);
   };
 

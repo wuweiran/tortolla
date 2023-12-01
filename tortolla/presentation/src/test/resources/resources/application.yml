@@ -5,6 +5,9 @@ spring:
     password: password
     driverClassName: org.h2.Driver
   jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
     open-in-view: false
     defer-datasource-initialization: true
     hibernate:

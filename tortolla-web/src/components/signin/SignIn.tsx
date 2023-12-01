@@ -22,7 +22,7 @@ const SignIn = () => {
 
   const onComplete = () => {
     setOpen(false);
-    window.location.reload();
+    //  window.location.reload();
   };
 
   const onToggle = () => {

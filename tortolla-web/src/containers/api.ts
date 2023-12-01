@@ -3,8 +3,8 @@ import { loadCurrentUserToken } from "./user.ts";
 const endpoint = "http://localhost:8080";
 
 enum ApiResponseStatus {
-  SUCCESS = 1,
-  FAIL = 0,
+  SUCCESS = 0,
+  FAIL = 1,
 }
 
 type ApiResponse<T> = {
@@ -18,8 +18,8 @@ export function apiPost<Request, Response>(
 ): Promise<Response> {
   return fetch(`${endpoint}${path}`, {
     method: "POST",
-    mode: "no-cors",
     headers: {
+      "Content-Type": "application/json",
       "x-fd-user-token": loadCurrentUserToken(),
     },
     body: request ? JSON.stringify(request) : undefined,
@@ -55,8 +55,8 @@ export function apiGet<Response>(
   }
   return fetch(url, {
     method: "GET",
-    mode: "no-cors",
     headers: {
+      "Content-Type": "application/json",
       "x-fd-user-token": loadCurrentUserToken(),
     },
   })
