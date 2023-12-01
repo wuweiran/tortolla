@@ -7,7 +7,7 @@ const Explore = () => {
   const [postIds, setPostIds] = useState<number[]>([]);
 
   useEffect(() => {
-    void listTopPostIds.then((ids) => setPostIds(ids));
+    void listTopPostIds().then((ids) => setPostIds(ids));
   });
 
   return (

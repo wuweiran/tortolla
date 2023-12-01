@@ -7,6 +7,7 @@ import {
   DialogActions,
   DialogContent,
   Button,
+  Link,
 } from "@fluentui/react-components";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,8 +17,8 @@ import SignUpForm from "./SignUpForm.tsx";
 const SignIn = () => {
   const { t } = useTranslation();
 
-  const [ open, setOpen ] = useState<boolean>(false);
-  const [ mode, setMode ] = useState<"sign-in" | "sign-up">("sign-in");
+  const [open, setOpen] = useState<boolean>(false);
+  const [mode, setMode] = useState<"sign-in" | "sign-up">("sign-in");
 
   const onComplete = () => {
     setOpen(false);
@@ -33,16 +34,16 @@ const SignIn = () => {
   };
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={(_, data) => setOpen(data.open)}>
       <DialogTrigger disableButtonEnhancement>
         <Button>
-          {t("auth.sign in")} / {t("auth.register")}
+          {t("user.sign in")} / {t("user.sign up")}
         </Button>
       </DialogTrigger>
       <DialogSurface>
         <DialogBody>
           <DialogTitle>
-            {mode === "sign-in" ? t("auth.sign in") : t("auth.register")}
+            {mode === "sign-in" ? t("user.sign in") : t("user.sign up")}
           </DialogTitle>
           <DialogContent>
             {mode === "sign-in" ? (
@@ -52,9 +53,11 @@ const SignIn = () => {
             )}
           </DialogContent>
           <DialogActions>
-            <Button appearance="subtle" onClick={onToggle}>
-              Already have an account? Sign in
-            </Button>
+            <Link appearance="subtle" onClick={onToggle}>
+              {mode === "sign-in"
+                ? t("user.sign-in.go to sign up")
+                : t("user.sign-up.go to sign in")}
+            </Link>
             <DialogTrigger disableButtonEnhancement>
               <Button appearance="secondary">Back</Button>
             </DialogTrigger>

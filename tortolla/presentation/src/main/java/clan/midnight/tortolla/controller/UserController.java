@@ -3,13 +3,13 @@ package clan.midnight.tortolla.controller;
 import clan.midnight.tortolla.User;
 import clan.midnight.tortolla.UserRepository;
 import clan.midnight.tortolla.UserService;
+import clan.midnight.tortolla.request.SignInRequest;
 import clan.midnight.tortolla.request.SignUpRequest;
 import clan.midnight.tortolla.response.*;
-import clan.midnight.tortolla.request.SignInRequest;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -24,6 +24,9 @@ public class UserController {
 
     @PostMapping(value = "/sign-in")
     public Response signIn(@RequestBody SignInRequest request) {
+        if (request.getUsername() == null || request.getUsername().isEmpty()) {
+            return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
+        }
         String token = userService.authenticateAndGetToken(request.getUsername(), request.getPassword());
         return new SuccessfulResponse<>(token);
     }

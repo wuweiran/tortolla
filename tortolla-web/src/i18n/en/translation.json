@@ -24,10 +24,14 @@
     "sign-in": {
       "remember": "Remember",
       "forgot": "Forgot your password?",
-      "go to sign up": "Don't have an account? Sign up"
+      "go to sign up": "Don't have an account? Sign up",
+      "succeed": "Successfully signed in.",
+      "fail": "Sign-in failed."
     },
     "sign-up": {
-      "go to sign in": "Already have an account? Sign in"
+      "go to sign in": "Already have an account? Sign in",
+      "succeed": "Your account has been successfully created.",
+      "fail": "Fail to sign up your account."
     }
   },
   "post": {

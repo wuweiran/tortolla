@@ -2,8 +2,10 @@ import { useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { ClassicEditor } from "@ckeditor/ckeditor5-editor-classic";
 import { CKFinder } from "@ckeditor/ckeditor5-ckfinder";
+import { UploadAdapter } from "@ckeditor/ckeditor5-adapter-ckfinder";
+import { Link } from "@ckeditor/ckeditor5-link";
+import { Image } from "@ckeditor/ckeditor5-image";
 import { CreatePostRequest, createPost } from "../../containers/post.ts";
-import * as msg from "../../containers/message.ts";
 import { useTranslation } from "react-i18next";
 import {
   Button,
@@ -12,6 +14,7 @@ import {
   Spinner,
   makeStyles,
 } from "@fluentui/react-components";
+import { useMessage } from "../../containers/message.ts";
 
 const useStyles = makeStyles({
   root: {
@@ -26,15 +29,16 @@ const CreatePost = () => {
   const [isSaving, setSaving] = useState<boolean>(false);
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [content, setContent] = useState<string>("");
+  const { info } = useMessage();
 
   const onFinish = (request: CreatePostRequest) => {
     setSaving(true);
     createPost(request)
       .then(() => {
-        msg.info("Login succeeded!");
+        info("Create post succeeded!");
       })
       .catch(() => {
-        msg.info("Login failed");
+        info("Create post failed");
       })
       .finally(() => {
         setSaving(false);
@@ -52,7 +56,7 @@ const CreatePost = () => {
           placeholder="My Post Title"
         />
       </Field>
-      <Field label={t("post.content")}></Field>
+      <Field label={t("post.body")}></Field>
       <CKEditor
         editor={ClassicEditor}
         config={{
@@ -60,7 +64,7 @@ const CreatePost = () => {
           ckfinder: {
             uploadUrl: "/posts/upload_image",
           },
-          plugins: [CKFinder],
+          plugins: [CKFinder, UploadAdapter, Link, Image],
         }}
         onChange={() => {
           setContent("default");

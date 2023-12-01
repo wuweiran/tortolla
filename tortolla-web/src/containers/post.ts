@@ -1,4 +1,4 @@
-import { loadLoginUserToken } from "./user.ts";
+import { apiGet, apiPost } from "./api.ts";
 
 export type Post = {
   postId: number;
@@ -6,31 +6,19 @@ export type Post = {
   body: string;
 };
 
-export const listTopPostIds = fetch("/posts/list_top?top=8", { method: "GET" })
-  .then((res) => res.json())
-  .then((responseJson) => responseJson as number[]);
+export const listTopPostIds = () => apiGet<number[]>("/posts/list-top", {limit: 8});
 
 export type CreatePostRequest = {
   title: string;
   body: string;
 };
 
+export type CreatePostResponse = {
+  id: number;
+  title: string;
+  body: string;
+  createdTime: Date;
+};
+
 export const createPost = (request: CreatePostRequest) =>
-  fetch("/posts/create", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      "x-fd-user-token": loadLoginUserToken(),
-    },
-    body: JSON.stringify({
-      title: request.title,
-      body: request.body,
-    }),
-  })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      if (responseJson.status === 1) {
-        throw Error(responseJson);
-      }
-    });
+  apiPost<CreatePostRequest, CreatePostResponse>("/post/create", request);

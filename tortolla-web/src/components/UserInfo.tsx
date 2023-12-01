@@ -1,8 +1,8 @@
 import { Persona } from "@fluentui/react-components";
-import { loginUser } from "../containers/user.ts";
+import { currentUser } from "../containers/user.ts";
 
 const Explore = () => {
-  const user = loginUser();
+  const user = currentUser();
   return (
     <Persona
       name={user.username}

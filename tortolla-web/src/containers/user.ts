@@ -1,4 +1,5 @@
 import Cookies, { CookieSetOptions } from "universal-cookie";
+import { apiGet, apiPost } from "./api.ts";
 
 const cookieOptions: CookieSetOptions = {
   path: "/",
@@ -6,46 +7,35 @@ const cookieOptions: CookieSetOptions = {
   secure: false,
 };
 
-const cookies = new Cookies.default(null, cookieOptions);
+const cookies = new Cookies(null, cookieOptions);
 
-export type UserInfo = {
+export type UserResponse = {
   id: number;
   username: string;
   fullName?: string;
   createdTime: Date;
 };
 
-export const loginUser = () => {
+export type UserInfo = UserResponse;
+
+export const currentUser = () => {
   return cookies.get("current-user") as UserInfo;
 };
 
-export const loadLoginUserToken = () => {
+export const loadCurrentUserToken = () => {
   return cookies.get("token") as string;
 };
 
-const saveLoginUserToken = (token: string) => {
+const saveCurrentUserToken = (token: string) => {
   cookies.set("token", token);
 };
 
-const saveLoginUserFromToken = (token: string) => {
-  fetch("/bloggers?token=" + token, {
-    method: "GET",
-  })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      if (responseJson.status === 1) {
-        console.error("bad token");
-      } else {
-        cookies.set("current-user", responseJson.resultBody);
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
+const saveCurrentUserFromToken = () => apiGet<UserResponse>("/user/me").then((result) =>
+  cookies.set("current-user", result)
+);
 
-export const isLogin = () => {
-  const user = loginUser();
+export const isSignedIn = () => {
+  const user = currentUser();
   return typeof user === "object";
 };
 
@@ -54,27 +44,11 @@ export type UserSignInRequest = {
   password: string;
 };
 
-export const login = (payload: UserSignInRequest) =>
-  fetch("/bloggers/login", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      username: payload.username,
-      password: payload.password,
-    }),
-  })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      if (responseJson.status === 1) {
-        throw Error(responseJson);
-      } else {
-        saveLoginUserToken(responseJson.resultBody);
-        saveLoginUserFromToken(responseJson.resultBody);
-      }
-    });
+export const signIn = (request: UserSignInRequest) =>
+  apiPost<UserSignInRequest, string>("/user/sign-in", request).then((result) => {
+    saveCurrentUserToken(result);
+    return saveCurrentUserFromToken();
+  });
 
 export type UserSignUpRequest = {
   username: string;
@@ -82,30 +56,13 @@ export type UserSignUpRequest = {
   realName: string;
 };
 
-export const signUp = (payload: UserSignUpRequest) =>
-  fetch("/bloggers/register", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      username: payload.username,
-      password: payload.password,
-      realName: payload.realName,
-    }),
-  })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      if (responseJson.status === 1) {
-        throw Error(responseJson);
-      } else {
-        saveLoginUserToken(responseJson.resultBody);
-        saveLoginUserFromToken(responseJson.resultBody);
-      }
-    });
+export const signUp = (request: UserSignUpRequest) =>
+  apiPost<UserSignUpRequest, string>("/user/sign-up", request).then((result) => {
+    saveCurrentUserToken(result);
+    return saveCurrentUserFromToken();
+  });
 
-export const logout = () => {
+export const signOut = () => {
   cookies.remove("current-user");
   cookies.remove("token");
 };

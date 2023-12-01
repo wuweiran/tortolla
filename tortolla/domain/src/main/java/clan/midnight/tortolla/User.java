@@ -17,6 +17,10 @@ public class User {
         this.createdTime = createdTime;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public String getUsername() {
         return username;
     }

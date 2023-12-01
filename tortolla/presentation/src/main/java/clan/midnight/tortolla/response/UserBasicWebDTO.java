@@ -9,11 +9,12 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 public class UserBasicWebDTO {
+    private long id;
     private String username;
     private Date createdTime;
 
     public static UserBasicWebDTO fromDomain(User user) {
-        return new UserBasicWebDTO(user.getUsername(), user.getCreatedTime());
+        return new UserBasicWebDTO(user.getId(), user.getUsername(), user.getCreatedTime());
     }
 }
 

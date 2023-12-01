@@ -3,7 +3,7 @@ import { Select, SelectOnChangeData } from "@fluentui/react-components";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
-const Language = () => {
+const Language = (props: {className?: string | undefined}) => {
   const { t, i18n } = useTranslation();
   const [selectedLanguage, setSelectedLanguage] = useState<string>(
     i18n.language
@@ -17,7 +17,7 @@ const Language = () => {
   };
 
   return (
-    <div>
+    <div className={props.className}>
       <Globe24Regular />
       <Select
         value={selectedLanguage}
