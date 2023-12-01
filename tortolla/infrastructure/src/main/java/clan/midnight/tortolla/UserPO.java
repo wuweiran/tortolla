@@ -1,13 +1,18 @@
 package clan.midnight.tortolla;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "`user`")
+@Table(name = "\"user\"", catalog = "tortolla")
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserPO {
 
     @Id
@@ -24,6 +29,7 @@ public class UserPO {
     @Column(name = "full_name")
     private String fullName;
 
+    @CreationTimestamp
     @Column(name = "created_time", nullable = false)
     private Timestamp createdTime;
 }

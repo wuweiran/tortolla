@@ -2,7 +2,8 @@
   "nav": {
     "home": "首页",
     "explore post": "发现",
-    "create post": "发帖"
+    "create post": "发帖",
+    "user info": "用户"
   },
   "select lang": "选择语言",
   "lang": {

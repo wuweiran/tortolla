@@ -23,9 +23,9 @@ const SignUpForm = (props: { onComplete: () => void }) => {
   const { t } = useTranslation();
 
   const [isSigningUp, setSigningUp] = useState<boolean>(false);
-  const [username, setUsername] = useState<string | undefined>(undefined);
-  const [password, setPassword] = useState<string | undefined>(undefined);
-  const [realName, setRealName] = useState<string | undefined>(undefined);
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [realName, setRealName] = useState<string>("");
   const { info } = useMessage();
 
   const onFinish = (request: UserSignUpRequest) => {
@@ -78,7 +78,7 @@ const SignUpForm = (props: { onComplete: () => void }) => {
       </Field>
       <Button
         onClick={() =>
-          onFinish({ username: username || "", password: password || "", realName: realName || "" })
+          onFinish({ username: username, password: password, fullName: realName })
         }
       >
         {isSigningUp ? <Spinner /> : t("user.sign up")}

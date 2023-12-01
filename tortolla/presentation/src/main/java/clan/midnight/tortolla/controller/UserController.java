@@ -29,12 +29,27 @@ public class UserController {
             return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
         }
         String token = userService.authenticateAndGetToken(request.getUsername(), request.getPassword());
+        if (token == null) {
+            return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
+        }
         return new SuccessfulResponse<>(token);
     }
 
     @PostMapping(value = "/sign-up")
     public Response signUp(@RequestBody SignUpRequest request) {
+        if (request.getUsername() == null || request.getUsername().isEmpty()) {
+            return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
+        }
+        if (request.getPassword() == null || request.getPassword().isEmpty()) {
+            return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
+        }
+        if (request.getFullName() == null || request.getFullName().isEmpty()) {
+            return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
+        }
         String token = userService.registerAndGetToken(request.getUsername(), request.getPassword(), request.getFullName());
+        if (token == null) {
+            return new FailedResponse(FailedResponse.ERROR_CODE_CANNOT_NEW);
+        }
         return new SuccessfulResponse<>(token);
     }
 

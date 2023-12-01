@@ -53,7 +53,7 @@ export const signIn = (request: UserSignInRequest) =>
 export type UserSignUpRequest = {
   username: string;
   password: string;
-  realName: string;
+  fullName: string;
 };
 
 export const signUp = (request: UserSignUpRequest) =>

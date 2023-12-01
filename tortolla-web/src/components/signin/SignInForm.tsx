@@ -25,8 +25,8 @@ const SignInForm = (props: { onComplete: () => void }) => {
   const { t } = useTranslation();
 
   const [isSigningIn, setSigningIn] = useState<boolean>(false);
-  const [username, setUsername] = useState<string | undefined>(undefined);
-  const [password, setPassword] = useState<string | undefined>(undefined);
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const { info, warn } = useMessage();
 
   const onFinish = (request: UserSignInRequest) => {
@@ -71,7 +71,7 @@ const SignInForm = (props: { onComplete: () => void }) => {
       <Link href="/user/register">{t("user.sign-in.forgot")}</Link>
       <Button
         onClick={() =>
-          onFinish({ username: username || "", password: password || "" })
+          onFinish({ username: username, password: password })
         }
       >
         {isSigningIn ? <Spinner /> : t("user.sign in")}

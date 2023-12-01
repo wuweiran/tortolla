@@ -2,7 +2,8 @@
   "nav": {
     "home": "Home",
     "explore post": "Explore",
-    "create post": "Post"
+    "create post": "Post",
+    "user info": "User"
   },
   "select lang": "Select language",
   "lang": {

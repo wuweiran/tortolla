@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import { ClassicEditor } from "@ckeditor/ckeditor5-editor-classic";
 import { CKFinder } from "@ckeditor/ckeditor5-ckfinder";
 import { UploadAdapter } from "@ckeditor/ckeditor5-adapter-ckfinder";
 import { Link } from "@ckeditor/ckeditor5-link";
@@ -15,6 +14,7 @@ import {
   makeStyles,
 } from "@fluentui/react-components";
 import { useMessage } from "../../containers/message.ts";
+import { ClassicEditor } from "@ckeditor/ckeditor5-editor-classic";
 
 const useStyles = makeStyles({
   root: {
@@ -27,7 +27,7 @@ const CreatePost = () => {
   const style = useStyles();
   const { t, i18n } = useTranslation();
   const [isSaving, setSaving] = useState<boolean>(false);
-  const [title, setTitle] = useState<string | undefined>(undefined);
+  const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const { info } = useMessage();
 
@@ -66,11 +66,14 @@ const CreatePost = () => {
           },
           plugins: [CKFinder, UploadAdapter, Link, Image],
         }}
-        onChange={() => {
-          setContent("default");
+        data={content}
+        onChange={(event, editor) => {
+          const data = editor.getData();
+          console.log(event, data);
+          setContent(data);
         }}
       />
-      <Button onClick={() => onFinish({ title: title!, body: content })}>
+      <Button onClick={() => onFinish({ title: title, body: content })}>
         {isSaving ? <Spinner /> : t("post.act.create")}
       </Button>
     </div>

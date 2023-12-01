@@ -11,6 +11,7 @@ public class User {
     private final Date createdTime;
 
     public User(long id, String username, String passwordHash, String fullName, Date createdTime) {
+        this.id = id;
         this.username = username;
         this.passwordHash = passwordHash;
         this.fullName = fullName;

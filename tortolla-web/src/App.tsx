@@ -5,6 +5,7 @@ import {
   Add24Regular,
   Person24Regular,
   DismissRegular,
+  SignOut24Regular
 } from "@fluentui/react-icons";
 import {
   Button,
@@ -87,12 +88,13 @@ const App = () => {
           </Button>
           {isSignedIn() && (
             <Button
-              icon={<Add24Regular />}
+              icon={<SignOut24Regular />}
               onClick={() => {
                 signOut();
+                window.location.reload();
               }}
             >
-              {t("nav.sign out")}
+              {t("user.sign out")}
             </Button>
           )}
         </aside>
