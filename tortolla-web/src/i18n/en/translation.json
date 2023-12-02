@@ -2,8 +2,7 @@
   "nav": {
     "home": "Home",
     "explore post": "Explore",
-    "create post": "Post",
-    "user info": "User"
+    "create post": "Post"
   },
   "select lang": "Select language",
   "lang": {
@@ -16,6 +15,7 @@
     "error": "Error"
   },
   "user": {
+    "user info": "Profile",
     "sign in": "Sign in",
     "sign out": "Sign out",
     "sign up": "Sign up",

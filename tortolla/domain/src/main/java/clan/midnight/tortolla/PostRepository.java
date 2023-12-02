@@ -5,5 +5,7 @@ import java.util.List;
 public interface PostRepository {
     Post getById(long id);
 
-    List<Post> list(int pageNumber, int pageSize);
+    List<Post> listLatest(int pageNumber, int pageSize);
+
+    long put(String title, String body, long authorId);
 }

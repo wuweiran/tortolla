@@ -3,9 +3,7 @@ import {
   Home24Regular,
   CompassNorthwest24Regular,
   Add24Regular,
-  Person24Regular,
   DismissRegular,
-  SignOut24Regular
 } from "@fluentui/react-icons";
 import {
   Button,
@@ -19,15 +17,15 @@ import {
   makeStyles,
   tokens,
 } from "@fluentui/react-components";
-import SignIn from "./components/signin/SignIn.tsx";
 import Explore from "./components/Explore.tsx";
 import CreatePost from "./components/post/CreatePost.tsx";
 import UserInfo from "./components/UserInfo.tsx";
-import { isSignedIn, signOut } from "./containers/user.ts";
+import { isSignedIn } from "./containers/user.ts";
 import siteLogo from "./assets/site-logo.png";
 import Language from "./components/Language.tsx";
 import { useTranslation } from "react-i18next";
 import { useMessage } from "./containers/message.ts";
+import Account from "./components/user/Account.tsx";
 
 const useStyles = makeStyles({
   messageBarGroup: {
@@ -39,10 +37,11 @@ const useStyles = makeStyles({
     flexDirection: "column",
     marginTop: "10px",
   },
-  selectLanguage: {
+  tray: {
     display: "flex",
+    flexDirection: "row",
+    columnGap: tokens.spacingHorizontalL,
     alignItems: "center",
-    columnGap: tokens.spacingHorizontalS,
   },
 });
 
@@ -66,37 +65,26 @@ const App = () => {
               }}
             />
           </Link>
-          <Language className={styles.selectLanguage} />
+          <div className={styles.tray}>
+            <Account />
+            <Language />
+          </div>
         </header>
 
         <aside className="sider">
-          <Button icon={<Home24Regular />}>
+          <Button appearance="subtle" icon={<Home24Regular />}>
             <Link to={"/"}>{t("nav.home")}</Link>
           </Button>
-          {isSignedIn() ? (
-            <Button icon={<Person24Regular />}>
-              <Link to={"/user-info"}>{t("nav.user info")}</Link>
-            </Button>
-          ) : (
-            <SignIn />
-          )}
-          <Button icon={<CompassNorthwest24Regular />}>
+          <Button appearance="subtle" icon={<CompassNorthwest24Regular />}>
             <Link to={"/explore-post"}>{t("nav.explore post")}</Link>
           </Button>
-          <Button icon={<Add24Regular />} disabled={!isSignedIn()}>
+          <Button
+            appearance="subtle"
+            icon={<Add24Regular />}
+            disabled={!isSignedIn()}
+          >
             <Link to={"/create-post"}>{t("nav.create post")}</Link>
           </Button>
-          {isSignedIn() && (
-            <Button
-              icon={<SignOut24Regular />}
-              onClick={() => {
-                signOut();
-                window.location.reload();
-              }}
-            >
-              {t("user.sign out")}
-            </Button>
-          )}
         </aside>
         <div className="content">
           <MessageBarGroup className={styles.messageBarGroup}>
@@ -127,7 +115,7 @@ const App = () => {
           </Routes>
         </div>
         <footer className="footer">
-          Tortolla ©2019-2023 by M1Kight Technology
+          Tortolla ©2019-2023 by M1Knight Technology
         </footer>
       </div>
     </BrowserRouter>

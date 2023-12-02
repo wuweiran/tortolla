@@ -18,8 +18,13 @@ export type UserResponse = {
 
 export type UserInfo = UserResponse;
 
+export type UserBasicInfo = {
+  id: number;
+  username: string;
+};
+
 export const currentUser = () => {
-  return cookies.get("current-user") as UserInfo;
+  return cookies.get("current-user") as UserInfo | undefined;
 };
 
 export const loadCurrentUserToken = () => {

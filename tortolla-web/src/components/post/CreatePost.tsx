@@ -1,9 +1,4 @@
 import { useState } from "react";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import { CKFinder } from "@ckeditor/ckeditor5-ckfinder";
-import { UploadAdapter } from "@ckeditor/ckeditor5-adapter-ckfinder";
-import { Link } from "@ckeditor/ckeditor5-link";
-import { Image } from "@ckeditor/ckeditor5-image";
 import { CreatePostRequest, createPost } from "../../containers/post.ts";
 import { useTranslation } from "react-i18next";
 import {
@@ -14,7 +9,7 @@ import {
   makeStyles,
 } from "@fluentui/react-components";
 import { useMessage } from "../../containers/message.ts";
-import { ClassicEditor } from "@ckeditor/ckeditor5-editor-classic";
+import MarkdownEditor from "@uiw/react-markdown-editor";
 
 const useStyles = makeStyles({
   root: {
@@ -25,7 +20,7 @@ const useStyles = makeStyles({
 
 const CreatePost = () => {
   const style = useStyles();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [isSaving, setSaving] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
@@ -57,20 +52,9 @@ const CreatePost = () => {
         />
       </Field>
       <Field label={t("post.body")}></Field>
-      <CKEditor
-        editor={ClassicEditor}
-        config={{
-          language: i18n.language,
-          ckfinder: {
-            uploadUrl: "/posts/upload_image",
-          },
-          plugins: [CKFinder, UploadAdapter, Link, Image],
-        }}
-        data={content}
-        onChange={(event, editor) => {
-          const data = editor.getData();
-          console.log(event, data);
-          setContent(data);
+      <MarkdownEditor
+        onChange={(value) => {
+          setContent(value);
         }}
       />
       <Button onClick={() => onFinish({ title: title, body: content })}>

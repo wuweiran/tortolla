@@ -4,7 +4,7 @@ import { currentUser } from "../containers/user.ts";
 const Explore = () => {
   const user = currentUser();
   return (
-    <Persona
+    user && <Persona
       name={user.username}
       secondaryText={user.fullName}
       presence={{ status: "available" }}

@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import SignInForm from "./SignInForm.tsx";
 import SignUpForm from "./SignUpForm.tsx";
 
-const SignIn = () => {
+const SignInOrSignUp = () => {
   const { t } = useTranslation();
 
   const [open, setOpen] = useState<boolean>(false);
@@ -68,4 +68,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignInOrSignUp;

@@ -1,6 +1,7 @@
 package clan.midnight.tortolla;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,6 +13,7 @@ import java.sql.Timestamp;
 @Table(name = "post", catalog = "tortolla")
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class PostPO {
 
     @Id

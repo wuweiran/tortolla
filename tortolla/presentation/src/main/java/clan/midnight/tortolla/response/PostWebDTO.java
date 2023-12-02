@@ -14,11 +14,11 @@ public class PostWebDTO {
     private long id;
     private String title;
     private String body;
-    private UserWebDTO author;
+    private UserBasicWebDTO author;
     private Date createdTime;
     private Date lastUpdatedTime;
 
     public static PostWebDTO fromDomain(Post post, User author) {
-        return new PostWebDTO(post.getId(), post.getTitle(), post.getBody(), UserWebDTO.fromDomain(author), post.getCreatedTime(), post.getLastUpdatedTime());
+        return new PostWebDTO(post.getId(), post.getTitle(), post.getBody(), UserBasicWebDTO.fromDomain(author), post.getCreatedTime(), post.getLastUpdatedTime());
     }
 }

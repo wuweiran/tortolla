@@ -1,12 +1,16 @@
 import { apiGet, apiPost } from "./api.ts";
+import { UserBasicInfo } from "./user.ts";
 
 export type Post = {
-  postId: number;
+  id: number;
   title: string;
   body: string;
+  author: UserBasicInfo;
+  createdTime: Date;
+  lastUpdatedTime: Date;
 };
 
-export const listTopPostIds = () => apiGet<number[]>("/posts/list-top", {limit: 8});
+export const listLatestPosts = () => apiGet<Post[]>("/post/latest", {pageNumber: 1, pageSize: 10});
 
 export type CreatePostRequest = {
   title: string;

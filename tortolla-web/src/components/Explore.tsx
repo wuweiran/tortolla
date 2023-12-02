@@ -1,20 +1,43 @@
 import { useEffect, useState } from "react";
-import { listTopPostIds } from "../containers/post.ts";
-import { Divider } from "@fluentui/react-components";
-import PostCard from "./post/PostCard.tsx";
+import { Post, listLatestPosts } from "../containers/post.ts";
+import {
+  Card,
+  CardHeader,
+  Divider,
+  Skeleton,
+  SkeletonItem,
+} from "@fluentui/react-components";
 
 const Explore = () => {
-  const [postIds, setPostIds] = useState<number[]>([]);
+  const [isLoading, setLoading] = useState<boolean>(true);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
-    void listTopPostIds().then((ids) => setPostIds(ids));
-  });
+    void listLatestPosts().then((posts) => {
+      setPosts(posts);
+      setLoading(false);
+    });
+  }, []);
 
   return (
     <div>
-      {postIds.map((postId) => (
+      {isLoading && (
+        <Skeleton>
+          <SkeletonItem />
+          <SkeletonItem />
+          <SkeletonItem />
+          <SkeletonItem />
+          <SkeletonItem />
+        </Skeleton>
+      )}
+      {posts.map((post) => (
         <>
-          <PostCard postId={postId}></PostCard>
+          <Card title={post.title}>
+            <CardHeader
+              header={post.title}
+              description={post.author.username}
+            />
+          </Card>
           <Divider />
         </>
       ))}

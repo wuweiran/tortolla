@@ -1,7 +1,6 @@
 package clan.midnight.tortolla;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,10 +16,16 @@ public class JpaPostRepository implements PostRepository {
     }
 
     @Override
-    public List<Post> list(int pageNumber, int pageSize) {
+    public List<Post> listLatest(int pageNumber, int pageSize) {
         return jpaRepository
-                .findAll(PageRequest.of(pageNumber, pageSize))
+                .findAll().stream()
                 .map(po -> new Post(po.getId(), po.getTitle(), po.getBody(), po.getAuthorId(), po.getCreatedTime(), po.getLastUpdatedTime()))
-                .stream().toList();
+                .toList();
+    }
+
+    @Override
+    public long put(String title, String body, long authorId) {
+        PostPO po = jpaRepository.saveAndFlush(new PostPO(null, title, body, authorId, null, null));
+        return po.getId();
     }
 }

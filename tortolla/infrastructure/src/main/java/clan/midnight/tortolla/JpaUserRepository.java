@@ -11,7 +11,7 @@ public class JpaUserRepository implements UserRepository {
 
     @Override
     public User getById(long id) {
-        return jpaRepository.findById(id).map(po -> new User(po.getId(), po.getPasswordHash(), po.getUsername(), po.getFullName(), po.getCreatedTime())).orElse(null);
+        return jpaRepository.findById(id).map(po -> new User(po.getId(), po.getUsername(), po.getPasswordHash(), po.getFullName(), po.getCreatedTime())).orElse(null);
     }
 
     @Override
@@ -26,7 +26,6 @@ public class JpaUserRepository implements UserRepository {
     @Override
     public User put(String username, String passwordHash, String fullName) {
         UserPO po = jpaRepository.saveAndFlush(new UserPO(null, username, passwordHash, fullName, null));
-        User result = new User(po.getId(), po.getPasswordHash(), po.getUsername(), po.getFullName(), po.getCreatedTime());
-        return result;
+        return new User(po.getId(), po.getPasswordHash(), po.getUsername(), po.getFullName(), po.getCreatedTime());
     }
 }

@@ -3,6 +3,8 @@ package clan.midnight.tortolla.controller;
 import clan.midnight.tortolla.Post;
 import clan.midnight.tortolla.PostRepository;
 import clan.midnight.tortolla.UserRepository;
+import clan.midnight.tortolla.UserService;
+import clan.midnight.tortolla.request.CreatePostRequest;
 import clan.midnight.tortolla.response.FailedResponse;
 import clan.midnight.tortolla.response.PostWebDTO;
 import clan.midnight.tortolla.response.Response;
@@ -26,6 +28,9 @@ public class PostController {
     @Resource
     private UserRepository userRepository;
 
+    @Resource
+    private UserService userService;
+
     @GetMapping(value = "/{id}")
     public Response getPost(@PathVariable Long id) {
         if (id == null) {
@@ -38,15 +43,31 @@ public class PostController {
         return new SuccessfulResponse<>(PostWebDTO.fromDomain(post, post.getAuthor(userRepository)));
     }
 
-    @GetMapping(value = "")
-    public Response getPosts(@RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
+    @PostMapping(value = "/create")
+    public Response createPost(@RequestBody CreatePostRequest request, @RequestHeader(name = "x-fd-user-token") String token) {
+        if (request.getTitle() == null || request.getTitle().isBlank()) {
+            return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
+        }
+        if (request.getBody() == null || request.getBody().isBlank()) {
+            return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
+        }
+        Long id = userService.validateTokenAndGetUserId(token);
+        if (id == null) {
+            return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
+        }
+        long postId = postRepository.put(request.getTitle(), request.getBody(), id);
+        return new SuccessfulResponse<>(postId);
+    }
+
+    @GetMapping(value = "/latest")
+    public Response listLatestPosts(@RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
         if (pageNumber == null) {
-            pageNumber = 0;
+            pageNumber = 1;
         }
         if (pageSize == null) {
             pageSize = 20;
         }
-        List<Post> posts = postRepository.list(pageNumber, pageSize);
+        List<Post> posts = postRepository.listLatest(pageNumber, pageSize);
         List<PostWebDTO> result = posts.stream().map(post -> PostWebDTO.fromDomain(post, post.getAuthor(userRepository))).toList();
         return new SuccessfulResponse<>(result);
     }
