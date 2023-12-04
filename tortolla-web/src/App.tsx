@@ -160,7 +160,7 @@ const App = () => {
           </Routes>
         </div>
         <footer className={mergeClasses("footer", styles.footer)}>
-          Tortolla ©2019-2023 by M1Knight Technology
+          {t("tortolla")} ©2019-2023 {t("m1knight company name")}
         </footer>
       </div>
   );

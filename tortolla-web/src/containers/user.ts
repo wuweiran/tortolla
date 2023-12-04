@@ -13,7 +13,7 @@ export type UserResponse = {
   id: number;
   username: string;
   fullName?: string;
-  createdTime: Date;
+  createdTime: string;
 };
 
 export type UserInfo = UserResponse;

@@ -11,6 +11,7 @@ import {
   SkeletonItem,
   makeStyles,
   tokens,
+  Text
 } from "@fluentui/react-components";
 import {
   DocumentText24Regular,
@@ -32,7 +33,7 @@ const Explore = () => {
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
-    void listLatestPosts().then((posts) => {
+    void listLatestPosts(0, 10).then((posts) => {
       setPosts(posts);
       setLoading(false);
     });
@@ -56,12 +57,15 @@ const Explore = () => {
               image={<DocumentText24Regular />}
               header={<Subtitle1>{post.title}</Subtitle1>}
               description={
-                <Persona size="extra-small" name={post.author.username} />
+                <>
+                  <Persona size="extra-small" name={post.author.username} />
+                  <Text>&nbsp;-&nbsp;{new Date(post.createdTime).toLocaleString()}</Text>
+                </>
               }
             />
             <CardFooter>
               <Button icon={<Open20Regular />}>{t("post.open")}</Button>
-              <Button icon={<Share20Regular />}>Share</Button>
+              <Button icon={<Share20Regular />}>{t("post.share")}</Button>
             </CardFooter>
           </Card>
         </div>

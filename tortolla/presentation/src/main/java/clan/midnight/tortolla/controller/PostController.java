@@ -5,10 +5,7 @@ import clan.midnight.tortolla.PostRepository;
 import clan.midnight.tortolla.UserRepository;
 import clan.midnight.tortolla.UserService;
 import clan.midnight.tortolla.request.CreatePostRequest;
-import clan.midnight.tortolla.response.FailedResponse;
-import clan.midnight.tortolla.response.PostWebDTO;
-import clan.midnight.tortolla.response.Response;
-import clan.midnight.tortolla.response.SuccessfulResponse;
+import clan.midnight.tortolla.response.*;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,13 +59,13 @@ public class PostController {
     @GetMapping(value = "/latest")
     public Response listLatestPosts(@RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
         if (pageNumber == null) {
-            pageNumber = 1;
+            pageNumber = 0;
         }
         if (pageSize == null) {
             pageSize = 20;
         }
         List<Post> posts = postRepository.listLatest(pageNumber, pageSize);
-        List<PostWebDTO> result = posts.stream().map(post -> PostWebDTO.fromDomain(post, post.getAuthor(userRepository))).toList();
+        List<PostPreviewWebDTO> result = posts.stream().map(post -> PostPreviewWebDTO.fromDomain(post, post.getAuthor(userRepository))).toList();
         return new SuccessfulResponse<>(result);
     }
 }

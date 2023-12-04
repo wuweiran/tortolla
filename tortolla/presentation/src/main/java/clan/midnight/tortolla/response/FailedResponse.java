@@ -51,10 +51,9 @@ public class FailedResponse extends BaseResponse {
         if (o == this) {
             return true;
         }
-        if (!(o instanceof FailedResponse)) {
+        if (!(o instanceof FailedResponse other)) {
             return false;
         }
-        final FailedResponse other = (FailedResponse) o;
         if (!super.equals(o)) {
             return false;
         }
