@@ -24,16 +24,16 @@ const CreatePost = () => {
   const [isSaving, setSaving] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
-  const { info } = useMessage();
+  const { success, warn } = useMessage();
 
   const onFinish = (request: CreatePostRequest) => {
     setSaving(true);
     createPost(request)
       .then(() => {
-        info("Create post succeeded!");
+        success("Create post succeeded!");
       })
       .catch(() => {
-        info("Create post failed");
+        warn("Create post failed");
       })
       .finally(() => {
         setSaving(false);
@@ -42,23 +42,23 @@ const CreatePost = () => {
 
   return (
     <div className={style.root}>
-      <Field label={t("post.title")}>
+      <Field label={t("post.create.title label")}>
         <Input
           value={title}
           onChange={(_, data) => {
             setTitle(data.value);
           }}
-          placeholder="My Post Title"
+          placeholder={t("post.create.title placeholder")}
         />
       </Field>
-      <Field label={t("post.body")}></Field>
+      <Field label={t("post.create.body label")}></Field>
       <MarkdownEditor
         onChange={(value) => {
           setContent(value);
         }}
       />
       <Button onClick={() => onFinish({ title: title, body: content })}>
-        {isSaving ? <Spinner /> : t("post.act.create")}
+        {isSaving ? <Spinner /> : t("post.create.submit")}
       </Button>
     </div>
   );

@@ -1,4 +1,10 @@
-import { BrowserRouter, Route, Link, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Link,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import {
   Home24Regular,
   CompassNorthwest24Regular,
@@ -15,6 +21,7 @@ import {
   MessageBarTitle,
   Skeleton,
   makeStyles,
+  mergeClasses,
   tokens,
 } from "@fluentui/react-components";
 import Explore from "./components/Explore.tsx";
@@ -37,6 +44,29 @@ const useStyles = makeStyles({
     flexDirection: "column",
     marginTop: "10px",
   },
+  header: {
+    backgroundColor: tokens.colorBrandBackground,
+    display: "flex",
+    justifyContent: "space-between",
+    boxShadow: tokens.shadow4,
+    zIndex: 3,
+  },
+  sider: {
+    backgroundColor: tokens.colorBrandBackground2,
+    boxShadow: tokens.shadow2,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "stretch",
+    zIndex: 2,
+  },
+  content: {
+    backgroundColor: tokens.colorNeutralBackground1,
+    zIndex: 0,
+  },
+  footer: {
+    backgroundColor: tokens.colorNeutralBackground3,
+    zIndex: 1,
+  },
   tray: {
     display: "flex",
     flexDirection: "row",
@@ -48,12 +78,12 @@ const useStyles = makeStyles({
 const App = () => {
   const styles = useStyles();
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { messages, dismiss } = useMessage();
 
   return (
-    <BrowserRouter>
       <div className="wrapper">
-        <header className="header">
+        <header className={mergeClasses("header", styles.header)}>
           <Link to={"/"}>
             <Image
               src={siteLogo}
@@ -71,22 +101,37 @@ const App = () => {
           </div>
         </header>
 
-        <aside className="sider">
-          <Button appearance="subtle" icon={<Home24Regular />}>
-            <Link to={"/"}>{t("nav.home")}</Link>
+        <aside className={mergeClasses("sider", styles.sider)}>
+          <Button
+            appearance="subtle"
+            icon={<Home24Regular />}
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            {t("nav.home")}
           </Button>
-          <Button appearance="subtle" icon={<CompassNorthwest24Regular />}>
-            <Link to={"/explore-post"}>{t("nav.explore post")}</Link>
+          <Button
+            appearance="subtle" 
+            icon={<CompassNorthwest24Regular />}
+            onClick={() => {
+              navigate("/explore-post");
+            }}
+          >
+            {t("nav.explore post")}
           </Button>
           <Button
             appearance="subtle"
             icon={<Add24Regular />}
             disabled={!isSignedIn()}
+            onClick={() => {
+              navigate("/create-post");
+            }}
           >
-            <Link to={"/create-post"}>{t("nav.create post")}</Link>
+            {t("nav.create post")}
           </Button>
         </aside>
-        <div className="content">
+        <div className={mergeClasses("content", styles.content)}>
           <MessageBarGroup className={styles.messageBarGroup}>
             {messages.map(({ intent, message, id }) => (
               <MessageBar key={id} intent={intent}>
@@ -114,11 +159,10 @@ const App = () => {
             <Route path="/user-info" element={<UserInfo />} />
           </Routes>
         </div>
-        <footer className="footer">
+        <footer className={mergeClasses("footer", styles.footer)}>
           Tortolla ©2019-2023 by M1Knight Technology
         </footer>
       </div>
-    </BrowserRouter>
   );
 };
 

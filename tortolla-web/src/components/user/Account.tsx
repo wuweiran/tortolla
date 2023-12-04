@@ -1,11 +1,10 @@
 import {
-  Button,
+  Avatar,
   Menu,
   MenuItem,
   MenuList,
   MenuPopover,
   MenuTrigger,
-  Persona
 } from "@fluentui/react-components";
 import { currentUser, signOut } from "../../containers/user.ts";
 import SignInOrSignUp from "./SignInOrSignUp.tsx";
@@ -20,13 +19,7 @@ const Account = () => {
       {user ? (
         <Menu>
           <MenuTrigger disableButtonEnhancement>
-            <Button>
-              <Persona
-                name={user.username}
-                secondaryText={user.fullName}
-                presence={{ status: "available" }}
-              />
-            </Button>
+            <Avatar name={user.username} badge={{ status: "available" }} />
           </MenuTrigger>
           <MenuPopover>
             <MenuList>

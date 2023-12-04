@@ -26,17 +26,17 @@ const SignUpForm = (props: { onComplete: () => void }) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [realName, setRealName] = useState<string>("");
-  const { info } = useMessage();
+  const { success, warn } = useMessage();
 
   const onFinish = (request: UserSignUpRequest) => {
     setSigningUp(true);
     signUp(request)
       .then(() => {
-        info(t("user.sign-up.succeed"));
+        success(t("user.sign-up.succeed"));
         props.onComplete();
       })
       .catch(() => {
-        info(t("user.sign-up.fail"));
+        warn(t("user.sign-up.fail"));
       })
       .finally(() => {
         setSigningUp(false);

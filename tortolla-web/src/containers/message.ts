@@ -8,6 +8,6 @@ export interface AppMessage {
   }
 
 export const useMessage = () => {
-  const { messages, info, warn, error, dismiss } = useContext(MessageContext);
-  return { messages, info, warn, error, dismiss };
+  const { messages, info, warn, error, success, dismiss } = useContext(MessageContext);
+  return { messages, info, warn, error, success, dismiss };
 };

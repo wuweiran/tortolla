@@ -27,13 +27,13 @@ const SignInForm = (props: { onComplete: () => void }) => {
   const [isSigningIn, setSigningIn] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const { info, warn } = useMessage();
+  const { success, warn } = useMessage();
 
   const onFinish = (request: UserSignInRequest) => {
     setSigningIn(true);
     signIn(request)
       .then(() => {
-        info(t("user.sign-in.succeed"));
+        success(t("user.sign-in.succeed"));
         props.onComplete();
       })
       .catch(() => {

@@ -10,9 +10,10 @@
     "zh": "汉语 / Chinese"
   },
   "message": {
-    "info": "信息",
-    "warning": "警告",
-    "error": "错误"
+    "info": "消息",
+    "warning": "注意",
+    "error": "警告",
+    "success": "成功"
   },
   "user": {
     "user info": "个人资料",
@@ -36,10 +37,14 @@
     }
   },
   "post": {
-    "title": "标题",
-    "body": "内容",
-    "act": {
-      "create": "发帖！"
-    }
+    "create": {
+      "title label": "标题",
+      "title placeholder": "帖子的标题",
+      "body label": "内容（Markdown格式）",
+      "submit": "发帖！"
+    },
+    "share": "分享",
+    "open": "打开",
+    "delete": "删除"
   }
 }

@@ -10,9 +10,10 @@
     "zh": "Chinese"
   },
   "message": {
-    "info": "Information",
-    "warning": "Warning",
-    "error": "Error"
+    "info": "Message",
+    "warning": "Notice",
+    "error": "Alert",
+    "success": "Success"
   },
   "user": {
     "user info": "Profile",
@@ -36,10 +37,14 @@
     }
   },
   "post": {
-    "title": "Title",
-    "body": "Content",
-    "act": {
-      "create": "Post!"
-    }
+    "create": {
+      "title label": "Title",
+      "title placeholder": "My post title",
+      "body label": "Content (Markdown format)",
+      "submit": "Post!"
+    },
+    "share": "Share",
+    "open": "Open",
+    "delete": "Delete"
   }
 }

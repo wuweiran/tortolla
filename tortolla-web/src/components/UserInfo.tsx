@@ -9,7 +9,6 @@ const Explore = () => {
       secondaryText={user.fullName}
       presence={{ status: "available" }}
     >
-      {user && new Date(user.createdTime).toLocaleString()}
     </Persona>
   );
 };

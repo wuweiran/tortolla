@@ -6,6 +6,7 @@ export type MessageContextValue = {
   info: (message: string) => void;
   warn: (message: string) => void;
   error: (message: string) => void;
+  success: (message: string) => void;
   dismiss: (id: number) => void;
 };
 
@@ -15,6 +16,7 @@ export const MessageContext = createContext<MessageContextValue>({
   info: () => {},
   warn: () => {},
   error: () => {},
+  success: () => {},
   dismiss: () => {},
 });
 
@@ -52,13 +54,22 @@ export const MessageProvider = (props: React.PropsWithChildren) => {
     pushMessage(newMessage);
   };
 
+  const success = (message: string) => {
+    const newMessage: AppMessage = {
+      intent: "success",
+      message: message,
+      id: Date.now(),
+    };
+    pushMessage(newMessage);
+  };
+
   const dismiss = (id: number) => {
     setMessages(messages.filter((message) => message.id !== id));
   };
 
   // Return the provider component with the value prop
   return (
-    <MessageContext.Provider value={{ messages, info, warn, error, dismiss }}>
+    <MessageContext.Provider value={{ messages, info, warn, error, success, dismiss }}>
       {props.children}
     </MessageContext.Provider>
   );

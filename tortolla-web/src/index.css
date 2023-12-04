@@ -12,29 +12,24 @@
 /* Style the header element */
 .header {
   grid-area: header;
-  background-color: lightblue;
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
+  padding: 12px;
 }
 
 /* Style the sider element */
 .sider {
   grid-area: sider;
-  background-color: lightgreen;
-  padding: 10px;
+  padding: 12px;
 }
 
 /* Style the content element */
 .content {
   grid-area: content;
-  background-color: lightyellow;
-  padding: 10px;
+  padding: 16px;
 }
 
 /* Style the footer element */
 .footer {
   grid-area: footer;
   background-color: lightpink;
-  padding: 10px;
+  padding: 12px;
 }
