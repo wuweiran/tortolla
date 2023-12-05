@@ -20,6 +20,7 @@ import {
 } from "@fluentui/react-icons";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useMessage } from "../../containers/message.ts";
 
 const useStyles = makeStyles({
   card: {
@@ -31,6 +32,7 @@ const Explore = () => {
   const styles = useStyles();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { info } = useMessage();
   const [isLoading, setLoading] = useState<boolean>(true);
   const [posts, setPosts] = useState<PostPreview[]>([]);
 
@@ -62,7 +64,8 @@ const Explore = () => {
                 <>
                   <Persona size="extra-small" name={post.author.username} />
                   <Text>
-                    &nbsp;-&nbsp;{new Date(post.createdTime).toLocaleString()}
+                    &nbsp;-&nbsp;
+                    {new Date(post.createdTime).toLocaleDateString()}
                   </Text>
                 </>
               }
@@ -74,7 +77,16 @@ const Explore = () => {
               >
                 {t("post.open")}
               </Button>
-              <Button icon={<Share20Regular />}>{t("post.share")}</Button>
+              <Button
+                icon={<Share20Regular />}
+                onClick={() => {
+                  void navigator.clipboard.writeText(
+                    `${window.location.protocol}//${window.location.host}/post/${post.id}`
+                  ).then(() => info(t("post.link copied")));
+                }}
+              >
+                {t("post.share")}
+              </Button>
             </CardFooter>
           </Card>
         </div>

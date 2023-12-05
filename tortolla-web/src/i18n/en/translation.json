@@ -49,6 +49,7 @@
     "author": "Author",
     "share": "Share",
     "open": "Open",
-    "delete": "Delete"
+    "delete": "Delete",
+    "link copied": "Link to the post is copied to clipboard."
   }
 }

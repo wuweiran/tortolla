@@ -1,13 +1,4 @@
-import Cookies, { CookieSetOptions } from "universal-cookie";
 import { apiGet, apiPost } from "./api.ts";
-
-const cookieOptions: CookieSetOptions = {
-  path: "/",
-  sameSite: "lax",
-  secure: false,
-};
-
-const cookies = new Cookies.default(null, cookieOptions);
 
 export type UserResponse = {
   id: number;
@@ -24,20 +15,24 @@ export type UserBasicInfo = {
 };
 
 export const currentUser = () => {
-  return cookies.get("current-user") as UserInfo | undefined;
+  const currentUserString = sessionStorage.getItem("current-user");
+  return currentUserString
+    ? (JSON.parse(currentUserString) as UserInfo)
+    : undefined;
 };
 
 export const loadCurrentUserToken = () => {
-  return cookies.get("token") as string;
+  return sessionStorage.getItem("token") ?? undefined;
 };
 
 const saveCurrentUserToken = (token: string) => {
-  cookies.set("token", token);
+  sessionStorage.setItem("token", token);
 };
 
-const saveCurrentUserFromToken = () => apiGet<UserResponse>("/user/me").then((result) =>
-  cookies.set("current-user", result)
-);
+const saveCurrentUserFromToken = () =>
+  apiGet<UserResponse>("/user/me").then((result) =>
+    sessionStorage.setItem("current-user", JSON.stringify(result))
+  );
 
 export const isSignedIn = () => {
   const user = currentUser();
@@ -50,10 +45,12 @@ export type UserSignInRequest = {
 };
 
 export const signIn = (request: UserSignInRequest) =>
-  apiPost<UserSignInRequest, string>("/user/sign-in", request).then((result) => {
-    saveCurrentUserToken(result);
-    return saveCurrentUserFromToken();
-  });
+  apiPost<UserSignInRequest, string>("/user/sign-in", request).then(
+    (result) => {
+      saveCurrentUserToken(result);
+      return saveCurrentUserFromToken();
+    }
+  );
 
 export type UserSignUpRequest = {
   username: string;
@@ -62,12 +59,14 @@ export type UserSignUpRequest = {
 };
 
 export const signUp = (request: UserSignUpRequest) =>
-  apiPost<UserSignUpRequest, string>("/user/sign-up", request).then((result) => {
-    saveCurrentUserToken(result);
-    return saveCurrentUserFromToken();
-  });
+  apiPost<UserSignUpRequest, string>("/user/sign-up", request).then(
+    (result) => {
+      saveCurrentUserToken(result);
+      return saveCurrentUserFromToken();
+    }
+  );
 
 export const signOut = () => {
-  cookies.remove("current-user");
-  cookies.remove("token");
+  sessionStorage.removeItem("current-user");
+  sessionStorage.removeItem("token");
 };

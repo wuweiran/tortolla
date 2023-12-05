@@ -23,11 +23,12 @@ export function apiPost<Request, Response>(
   path: string,
   request?: Request
 ): Promise<Response> {
+  const userToken = loadCurrentUserToken();
   return fetch(`${endpoint}${path}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-fd-user-token": loadCurrentUserToken(),
+      ...(userToken && { "x-fd-user-token": userToken }),
     },
     body: request ? JSON.stringify(request) : undefined,
   })
@@ -66,11 +67,12 @@ export function apiGet<Response>(
     const urlParameters = new URLSearchParams(stringParameters);
     url = url + "?" + urlParameters.toString();
   }
+  const userToken = loadCurrentUserToken();
   return fetch(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "x-fd-user-token": loadCurrentUserToken(),
+      ...(userToken && { "x-fd-user-token": userToken }),
     },
   })
     .then((response) => response.json())
