@@ -1,4 +1,4 @@
-import { loadCurrentUserToken } from "./user.ts";
+import { isSignedIn, loadCurrentUserToken, signOut } from "./user.ts";
 
 const endpoint = "http://localhost:8080";
 
@@ -7,9 +7,16 @@ enum ApiResponseStatus {
   FAIL = 1,
 }
 
+enum ApiResponseErrorCode {
+  UNAUTHORIZED = "A0300",
+  WRONG_PARAM = "A0400",
+}
+
 type ApiResponse<T> = {
   status: ApiResponseStatus;
-  resultBody: T;
+  errorCode?: ApiResponseErrorCode;
+  errorMsg?: string;
+  resultBody?: T;
 };
 
 export function apiPost<Request, Response>(
@@ -26,14 +33,20 @@ export function apiPost<Request, Response>(
   })
     .then((response) => response.json())
     .catch(() => {
-        throw `Cannot connect ${path}`;
+      throw `Cannot connect ${path}`;
     })
     .then((response) => response as ApiResponse<Response>)
     .then((response) => {
       if (response.status !== ApiResponseStatus.SUCCESS) {
+        if (
+          response.errorCode == ApiResponseErrorCode.UNAUTHORIZED &&
+          isSignedIn()
+        ) {
+          signOut();
+        }
         throw response;
       } else {
-        return response.resultBody;
+        return response.resultBody!;
       }
     });
 }
@@ -62,14 +75,20 @@ export function apiGet<Response>(
   })
     .then((response) => response.json())
     .catch(() => {
-        throw `Cannot connect ${path}`;
+      throw `Cannot connect ${path}`;
     })
     .then((response) => response as ApiResponse<Response>)
     .then((response) => {
       if (response.status !== ApiResponseStatus.SUCCESS) {
+        if (
+          response.errorCode == ApiResponseErrorCode.UNAUTHORIZED &&
+          isSignedIn()
+        ) {
+          signOut();
+        }
         throw response;
       } else {
-        return response.resultBody;
+        return response.resultBody!;
       }
     });
 }

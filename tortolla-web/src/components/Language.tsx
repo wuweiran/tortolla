@@ -1,43 +1,46 @@
 import { Globe24Regular } from "@fluentui/react-icons";
-import { Select, SelectOnChangeData, makeStyles, tokens } from "@fluentui/react-components";
+import {
+  Menu,
+  MenuButton,
+  MenuItemRadio,
+  MenuList,
+  MenuPopover,
+  MenuTrigger,
+} from "@fluentui/react-components";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
-const useStyles = makeStyles({
-  root: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    columnGap: tokens.spacingHorizontalS,
-  },
-});
-
 const Language = () => {
-  const styles = useStyles();
   const { t, i18n } = useTranslation();
-  const [selectedLanguage, setSelectedLanguage] = useState<string>(
-    i18n.language
-  );
 
-  const onLanguageSelect = (_: unknown, data: SelectOnChangeData) => {
-    const selected = data.value;
-    void i18n.changeLanguage(selected).then(() => {
-      setSelectedLanguage(selected);
-    });
-  };
+  const [checkedValues, setCheckedValues] = useState<Record<string, string[]>>({
+    lang: [i18n.language],
+  });
 
   return (
-    <div className={styles.root}>
-      <Globe24Regular />
-      <Select
-        value={selectedLanguage}
-        onChange={onLanguageSelect}
-        title={t("select lang")}
-      >
-        <option value="en">{t("lang.en")}</option>
-        <option value="zh">{t("lang.zh")}</option>
-      </Select>
-    </div>
+    <Menu
+      checkedValues={checkedValues}
+      onCheckedValueChange={(_, { name, checkedItems }) => {
+        const selected = checkedItems[0];
+        void i18n.changeLanguage(selected).then(() => {
+          setCheckedValues({ [name]: [selected] });
+        });
+      }}
+    >
+      <MenuTrigger disableButtonEnhancement>
+        <MenuButton shape="circular" icon={<Globe24Regular />} size="medium" />
+      </MenuTrigger>
+      <MenuPopover>
+        <MenuList>
+          <MenuItemRadio value="en" name="lang">
+            {t("lang.en")}
+          </MenuItemRadio>
+          <MenuItemRadio value="zh" name="lang">
+            {t("lang.zh")}
+          </MenuItemRadio>
+        </MenuList>
+      </MenuPopover>
+    </Menu>
   );
 };
 

@@ -7,7 +7,7 @@ const cookieOptions: CookieSetOptions = {
   secure: false,
 };
 
-const cookies = new Cookies(null, cookieOptions);
+const cookies = new Cookies.default(null, cookieOptions);
 
 export type UserResponse = {
   id: number;

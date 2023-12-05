@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Post, listLatestPosts } from "../containers/post.ts";
+import { PostPreview, listLatestPosts } from "../../containers/post.ts";
 import {
   Subtitle1,
   Button,
@@ -11,7 +11,7 @@ import {
   SkeletonItem,
   makeStyles,
   tokens,
-  Text
+  Text,
 } from "@fluentui/react-components";
 import {
   DocumentText24Regular,
@@ -19,6 +19,7 @@ import {
   Share20Regular,
 } from "@fluentui/react-icons";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles({
   card: {
@@ -29,8 +30,9 @@ const useStyles = makeStyles({
 const Explore = () => {
   const styles = useStyles();
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [isLoading, setLoading] = useState<boolean>(true);
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<PostPreview[]>([]);
 
   useEffect(() => {
     void listLatestPosts(0, 10).then((posts) => {
@@ -59,12 +61,19 @@ const Explore = () => {
               description={
                 <>
                   <Persona size="extra-small" name={post.author.username} />
-                  <Text>&nbsp;-&nbsp;{new Date(post.createdTime).toLocaleString()}</Text>
+                  <Text>
+                    &nbsp;-&nbsp;{new Date(post.createdTime).toLocaleString()}
+                  </Text>
                 </>
               }
             />
             <CardFooter>
-              <Button icon={<Open20Regular />}>{t("post.open")}</Button>
+              <Button
+                icon={<Open20Regular />}
+                onClick={() => navigate(`/post/${post.id}`)}
+              >
+                {t("post.open")}
+              </Button>
               <Button icon={<Share20Regular />}>{t("post.share")}</Button>
             </CardFooter>
           </Card>

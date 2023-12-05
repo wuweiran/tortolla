@@ -36,7 +36,8 @@
       "go to sign in": "Already have an account? Sign in",
       "succeed": "Your account has been successfully created.",
       "fail": "Fail to sign up your account."
-    }
+    },
+    "me": "Me"
   },
   "post": {
     "create": {
@@ -45,6 +46,7 @@
       "body label": "Content (Markdown format)",
       "submit": "Post!"
     },
+    "author": "Author",
     "share": "Share",
     "open": "Open",
     "delete": "Delete"

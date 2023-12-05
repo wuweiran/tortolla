@@ -1,5 +1,5 @@
 import { Persona } from "@fluentui/react-components";
-import { currentUser } from "../containers/user.ts";
+import { currentUser } from "../../containers/user.ts";
 
 const Explore = () => {
   const user = currentUser();

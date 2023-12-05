@@ -1,5 +1,4 @@
 import {
-  BrowserRouter,
   Route,
   Link,
   Routes,
@@ -24,25 +23,23 @@ import {
   mergeClasses,
   tokens,
 } from "@fluentui/react-components";
-import Explore from "./components/Explore.tsx";
+import Explore from "./components/post/Explore.tsx";
 import CreatePost from "./components/post/CreatePost.tsx";
-import UserInfo from "./components/UserInfo.tsx";
+import UserInfo from "./components/user/UserInfo.tsx";
 import { isSignedIn } from "./containers/user.ts";
 import siteLogo from "./assets/site-logo.png";
 import Language from "./components/Language.tsx";
 import { useTranslation } from "react-i18next";
 import { useMessage } from "./containers/message.ts";
 import Account from "./components/user/Account.tsx";
+import PostDetail from "./components/post/PostDetail.tsx";
 
 const useStyles = makeStyles({
   messageBarGroup: {
-    paddingLeft: tokens.spacingHorizontalMNudge,
-    paddingRight: tokens.spacingHorizontalMNudge,
-    paddingTop: tokens.spacingVerticalMNudge,
     paddingBottom: tokens.spacingVerticalMNudge,
     display: "flex",
     flexDirection: "column",
-    marginTop: "10px",
+    rowGap: tokens.spacingVerticalS,
   },
   header: {
     backgroundColor: tokens.colorBrandBackground,
@@ -157,6 +154,7 @@ const App = () => {
             <Route path="/explore-post" element={<Explore />} />
             <Route path="/create-post" element={<CreatePost />} />
             <Route path="/user-info" element={<UserInfo />} />
+            <Route path="/post/:postId" element={<PostDetail />} />
           </Routes>
         </div>
         <footer className={mergeClasses("footer", styles.footer)}>

@@ -36,7 +36,7 @@ const SignInOrSignUp = () => {
   return (
     <Dialog open={open} onOpenChange={(_, data) => setOpen(data.open)}>
       <DialogTrigger disableButtonEnhancement>
-        <Button disabled={import.meta.env.PROD}>
+        <Button shape="circular" disabled={import.meta.env.PROD}>
           {t("user.sign in")} / {t("user.sign up")}
         </Button>
       </DialogTrigger>

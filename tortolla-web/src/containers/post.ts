@@ -9,7 +9,22 @@ export type PostPreview = {
   lastUpdatedTime: string;
 };
 
-export const listLatestPosts = (pageNumber: number, pageSize: number) => apiGet<PostPreview[]>("/post/latest", {pageNumber: pageNumber, pageSize: pageSize});
+export type Post = {
+  id: number;
+  title: string;
+  body: string;
+  author: UserBasicInfo;
+  createdTime: string;
+  lastUpdatedTime: string;
+};
+
+export const getPost = (postId: number) => apiGet<Post>(`/post/${postId}`);
+
+export const listLatestPosts = (pageNumber: number, pageSize: number) =>
+  apiGet<PostPreview[]>("/post/latest", {
+    pageNumber: pageNumber,
+    pageSize: pageSize,
+  });
 
 export type CreatePostRequest = {
   title: string;

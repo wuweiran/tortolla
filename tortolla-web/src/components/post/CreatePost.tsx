@@ -56,6 +56,7 @@ const CreatePost = () => {
         onChange={(value) => {
           setContent(value);
         }}
+        height="250px"
       />
       <Button onClick={() => onFinish({ title: title, body: content })}>
         {isSaving ? <Spinner /> : t("post.create.submit")}

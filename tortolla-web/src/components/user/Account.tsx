@@ -8,11 +8,12 @@ import {
 } from "@fluentui/react-components";
 import { currentUser, signOut } from "../../containers/user.ts";
 import SignInOrSignUp from "./SignInOrSignUp.tsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const Account = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const user = currentUser();
   return (
     <div>
@@ -23,8 +24,8 @@ const Account = () => {
           </MenuTrigger>
           <MenuPopover>
             <MenuList>
-              <MenuItem>
-                <Link to={"/user-info"}>{t("user.user info")}</Link>
+              <MenuItem onClick={() => navigate("/user-info")}>
+                {t("user.user info")}
               </MenuItem>
               <MenuItem
                 onClick={() => {

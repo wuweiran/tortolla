@@ -36,7 +36,8 @@
       "go to sign in": "已有帐号？去登录",
       "succeed": "你的账号已被成功创建。",
       "fail": "你的账号创建失败。"
-    }
+    },
+    "me": "我"
   },
   "post": {
     "create": {
@@ -45,6 +46,7 @@
       "body label": "内容（Markdown格式）",
       "submit": "发帖！"
     },
+    "author": "作者",
     "share": "分享",
     "open": "打开",
     "delete": "删除"
