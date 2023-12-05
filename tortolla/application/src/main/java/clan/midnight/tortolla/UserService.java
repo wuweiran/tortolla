@@ -17,7 +17,7 @@ public class UserService {
             return null;
         }
         if (passwordHash.equals(user.getPasswordHash())) {
-            return JwtUtil.createUserToken(user.getId(), 1000 * 60 * 10);
+            return JwtUtil.createUserToken(user.getId(), 1000 * 60 * 30);
         }
         return null;
     }

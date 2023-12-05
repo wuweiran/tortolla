@@ -2,7 +2,6 @@ package clan.midnight.tortolla;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
@@ -30,5 +29,10 @@ public class JpaPostRepository implements PostRepository {
     public long put(String title, String body, long authorId) {
         PostPO po = jpaRepository.saveAndFlush(new PostPO(null, title, body, authorId, null, null));
         return po.getId();
+    }
+
+    @Override
+    public void removeById(long id) {
+        jpaRepository.deleteById(id);
     }
 }

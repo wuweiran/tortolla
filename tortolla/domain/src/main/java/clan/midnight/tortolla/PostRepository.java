@@ -8,4 +8,6 @@ public interface PostRepository {
     List<Post> listLatest(int pageNumber, int pageSize);
 
     long put(String title, String body, long authorId);
+
+    void removeById(long id);
 }

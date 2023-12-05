@@ -1,10 +1,8 @@
 package clan.midnight.tortolla.controller;
 
-import clan.midnight.tortolla.Post;
-import clan.midnight.tortolla.PostRepository;
-import clan.midnight.tortolla.UserRepository;
-import clan.midnight.tortolla.UserService;
+import clan.midnight.tortolla.*;
 import clan.midnight.tortolla.request.CreatePostRequest;
+import clan.midnight.tortolla.request.DeletePostRequest;
 import clan.midnight.tortolla.response.*;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
@@ -38,6 +36,28 @@ public class PostController {
             return new FailedResponse(FailedResponse.ERROR_CODE_NOT_FOUND, "Cannot find post");
         }
         return new SuccessfulResponse<>(PostWebDTO.fromDomain(post, post.getAuthor(userRepository)));
+    }
+
+
+    @PostMapping(value = "/delete")
+    public Response deletePost(@RequestBody DeletePostRequest request, @RequestHeader(name = "x-fd-user-token") String token) {
+        if (request.getPostId() == null) {
+            return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
+        }
+        Post post = postRepository.getById(request.getPostId());
+        if (post == null) {
+            return new FailedResponse(FailedResponse.ERROR_CODE_NOT_FOUND, "Cannot find post");
+        }
+        Long id = userService.validateTokenAndGetUserId(token);
+        if (id == null) {
+            return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
+        }
+        User user = userRepository.getById(id);
+        if (user == null || !post.isPostedBy(user)) {
+            return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
+        }
+        postRepository.removeById(request.getPostId());
+        return new SuccessfulResponse<>();
     }
 
     @PostMapping(value = "/create")

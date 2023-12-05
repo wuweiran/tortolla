@@ -36,6 +36,10 @@ public class Post {
         return userRepository.getById(authorId);
     }
 
+    public boolean isPostedBy(User user) {
+        return authorId == user.getId();
+    }
+
     public Date getCreatedTime() {
         return createdTime;
     }

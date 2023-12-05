@@ -10,6 +10,7 @@ import {
 } from "@fluentui/react-components";
 import { useMessage } from "../../containers/message.ts";
 import MarkdownEditor from "@uiw/react-markdown-editor";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles({
 
 const CreatePost = () => {
   const style = useStyles();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [isSaving, setSaving] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
@@ -29,8 +31,9 @@ const CreatePost = () => {
   const onFinish = (request: CreatePostRequest) => {
     setSaving(true);
     createPost(request)
-      .then(() => {
+      .then((postId) => {
         success("Create post succeeded!");
+        navigate(`/post/${postId}`);
       })
       .catch(() => {
         warn("Create post failed");

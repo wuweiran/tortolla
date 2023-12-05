@@ -31,12 +31,5 @@ export type CreatePostRequest = {
   body: string;
 };
 
-export type CreatePostResponse = {
-  id: number;
-  title: string;
-  body: string;
-  createdTime: Date;
-};
-
 export const createPost = (request: CreatePostRequest) =>
-  apiPost<CreatePostRequest, CreatePostResponse>("/post/create", request);
+  apiPost<CreatePostRequest, number>("/post/create", request);
