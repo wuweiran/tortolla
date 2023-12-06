@@ -45,7 +45,7 @@ const SignUpForm = (props: { onComplete: () => void }) => {
 
   return (
     <div className={styles.root}>
-      <Field label={t("user.username")}>
+      <Field label={t("user.username")} required>
         <Input
           value={username}
           contentBefore={<Person24Regular />}
@@ -55,7 +55,7 @@ const SignUpForm = (props: { onComplete: () => void }) => {
           placeholder="Username"
         />
       </Field>
-      <Field label={t("user.password")}>
+      <Field label={t("user.password")} required>
         <Input
           type="password"
           value={password}

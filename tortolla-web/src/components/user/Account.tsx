@@ -8,7 +8,7 @@ import {
 } from "@fluentui/react-components";
 import { currentUser, signOut } from "../../containers/user.ts";
 import SignInOrSignUp from "./SignInOrSignUp.tsx";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const Account = () => {

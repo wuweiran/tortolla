@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import {
   Button,
   Field,
+  InfoLabel,
   Input,
   Spinner,
   makeStyles,
@@ -45,7 +46,7 @@ const CreatePost = () => {
 
   return (
     <div className={style.root}>
-      <Field label={t("post.create.title label")}>
+      <Field label={t("post.create.title label")} required>
         <Input
           value={title}
           onChange={(_, data) => {
@@ -54,13 +55,22 @@ const CreatePost = () => {
           placeholder={t("post.create.title placeholder")}
         />
       </Field>
-      <Field label={t("post.create.body label")}></Field>
-      <MarkdownEditor
-        onChange={(value) => {
-          setContent(value);
+      <Field
+        label={{
+          children: (
+            <InfoLabel info={t("post.create.body label tooltip")} required>
+              {t("post.create.body label")}
+            </InfoLabel>
+          ),
         }}
-        height="250px"
-      />
+      >
+        <MarkdownEditor
+          onChange={(value) => {
+            setContent(value);
+          }}
+          height="250px"
+        />
+      </Field>
       <Button onClick={() => onFinish({ title: title, body: content })}>
         {isSaving ? <Spinner /> : t("post.create.submit")}
       </Button>

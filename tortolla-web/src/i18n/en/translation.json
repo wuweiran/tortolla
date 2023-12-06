@@ -22,9 +22,11 @@
     "sign in": "Sign in",
     "sign out": "Sign out",
     "sign up": "Sign up",
+    "id": "User ID",
     "username": "Username",
     "password": "Password",
     "real name": "Real name",
+    "created time": "Created time",
     "sign-in": {
       "remember": "Remember",
       "forgot": "Forgot your password?",
@@ -43,7 +45,8 @@
     "create": {
       "title label": "Title",
       "title placeholder": "My post title",
-      "body label": "Content (Markdown format)",
+      "body label": "Content",
+      "body label tooltip": "Content is in Markdown format.",
       "submit": "Post!"
     },
     "author": "Author",
