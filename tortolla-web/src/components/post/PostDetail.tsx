@@ -53,11 +53,11 @@ const PostDetail = () => {
         className={styles.author}
         name={post.author.username}
         secondaryText={
-          currentUser()?.id == post.author.id
-            ? t("user.me")
-            : t("post.author")
+          currentUser()?.id == post.author.id ? t("user.me") : t("post.author")
         }
       ></Persona>
+
+      {/* @ts-ignore*/}
       <MarkdownEditor.Markdown source={post.body} />
     </article>
   ) : (

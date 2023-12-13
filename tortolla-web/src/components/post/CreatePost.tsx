@@ -64,8 +64,11 @@ const CreatePost = () => {
           ),
         }}
       >
+        {/* @ts-ignore*/}
         <MarkdownEditor
+          // @ts-ignore
           onChange={(value) => {
+            // @ts-ignore
             setContent(value);
           }}
           height="250px"
