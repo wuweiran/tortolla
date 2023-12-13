@@ -50,3 +50,8 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
+
+# Azure
+.env
+connections.resources.xml
+deployment.targets.xml
