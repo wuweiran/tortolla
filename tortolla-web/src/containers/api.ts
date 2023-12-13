@@ -1,6 +1,6 @@
 import { isSignedIn, loadCurrentUserToken, signOut } from "./user.ts";
 
-const endpoint = "https://tortolla-service.test.azuremicroservices.io/tortolla/default";
+const endpoint = "https://tortolla-service-tortolla.azuremicroservices.io";
 
 enum ApiResponseStatus {
   SUCCESS = 0,
