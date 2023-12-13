@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "https://zealous-flower-07b62ba00.4.azurestaticapps.net/"})
 public class UserController {
     @Resource
     private UserService userService;

@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/post")
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "https://zealous-flower-07b62ba00.4.azurestaticapps.net/"})
 public class PostController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
