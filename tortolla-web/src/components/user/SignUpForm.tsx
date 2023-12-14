@@ -32,11 +32,11 @@ const SignUpForm = (props: { onComplete: () => void }) => {
     setSigningUp(true);
     signUp(request)
       .then(() => {
-        success(t("user.sign-up.succeed"));
+        success(t("message.sign up succeed"));
         props.onComplete();
       })
       .catch(() => {
-        warn(t("user.sign-up.fail"));
+        warn(t("message.sign up fail"));
       })
       .finally(() => {
         setSigningUp(false);

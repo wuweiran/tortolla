@@ -11,11 +11,21 @@
     "en": "英语 / English",
     "zh": "汉语 / Chinese"
   },
+  "back": "退出",
   "message": {
     "info": "消息",
     "warning": "注意",
     "error": "警告",
-    "success": "成功"
+    "success": "成功",
+    "sign in succeed": "成功登录。",
+    "sign in fail": "登录失败。",
+    "sign up succeed": "你的账号已被成功创建。",
+    "sign up fail": "你的账号创建失败。",
+    "post link copied": "已复制链接到剪贴板。",
+    "create post succeed": "你的贴子已成功创建！",
+    "create post fail": "创建失败。",
+    "delete post succeed": "帖子成功删除！",
+    "delete post fail": "删除失败。"
   },
   "user": {
     "user info": "个人资料",
@@ -52,7 +62,11 @@
     "author": "作者",
     "share": "分享",
     "open": "打开",
-    "delete": "删除",
-    "link copied": "已复制链接到剪贴板。"
+    "delete": {
+      "confirm title": "确认删除",
+      "confirm body": "你确定要删除帖子“{{title}}”吗？",
+      "confirm": "确认",
+      "submit": "删除"
+    }
   }
 }

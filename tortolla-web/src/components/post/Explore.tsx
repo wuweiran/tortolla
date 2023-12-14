@@ -82,7 +82,7 @@ const Explore = () => {
                 onClick={() => {
                   void navigator.clipboard.writeText(
                     `${window.location.protocol}//${window.location.host}/post/${post.id}`
-                  ).then(() => info(t("post.link copied")));
+                  ).then(() => info(t("message.post link copied")));
                 }}
               >
                 {t("post.share")}

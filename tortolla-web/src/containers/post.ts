@@ -33,3 +33,10 @@ export type CreatePostRequest = {
 
 export const createPost = (request: CreatePostRequest) =>
   apiPost<CreatePostRequest, number>("/post/create", request);
+
+export type DeletePostRequest = {
+  postId: number;
+};
+
+export const deletePost = (request: DeletePostRequest) =>
+  apiPost<DeletePostRequest, void>("/post/delete", request);

@@ -1,6 +1,8 @@
 import { isSignedIn, loadCurrentUserToken, signOut } from "./user.ts";
 
-const endpoint = "https://tortolla-service-tortolla.azuremicroservices.io";
+const endpoint = import.meta.env.DEV
+  ? "http://localhost:8080"
+  : "https://tortolla-service-tortolla.azuremicroservices.io";
 
 enum ApiResponseStatus {
   SUCCESS = 0,

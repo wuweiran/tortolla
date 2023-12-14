@@ -33,11 +33,11 @@ const CreatePost = () => {
     setSaving(true);
     createPost(request)
       .then((postId) => {
-        success("Create post succeeded!");
+        success(t("message.create post succeed"));
         navigate(`/post/${postId}`);
       })
       .catch(() => {
-        warn("Create post failed");
+        warn(t("message.create post fail"));
       })
       .finally(() => {
         setSaving(false);

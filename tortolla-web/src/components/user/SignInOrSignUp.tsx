@@ -59,7 +59,7 @@ const SignInOrSignUp = () => {
                 : t("user.sign-up.go to sign in")}
             </Link>
             <DialogTrigger disableButtonEnhancement>
-              <Button appearance="secondary">Back</Button>
+              <Button appearance="secondary">{t("back")}</Button>
             </DialogTrigger>
           </DialogActions>
         </DialogBody>

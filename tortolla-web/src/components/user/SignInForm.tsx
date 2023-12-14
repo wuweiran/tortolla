@@ -33,11 +33,11 @@ const SignInForm = (props: { onComplete: () => void }) => {
     setSigningIn(true);
     signIn(request)
       .then(() => {
-        success(t("user.sign-in.succeed"));
+        success(t("message.sign in succeed"));
         props.onComplete();
       })
       .catch(() => {
-        warn(t("user.sign-in.fail"));
+        warn(t("message.sign in fail"));
       })
       .finally(() => {
         setSigningIn(false);

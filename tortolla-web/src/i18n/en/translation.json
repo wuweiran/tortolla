@@ -11,11 +11,21 @@
     "en": "English",
     "zh": "Chinese"
   },
+  "back": "Back",
   "message": {
     "info": "Message",
     "warning": "Notice",
     "error": "Alert",
-    "success": "Success"
+    "success": "Success",
+    "sign in succeed": "Successfully signed in.",
+    "sign in fail": "Sign-in failed.",
+    "sign up succeed": "Your account has been successfully created.",
+    "sign up fail": "Failed to sign up your account.",
+    "post link copied": "Link to the post is copied to clipboard.",
+    "create post succeed": "Your post is successfully created!",
+    "create post fail": "Failed to create.",
+    "delete post succeed": "The post is successfully deleted!",
+    "delete post fail": "Failed to delete."
   },
   "user": {
     "user info": "Profile",
@@ -30,14 +40,10 @@
     "sign-in": {
       "remember": "Remember",
       "forgot": "Forgot your password?",
-      "go to sign up": "Don't have an account? Sign up",
-      "succeed": "Successfully signed in.",
-      "fail": "Sign-in failed."
+      "go to sign up": "Don't have an account? Sign up"
     },
     "sign-up": {
-      "go to sign in": "Already have an account? Sign in",
-      "succeed": "Your account has been successfully created.",
-      "fail": "Fail to sign up your account."
+      "go to sign in": "Already have an account? Sign in"
     },
     "me": "Me"
   },
@@ -52,7 +58,11 @@
     "author": "Author",
     "share": "Share",
     "open": "Open",
-    "delete": "Delete",
-    "link copied": "Link to the post is copied to clipboard."
+    "delete": {
+      "confirm title": "Confirm delete",
+      "confirm body": "Are you sure you want to delete post \"{{title}}\"?",
+      "confirm": "Yes",
+      "submit": "Delete"
+    }
   }
 }
