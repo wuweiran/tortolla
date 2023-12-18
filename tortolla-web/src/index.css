@@ -9,6 +9,12 @@
   height: 100vh; /* Make the grid fill the viewport height */
 }
 
+@media (max-width: 456px) {
+  .wrapper {
+    grid-template-columns: 1fr 5fr 5fr;
+  }
+}
+
 /* Style the header element */
 .header {
   grid-area: header;

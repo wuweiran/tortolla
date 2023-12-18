@@ -1,9 +1,4 @@
-import {
-  Route,
-  Link,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { Route, Link, Routes, useNavigate } from "react-router-dom";
 import {
   Home24Regular,
   CompassNorthwest24Regular,
@@ -33,6 +28,7 @@ import { useTranslation } from "react-i18next";
 import { useMessage } from "./containers/message.ts";
 import Account from "./components/user/Account.tsx";
 import PostDetail from "./components/post/PostDetail.tsx";
+import { useEffect, useState } from "react";
 
 const useStyles = makeStyles({
   messageBarGroup: {
@@ -77,90 +73,101 @@ const App = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { messages, dismiss } = useMessage();
+  const media = window.matchMedia("(max-width: 456px)");
+  const [isMobile, setMobile] = useState<boolean>(media.matches);
+
+  useEffect(() => {
+    media.addEventListener("change", (event) => {
+      setMobile(event.matches);
+    });
+  });
 
   return (
-      <div className="wrapper">
-        <header className={mergeClasses("header", styles.header)}>
-          <Link to={"/"}>
-            <Image
-              src={siteLogo}
-              alt="Site Logo"
-              style={{
-                height: "48px",
-                margin: "8px 0 8px 0",
-                float: "left",
-              }}
-            />
-          </Link>
-          <div className={styles.tray}>
-            <Account />
-            <Language />
-          </div>
-        </header>
-
-        <aside className={mergeClasses("sider", styles.sider)}>
-          <Button
-            appearance="subtle"
-            icon={<Home24Regular />}
-            onClick={() => {
-              navigate("/");
+    <div className="wrapper">
+      <header className={mergeClasses("header", styles.header)}>
+        <Link to={"/"}>
+          <Image
+            src={siteLogo}
+            alt="Site Logo"
+            style={{
+              height: "48px",
+              margin: "8px 0 8px 0",
+              float: "left",
             }}
-          >
-            {t("nav.home")}
-          </Button>
-          <Button
-            appearance="subtle" 
-            icon={<CompassNorthwest24Regular />}
-            onClick={() => {
-              navigate("/explore-post");
-            }}
-          >
-            {t("nav.explore post")}
-          </Button>
-          <Button
-            appearance="subtle"
-            icon={<Add24Regular />}
-            disabled={!isSignedIn()}
-            onClick={() => {
-              navigate("/create-post");
-            }}
-          >
-            {t("nav.create post")}
-          </Button>
-        </aside>
-        <div className={mergeClasses("content", styles.content)}>
-          <MessageBarGroup className={styles.messageBarGroup}>
-            {messages.map(({ intent, message, id }) => (
-              <MessageBar key={id} intent={intent}>
-                <MessageBarBody>
-                  <MessageBarTitle>{t(`message.${intent}`)}</MessageBarTitle>
-                  {message}
-                </MessageBarBody>
-                <MessageBarActions
-                  containerAction={
-                    <Button
-                      onClick={() => dismiss(id)}
-                      aria-label="dismiss"
-                      appearance="transparent"
-                      icon={<DismissRegular />}
-                    />
-                  }
-                />
-              </MessageBar>
-            ))}
-          </MessageBarGroup>
-          <Routes>
-            <Route path="/" Component={Skeleton} />
-            <Route path="/explore-post" element={<Explore />} />
-            <Route path="/create-post" element={<CreatePost />} />
-            <Route path="/user-info" element={<UserInfo />} />
-            <Route path="/post/:postId" element={<PostDetail />} />
-          </Routes>
+          />
+        </Link>
+        <div className={styles.tray}>
+          <Account />
+          <Language />
         </div>
-        <footer className={mergeClasses("footer", styles.footer)}>
-          {t("tortolla")} ©2019-2023 {t("m1knight company name")}
-        </footer>
+      </header>
+
+      <aside className={mergeClasses("sider", styles.sider)}>
+        <Button
+          appearance="subtle"
+          icon={<Home24Regular />}
+          title={t("nav.home")}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          {!isMobile && t("nav.home")}
+        </Button>
+        <Button
+          appearance="subtle"
+          icon={<CompassNorthwest24Regular />}
+          title={t("nav.explore post")}
+          onClick={() => {
+            navigate("/explore-post");
+          }}
+        >
+          {!isMobile && t("nav.explore post")}
+        </Button>
+        <Button
+          appearance="subtle"
+          icon={<Add24Regular />}
+          disabled={!isSignedIn()}
+          title={t("nav.create post")}
+          onClick={() => {
+            navigate("/create-post");
+          }}
+        >
+          {!isMobile && t("nav.create post")}
+        </Button>
+      </aside>
+      <div className={mergeClasses("content", styles.content)}>
+        <MessageBarGroup className={styles.messageBarGroup}>
+          {messages.map(({ intent, message, id }) => (
+            <MessageBar key={id} intent={intent}>
+              <MessageBarBody>
+                <MessageBarTitle>{t(`message.${intent}`)}</MessageBarTitle>
+                {message}
+              </MessageBarBody>
+              <MessageBarActions
+                containerAction={
+                  <Button
+                    onClick={() => dismiss(id)}
+                    aria-label="dismiss"
+                    appearance="transparent"
+                    icon={<DismissRegular />}
+                  />
+                }
+              />
+            </MessageBar>
+          ))}
+        </MessageBarGroup>
+        <Routes>
+          <Route path="/" Component={Skeleton} />
+          <Route path="/explore-post" element={<Explore />} />
+          <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/user-info" element={<UserInfo />} />
+          <Route path="/post/:postId" element={<PostDetail />} />
+        </Routes>
       </div>
+      <footer className={mergeClasses("footer", styles.footer)}>
+        {t("tortolla")} ©2019-2023 {t("m1knight company name")}
+      </footer>
+    </div>
   );
 };
 
