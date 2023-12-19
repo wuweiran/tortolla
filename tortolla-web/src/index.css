@@ -1,6 +1,10 @@
+body {
+  margin: 0;
+}
+
 .wrapper {
   display: grid;
-  grid-template-areas: 
+  grid-template-areas:
     "header header header"
     "sider content content"
     "sider footer footer";
