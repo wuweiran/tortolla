@@ -47,10 +47,28 @@ const Explore = () => {
     <div>
       {isLoading && (
         <Skeleton>
-          <SkeletonItem />
-          <SkeletonItem />
-          <SkeletonItem />
-          <SkeletonItem />
+          <div className={styles.card}>
+            <Card>
+              <CardHeader
+                image={<SkeletonItem shape="square" />}
+                header={<SkeletonItem />}
+                description={
+                  <>
+                    <Persona size="extra-small" />
+                    <SkeletonItem />
+                  </>
+                }
+              />
+              <CardFooter>
+                <Button disabled>
+                  <SkeletonItem />
+                </Button>
+                <Button disabled>
+                  <SkeletonItem />
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
           <SkeletonItem />
         </Skeleton>
       )}
@@ -80,9 +98,11 @@ const Explore = () => {
               <Button
                 icon={<Share20Regular />}
                 onClick={() => {
-                  void navigator.clipboard.writeText(
-                    `${window.location.protocol}//${window.location.host}/post/${post.id}`
-                  ).then(() => info(t("message.post link copied")));
+                  void navigator.clipboard
+                    .writeText(
+                      `${window.location.protocol}//${window.location.host}/post/${post.id}`
+                    )
+                    .then(() => info(t("message.post link copied")));
                 }}
               >
                 {t("post.share")}
