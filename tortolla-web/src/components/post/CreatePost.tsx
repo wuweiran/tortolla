@@ -10,7 +10,7 @@ import {
   makeStyles,
 } from "@fluentui/react-components";
 import { useMessage } from "../../containers/message.ts";
-import MarkdownEditor from "@uiw/react-markdown-editor";
+import MarkdownEditor from "./md/MarkdownEditor.tsx";
 import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles({
@@ -64,11 +64,8 @@ const CreatePost = () => {
           ),
         }}
       >
-        {/* @ts-ignore*/}
         <MarkdownEditor
-          // @ts-ignore
           onChange={(value) => {
-            // @ts-ignore
             setContent(value);
           }}
           height="250px"
