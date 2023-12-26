@@ -1,6 +1,9 @@
-import { Toolbar, ToolbarDivider } from "@fluentui/react-components";
-import { IMarkdownEditor, ToolBarProps } from "./MarkdownEditor.tsx";
-import { ReactCodeMirrorRef } from "@uiw/react-codemirror";
+import {
+  Toolbar,
+  ToolbarDivider,
+  ToolbarProps,
+  ToolbarToggleButton,
+} from "@fluentui/react-components";
 import Redo from "./commands/Redo.tsx";
 import Undo from "./commands/Undo.tsx";
 import Bold from "./commands/Bold.tsx";
@@ -16,31 +19,40 @@ import Heading from "./commands/Heading.tsx";
 import Image from "./commands/Image.tsx";
 import Code from "./commands/Code.tsx";
 import CodeBlock from "./commands/CodeBlock.tsx";
-import Preview from "./commands/preview.tsx";
+import { Eye20Regular } from "@fluentui/react-icons";
+import { useState } from "react";
+import * as monaco from "monaco-editor";
 
-export type ToolBarCommandProps = {
-  editor: ReactCodeMirrorRef;
-  editorProps: IMarkdownEditor;
-  containerEditor: HTMLDivElement;
-  preview: HTMLDivElement;
+export interface ToolBarCommandProps {
+  editor: monaco.editor.IStandaloneCodeEditor;
 };
 
+export interface ToolBarProps {
+  editor: monaco.editor.IStandaloneCodeEditor;
+}
+
 export default function ToolBar(props: ToolBarProps) {
-  if (
-    !props.editor.current ||
-    !props.containerEditor.current ||
-    !props.preview.current
-  ) {
-    return;
-  }
   const commandProps = {
-    editor: props.editor.current,
-    editorProps: props.editorProps,
-    containerEditor: props.containerEditor.current,
-    preview: props.preview.current,
+    editor: props.editor,
   };
+
+  const [checkedValues, setCheckedValues] = useState<Record<string, string[]>>({
+    mode: [],
+  });
+  const onCheckedValueChange: ToolbarProps["onCheckedValueChange"] = (
+    _,
+    { name, checkedItems }
+  ) => {
+    setCheckedValues((s) => {
+      return s ? { ...s, [name]: checkedItems } : { [name]: checkedItems };
+    });
+  };
+
   return (
-    <Toolbar>
+    <Toolbar
+      checkedValues={checkedValues}
+      onCheckedValueChange={onCheckedValueChange}
+    >
       <Undo {...commandProps} />
       <Redo {...commandProps} />
       <ToolbarDivider />
@@ -60,7 +72,12 @@ export default function ToolBar(props: ToolBarProps) {
       <Image {...commandProps} />
       <CodeBlock {...commandProps} />
       <ToolbarDivider />
-      <Preview {...commandProps} />
+      <ToolbarToggleButton
+        value="preview"
+        name="mode"
+        key="preview"
+        icon={<Eye20Regular />}
+      />
     </Toolbar>
   );
 }

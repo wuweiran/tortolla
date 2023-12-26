@@ -1,22 +1,19 @@
 import { ToolbarButton } from "@fluentui/react-components";
 import { ToolBarCommandProps } from "../ToolBar.tsx";
 import { Code20Regular } from "@fluentui/react-icons";
-import { ReactCodeMirrorRef } from "@uiw/react-codemirror";
-import { EditorSelection } from "@codemirror/state";
+import * as monaco from "monaco-editor";
 
 const Code = (props: ToolBarCommandProps) => {
-  const execute = (editor: ReactCodeMirrorRef) => {
-    const { state, view } = editor;
-    if (!state || !view) return;
-    view.dispatch(
-      view.state.changeByRange((range) => ({
-        changes: [
-          { from: range.from, insert: "`" },
-          { from: range.to, insert: "`" },
-        ],
-        range: EditorSelection.range(range.from + 1, range.to + 1),
-      }))
-    );
+  const execute = (editor: monaco.editor.IStandaloneCodeEditor) => {
+    const model = editor.getModel();
+    if (!model) return;
+    const selection = editor.getSelection();
+    if (!selection) return;
+    editor.executeEdits("inline-code", [
+      { range: new monaco.Range(selection.startLineNumber, selection.selectionStartColumn, selection.startLineNumber, selection.startColumn), text: "`", forceMoveMarkers: true },
+      { range: new monaco.Range(selection.endLineNumber, selection.endColumn, selection.endLineNumber, selection.endColumn), text: "`", forceMoveMarkers: true }
+    ]);
+    editor.setSelection(new monaco.Selection(selection.startLineNumber, selection.startColumn, selection.endLineNumber, selection.endColumn + 2));
   };
   return (
     <ToolbarButton

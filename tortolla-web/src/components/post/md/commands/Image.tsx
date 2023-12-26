@@ -1,28 +1,28 @@
 import { ToolbarButton } from "@fluentui/react-components";
 import { ToolBarCommandProps } from "../ToolBar.tsx";
 import { Image20Regular } from "@fluentui/react-icons";
-import { ReactCodeMirrorRef } from "@uiw/react-codemirror";
-import { EditorSelection } from "@codemirror/state";
+import * as monaco from "monaco-editor";
 
 const Image = (props: ToolBarCommandProps) => {
-  const execute = (editor: ReactCodeMirrorRef) => {
-    const { state, view } = editor;
-    if (!state || !view) return;
-    const main = view.state.selection.main;
-    const txt = view.state.sliceDoc(
-      view.state.selection.main.from,
-      view.state.selection.main.to
+  const execute = (editor: monaco.editor.IStandaloneCodeEditor) => {
+    const model = editor.getModel();
+    if (!model) return;
+    const selection = editor.getSelection();
+    if (!selection) return;
+    const txt = model.getValueInRange(selection);
+    editor.executeEdits("image", [
+      { range: selection, text: `![](${txt})`, forceMoveMarkers: true },
+    ]);
+    editor.setSelection(
+      new monaco.Selection(
+        selection.startLineNumber,
+        selection.startColumn + 4,
+        selection.endLineNumber,
+        selection.endColumn + 4
+      )
     );
-    view.dispatch({
-      changes: {
-        from: main.from,
-        to: main.to,
-        insert: `![](${txt})`,
-      },
-      selection: EditorSelection.range(main.from + 4, main.to + 4),
-      // selection: { anchor: main.from + 4 },
-    });
   };
+
   return (
     <ToolbarButton
       key={"image"}

@@ -1,28 +1,43 @@
 import { ToolbarButton } from "@fluentui/react-components";
 import { ToolBarCommandProps } from "../ToolBar.tsx";
 import { TextBulletList20Regular } from "@fluentui/react-icons";
-import { ReactCodeMirrorRef } from "@uiw/react-codemirror";
+import * as monaco from "monaco-editor";
 
 const OrderedList = (props: ToolBarCommandProps) => {
-  const execute = (editor: ReactCodeMirrorRef) => {
-    const { state, view } = editor;
-    if (!state || !view) return;
-    const lineInfo = view.state.doc.lineAt(view.state.selection.main.from);
+  const execute = (editor: monaco.editor.IStandaloneCodeEditor) => {
+    const model = editor.getModel();
+    if (!model) return;
+    const selection = editor.getSelection();
+    if (!selection) return;
+    const line = model.getLineContent(selection.startLineNumber);
+    const startColumn = model.getLineMinColumn(selection.startLineNumber);
     let mark = "1. ";
-    const matchMark = lineInfo.text.match(/^\1\./);
+    const matchMark = line.match(/^\d+\./);
     if (matchMark && matchMark[0]) {
       mark = "";
     }
-    view.dispatch({
-      changes: {
-        from: lineInfo.from,
-        to: lineInfo.to,
-        insert: `${mark}${lineInfo.text}`,
+    editor.executeEdits("ordered-list", [
+      {
+        range: new monaco.Range(
+          selection.startLineNumber,
+          startColumn,
+          selection.startLineNumber,
+          model.getLineMaxColumn(selection.startLineNumber)
+        ),
+        text: `${mark}${line}`,
+        forceMoveMarkers: true,
       },
-      // selection: EditorSelection.range(lineInfo.from + mark.length, lineInfo.to),
-      selection: { anchor: view.state.selection.main.from + mark.length },
-    });
+    ]);
+    editor.setSelection(
+      new monaco.Selection(
+        selection.startLineNumber,
+        startColumn + mark.length,
+        selection.startLineNumber,
+        startColumn + mark.length
+      )
+    );
   };
+
   return (
     <ToolbarButton
       key={"olist"}

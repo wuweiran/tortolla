@@ -1,27 +1,46 @@
 import { ToolbarButton } from "@fluentui/react-components";
 import { ToolBarCommandProps } from "../ToolBar.tsx";
 import { CodeBlock20Regular } from "@fluentui/react-icons";
-import { ReactCodeMirrorRef } from "@uiw/react-codemirror";
-import { EditorSelection } from "@codemirror/state";
+import * as monaco from "monaco-editor";
 
 const CodeBlock = (props: ToolBarCommandProps) => {
-  const execute = (editor: ReactCodeMirrorRef) => {
-    const { state, view } = editor;
-    if (!state || !view) return;
-    const main = view.state.selection.main;
-    const txt = view.state.sliceDoc(
-      view.state.selection.main.from,
-      view.state.selection.main.to
-    );
-    view.dispatch({
-      changes: {
-        from: main.from,
-        to: main.to,
-        insert: `\`\`\`js\n${txt}\n\`\`\``,
+  const execute = (editor: monaco.editor.IStandaloneCodeEditor) => {
+    const model = editor.getModel();
+    if (!model) return;
+    const selection = editor.getSelection();
+    if (!selection) return;
+    editor.executeEdits("code-block", [
+      {
+        range: new monaco.Range(
+          selection.startLineNumber,
+          1,
+          selection.startLineNumber,
+          1
+        ),
+        text: "```js\n",
+        forceMoveMarkers: true,
       },
-      selection: EditorSelection.range(main.from + 3, main.from + 5),
-    });
+      {
+        range: new monaco.Range(
+          selection.endLineNumber,
+          model.getLineMaxColumn(selection.endLineNumber),
+          selection.endLineNumber,
+          model.getLineMaxColumn(selection.endLineNumber)
+        ),
+        text: "\n```",
+        forceMoveMarkers: true,
+      },
+    ]);
+    editor.setSelection(
+      new monaco.Selection(
+        selection.startLineNumber,
+        1,
+        selection.endLineNumber + 2,
+        model.getLineMaxColumn(selection.endLineNumber + 2)
+      )
+    );
   };
+
   return (
     <ToolbarButton
       key={"codeBlock"}

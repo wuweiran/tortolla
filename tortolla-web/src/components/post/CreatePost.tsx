@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createRef, useState } from "react";
 import { CreatePostRequest, createPost } from "../../containers/post.ts";
 import { useTranslation } from "react-i18next";
 import {
@@ -10,7 +10,7 @@ import {
   makeStyles,
 } from "@fluentui/react-components";
 import { useMessage } from "../../containers/message.ts";
-import MarkdownEditor from "./md/MarkdownEditor.tsx";
+import MarkdownEditor, { MarkdownEditorRef } from "./md/MarkdownEditor.tsx";
 import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles({
@@ -26,7 +26,7 @@ const CreatePost = () => {
   const { t } = useTranslation();
   const [isSaving, setSaving] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
+  const editorRef = createRef<MarkdownEditorRef>();
   const { success, warn } = useMessage();
 
   const onFinish = (request: CreatePostRequest) => {
@@ -64,14 +64,13 @@ const CreatePost = () => {
           ),
         }}
       >
-        <MarkdownEditor
-          onChange={(value) => {
-            setContent(value);
-          }}
-          height="250px"
-        />
+        <MarkdownEditor ref={editorRef} />
       </Field>
-      <Button onClick={() => onFinish({ title: title, body: content })}>
+      <Button
+        onClick={() =>
+          onFinish({ title: title, body: editorRef.current?.getText() || "" })
+        }
+      >
         {isSaving ? <Spinner /> : t("post.create.submit")}
       </Button>
     </div>

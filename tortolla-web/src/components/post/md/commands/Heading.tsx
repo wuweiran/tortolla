@@ -1,35 +1,50 @@
 import { ToolbarButton } from "@fluentui/react-components";
 import { ToolBarCommandProps } from "../ToolBar.tsx";
 import { DocumentHeader20Regular } from "@fluentui/react-icons";
-import { ReactCodeMirrorRef } from "@uiw/react-codemirror";
+import * as monaco from "monaco-editor";
 
 const Heading = (props: ToolBarCommandProps) => {
-  const execute = (editor: ReactCodeMirrorRef) => {
-    const { state, view } = editor;
-    if (!state || !view) return;
-    const lineInfo = view.state.doc.lineAt(view.state.selection.main.from);
-    let mark = '#';
-    const matchMark = lineInfo.text.match(/^#+/);
+  const execute = (editor: monaco.editor.IStandaloneCodeEditor) => {
+    const model = editor.getModel();
+    if (!model) return;
+    const selection = editor.getSelection();
+    if (!selection) return;
+    const line = model.getLineContent(selection.startLineNumber);
+    const startColumn = model.getLineMinColumn(selection.startLineNumber);
+    let mark = "#";
+    const matchMark = line.match(/^#+/);
     if (matchMark && matchMark[0]) {
       const txt = matchMark[0];
       if (txt.length < 6) {
-        mark = txt + '#';
+        mark = txt + "#";
       }
     }
     if (mark.length > 6) {
-      mark = '#';
+      mark = "#";
     }
-    const title = lineInfo.text.replace(/^#+/, '');
-    view.dispatch({
-      changes: {
-        from: lineInfo.from,
-        to: lineInfo.to,
-        insert: `${mark} ${title}`,
+    const title = line.replace(/^#+/, "");
+    editor.executeEdits("header", [
+      {
+        range: new monaco.Range(
+          selection.startLineNumber,
+          startColumn,
+          selection.startLineNumber,
+          model.getLineMaxColumn(selection.startLineNumber)
+        ),
+        text: `${mark} ${title}`,
+        forceMoveMarkers: true,
       },
-      // selection: EditorSelection.range(lineInfo.from + mark.length, lineInfo.to),
-      selection: { anchor: lineInfo.from + mark.length + 1 },
-    });
+    ]);
+    editor.setSelection(
+      new monaco.Selection(
+        selection.startLineNumber,
+        startColumn + mark.length + 1,
+        selection.startLineNumber,
+        startColumn + mark.length + 1
+      )
+    );
   };
+
   return (
     <ToolbarButton
       key={"heading"}
