@@ -27,7 +27,7 @@ const Image = (props: ToolBarCommandProps) => {
     <ToolbarButton
       key={"image"}
       icon={<Image20Regular />}
-      onClick={() => execute(props.editor)}
+      onClick={() => props.editor.current && execute(props.editor.current)}
     />
   );
 };

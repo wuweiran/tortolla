@@ -42,7 +42,7 @@ const Quote = (props: ToolBarCommandProps) => {
     <ToolbarButton
       key={"quote"}
       icon={<TextQuote20Regular />}
-      onClick={() => execute(props.editor)}
+      onClick={() => props.editor.current && execute(props.editor.current)}
     />
   );
 };

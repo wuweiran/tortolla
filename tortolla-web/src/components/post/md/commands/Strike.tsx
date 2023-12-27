@@ -20,7 +20,7 @@ const Strike = (props: ToolBarCommandProps) => {
     <ToolbarButton
       key={"strike"}
       icon={<TextStrikethrough20Regular />}
-      onClick={() => execute(props.editor)}
+      onClick={() => props.editor.current && execute(props.editor.current)}
     />
   );
 };

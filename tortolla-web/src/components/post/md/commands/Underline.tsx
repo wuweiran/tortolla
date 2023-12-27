@@ -20,7 +20,7 @@ const Underline = (props: ToolBarCommandProps) => {
     <ToolbarButton
       key={"underline"}
       icon={<TextUnderline20Regular />}
-      onClick={() => execute(props.editor)}
+      onClick={() => props.editor.current && execute(props.editor.current)}
     />
   );
 };

@@ -19,7 +19,7 @@ const Code = (props: ToolBarCommandProps) => {
     <ToolbarButton
       key={"code"}
       icon={<Code20Regular />}
-      onClick={() => execute(props.editor)}
+      onClick={() => props.editor.current && execute(props.editor.current)}
     />
   );
 };

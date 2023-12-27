@@ -42,7 +42,7 @@ const OrderedList = (props: ToolBarCommandProps) => {
     <ToolbarButton
       key={"olist"}
       icon={<TextBulletList20Regular />}
-      onClick={() => execute(props.editor)}
+      onClick={() => props.editor.current && execute(props.editor.current)}
     />
   );
 };

@@ -44,7 +44,7 @@ const Bold = (props: ToolBarCommandProps) => {
     <ToolbarButton
       key={"bold"}
       icon={<TextBold20Regular />}
-      onClick={() => execute(props.editor)}
+      onClick={() => props.editor.current && execute(props.editor.current)}
     />
   );
 };

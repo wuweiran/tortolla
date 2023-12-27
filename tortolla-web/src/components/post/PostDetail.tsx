@@ -24,11 +24,11 @@ import {
   deletePost,
   getPost,
 } from "../../containers/post.ts";
-import MarkdownIt from "markdown-it";
 import { useTranslation } from "react-i18next";
 import { currentUser } from "../../containers/user.ts";
 import { useNavigate } from "react-router-dom";
 import { useMessage } from "../../containers/message.ts";
+import MarkdownPreview from "./md/MarkdownPreview.tsx";
 
 const useStyles = makeStyles({
   article: {
@@ -56,8 +56,6 @@ const PostDetail = () => {
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
   const [post, setPost] = useState<Post | undefined>(undefined);
   const postId = Number(params.postId!);
-  {/* @ts-ignore*/}
-  const md = new MarkdownIt();
 
   useEffect(() => {
     void getPost(postId).then((post) => {
@@ -98,8 +96,7 @@ const PostDetail = () => {
               : t("post.author")
           }
         ></Persona>
-        {/* @ts-ignore*/}
-        <div dangerouslySetInnerHTML={{__html: md.render(post.body)}} />
+        <MarkdownPreview source={post.body} />
       </article>
       {currentUser()?.id == post.author.id && (
         <Dialog

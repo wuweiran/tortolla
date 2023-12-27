@@ -11,7 +11,7 @@ const Undo = (props: ToolBarCommandProps) => {
     <ToolbarButton
       key={"undo"}
       icon={<ArrowUndo20Regular />}
-      onClick={() => execute(props.editor)}
+      onClick={() => props.editor.current && execute(props.editor.current)}
     />
   );
 };

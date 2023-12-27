@@ -27,7 +27,7 @@ const Link = (props: ToolBarCommandProps) => {
     <ToolbarButton
       key={"link"}
       icon={<Link20Regular />}
-      onClick={() => execute(props.editor)}
+      onClick={() => props.editor.current && execute(props.editor.current)}
     />
   );
 };

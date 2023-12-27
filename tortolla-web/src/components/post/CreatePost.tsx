@@ -67,6 +67,8 @@ const CreatePost = () => {
         <MarkdownEditor ref={editorRef} />
       </Field>
       <Button
+        appearance="primary"
+        disabled={isSaving}
         onClick={() =>
           onFinish({ title: title, body: editorRef.current?.getText() || "" })
         }

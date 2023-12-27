@@ -45,7 +45,7 @@ const Italic = (props: ToolBarCommandProps) => {
     <ToolbarButton
       key={"italic"}
       icon={<TextItalic20Regular />}
-      onClick={() => execute(props.editor)}
+      onClick={() => props.editor.current && execute(props.editor.current)}
     />
   );
 };

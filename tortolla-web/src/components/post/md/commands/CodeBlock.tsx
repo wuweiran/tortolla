@@ -45,7 +45,7 @@ const CodeBlock = (props: ToolBarCommandProps) => {
     <ToolbarButton
       key={"codeBlock"}
       icon={<CodeBlock20Regular />}
-      onClick={() => execute(props.editor)}
+      onClick={() => props.editor.current && execute(props.editor.current)}
     />
   );
 };

@@ -11,7 +11,7 @@ const Redo = (props: ToolBarCommandProps) => {
     <ToolbarButton
       key={"redo"}
       icon={<ArrowRedo20Regular />}
-      onClick={() => execute(props.editor)}
+      onClick={() => props.editor.current && execute(props.editor.current)}
     />
   );
 };

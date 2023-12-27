@@ -42,7 +42,7 @@ const UnorderedList = (props: ToolBarCommandProps) => {
     <ToolbarButton
       key={"ulist"}
       icon={<TextNumberListLtr20Regular />}
-      onClick={() => execute(props.editor)}
+      onClick={() => props.editor.current && execute(props.editor.current)}
     />
   );
 };

@@ -1,4 +1,5 @@
 import {
+  Skeleton,
   Toolbar,
   ToolbarDivider,
   ToolbarProps,
@@ -20,21 +21,21 @@ import Image from "./commands/Image.tsx";
 import Code from "./commands/Code.tsx";
 import CodeBlock from "./commands/CodeBlock.tsx";
 import { Eye20Regular } from "@fluentui/react-icons";
-import { useState } from "react";
+import { MutableRefObject, RefObject, useState } from "react";
 import * as monaco from "monaco-editor";
+import React from "react";
 
 export interface ToolBarCommandProps {
-  editor: monaco.editor.IStandaloneCodeEditor;
-};
-
-export interface ToolBarProps {
-  editor: monaco.editor.IStandaloneCodeEditor;
+  editor: MutableRefObject<monaco.editor.IStandaloneCodeEditor | undefined>;
 }
 
-export default function ToolBar(props: ToolBarProps) {
-  const commandProps = {
-    editor: props.editor,
-  };
+export interface ToolBarProps {
+  editor: MutableRefObject<monaco.editor.IStandaloneCodeEditor | undefined>;
+  preview: RefObject<HTMLDivElement>;
+}
+
+const ToolBar = React.memo(function ToolBar(props: ToolBarProps) {
+  const editor = props.editor;
 
   const [checkedValues, setCheckedValues] = useState<Record<string, string[]>>({
     mode: [],
@@ -43,6 +44,12 @@ export default function ToolBar(props: ToolBarProps) {
     _,
     { name, checkedItems }
   ) => {
+    if (name === "mode") {
+      const isPreviewVisible = checkedItems.includes("preview");
+      if (props.preview.current) {
+        props.preview.current.toggleAttribute("hidden", !isPreviewVisible);
+      }
+    }
     setCheckedValues((s) => {
       return s ? { ...s, [name]: checkedItems } : { [name]: checkedItems };
     });
@@ -53,24 +60,24 @@ export default function ToolBar(props: ToolBarProps) {
       checkedValues={checkedValues}
       onCheckedValueChange={onCheckedValueChange}
     >
-      <Undo {...commandProps} />
-      <Redo {...commandProps} />
+      <Undo editor={editor} />
+      <Redo editor={editor} />
       <ToolbarDivider />
-      <Bold {...commandProps} />
-      <Italic {...commandProps} />
-      <Heading {...commandProps} />
-      <Strike {...commandProps} />
-      <Underline {...commandProps} />
-      <Code {...commandProps} />
+      <Bold editor={editor} />
+      <Italic editor={editor} />
+      <Heading editor={editor} />
+      <Strike editor={editor} />
+      <Underline editor={editor} />
+      <Code editor={editor} />
       <ToolbarDivider />
-      <Quote {...commandProps} />
-      <OrderedList {...commandProps} />
-      <UnorderedList {...commandProps} />
-      <TaskList {...commandProps} />
+      <Quote editor={editor} />
+      <OrderedList editor={editor} />
+      <UnorderedList editor={editor} />
+      <TaskList editor={editor} />
       <ToolbarDivider />
-      <Link {...commandProps} />
-      <Image {...commandProps} />
-      <CodeBlock {...commandProps} />
+      <Link editor={editor} />
+      <Image editor={editor} />
+      <CodeBlock editor={editor} />
       <ToolbarDivider />
       <ToolbarToggleButton
         value="preview"
@@ -80,4 +87,6 @@ export default function ToolBar(props: ToolBarProps) {
       />
     </Toolbar>
   );
-}
+});
+
+export default ToolBar;

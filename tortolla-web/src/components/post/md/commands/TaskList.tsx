@@ -41,7 +41,7 @@ const TaskList = (props: ToolBarCommandProps) => {
     <ToolbarButton
       key={"tlist"}
       icon={<TaskListSquareLtr20Regular />}
-      onClick={() => execute(props.editor)}
+      onClick={() => props.editor.current && execute(props.editor.current)}
     />
   );
 };

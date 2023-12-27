@@ -49,7 +49,7 @@ const Heading = (props: ToolBarCommandProps) => {
     <ToolbarButton
       key={"heading"}
       icon={<DocumentHeader20Regular />}
-      onClick={() => execute(props.editor)}
+      onClick={() => props.editor.current && execute(props.editor.current)}
     />
   );
 };
