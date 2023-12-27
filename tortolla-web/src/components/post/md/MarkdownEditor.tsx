@@ -21,7 +21,6 @@ const useStyles = makeStyles({
     borderBottomLeftRadius: tokens.borderRadiusMedium,
     borderBottomRightRadius: tokens.borderRadiusMedium,
     boxShadow: tokens.shadow8,
-    marginBottom: tokens.spacingVerticalM,
   },
   wrapper: {
     height: "320px",

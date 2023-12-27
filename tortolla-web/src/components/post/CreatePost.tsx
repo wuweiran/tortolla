@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import {
   Button,
   Field,
-  InfoLabel,
   Input,
   Spinner,
   makeStyles,
@@ -56,13 +55,8 @@ const CreatePost = () => {
         />
       </Field>
       <Field
-        label={{
-          children: (
-            <InfoLabel info={t("post.create.body label tooltip")} required>
-              {t("post.create.body label")}
-            </InfoLabel>
-          ),
-        }}
+        label={t("post.create.body label")}
+        hint={t("post.create.body label tooltip")}
       >
         <MarkdownEditor ref={editorRef} />
       </Field>

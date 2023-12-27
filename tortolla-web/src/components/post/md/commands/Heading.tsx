@@ -1,6 +1,6 @@
 import { ToolbarButton } from "@fluentui/react-components";
 import { ToolBarCommandProps } from "../ToolBar.tsx";
-import { DocumentHeader20Regular } from "@fluentui/react-icons";
+import { TextHeader120Regular } from "@fluentui/react-icons";
 import * as monaco from "monaco-editor";
 
 const Heading = (props: ToolBarCommandProps) => {
@@ -48,7 +48,7 @@ const Heading = (props: ToolBarCommandProps) => {
   return (
     <ToolbarButton
       key={"heading"}
-      icon={<DocumentHeader20Regular />}
+      icon={<TextHeader120Regular />}
       onClick={() => props.editor.current && execute(props.editor.current)}
     />
   );

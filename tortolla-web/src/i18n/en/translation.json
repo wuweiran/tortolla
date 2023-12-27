@@ -52,7 +52,7 @@
       "title label": "Title",
       "title placeholder": "My post title",
       "body label": "Content",
-      "body label tooltip": "Content is in Markdown format.",
+      "body label tooltip": "Use Markdown format in content.",
       "submit": "Post!"
     },
     "author": "Author",
