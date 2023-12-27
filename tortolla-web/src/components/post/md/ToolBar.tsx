@@ -1,5 +1,4 @@
 import {
-  Skeleton,
   Toolbar,
   ToolbarDivider,
   ToolbarProps,
