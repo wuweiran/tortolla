@@ -8,7 +8,11 @@ import {
   makeStyles,
 } from "@fluentui/react-components";
 import { useTranslation } from "react-i18next";
-import { Person24Regular, Key24Regular, Person24Filled } from "@fluentui/react-icons";
+import {
+  Person24Regular,
+  Key24Regular,
+  Person24Filled,
+} from "@fluentui/react-icons";
 import { useMessage } from "../../containers/message.ts";
 
 const useStyles = makeStyles({
@@ -78,7 +82,11 @@ const SignUpForm = (props: { onComplete: () => void }) => {
       </Field>
       <Button
         onClick={() =>
-          onFinish({ username: username, password: password, fullName: realName })
+          onFinish({
+            username: username,
+            password: password,
+            fullName: realName,
+          })
         }
       >
         {isSigningUp ? <Spinner /> : t("user.sign up")}

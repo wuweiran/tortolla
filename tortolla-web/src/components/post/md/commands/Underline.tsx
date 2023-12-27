@@ -11,11 +11,27 @@ const Underline = (props: ToolBarCommandProps) => {
     if (!selection) return;
     editor.executeEdits("underline", [
       { range: selection, text: "<u>", forceMoveMarkers: true },
-      { range: new monaco.Range(selection.endLineNumber, selection.endColumn, selection.endLineNumber, selection.endColumn), text: "</u>", forceMoveMarkers: true }
+      {
+        range: new monaco.Range(
+          selection.endLineNumber,
+          selection.endColumn,
+          selection.endLineNumber,
+          selection.endColumn
+        ),
+        text: "</u>",
+        forceMoveMarkers: true,
+      },
     ]);
-    editor.setSelection(new monaco.Selection(selection.startLineNumber, selection.startColumn + 3, selection.endLineNumber, selection.endColumn + 3));
+    editor.setSelection(
+      new monaco.Selection(
+        selection.startLineNumber,
+        selection.startColumn + 3,
+        selection.endLineNumber,
+        selection.endColumn + 3
+      )
+    );
   };
-  
+
   return (
     <ToolbarButton
       key={"underline"}

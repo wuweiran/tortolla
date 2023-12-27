@@ -11,8 +11,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <FluentProvider theme={webLightTheme}>
       <MessageProvider>
-    <BrowserRouter>
-        <App />
+        <BrowserRouter>
+          <App />
         </BrowserRouter>
       </MessageProvider>
     </FluentProvider>

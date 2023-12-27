@@ -56,7 +56,7 @@ const SignInForm = (props: { onComplete: () => void }) => {
           placeholder="Username"
         />
       </Field>
-      <Field label={t("user.password") } required>
+      <Field label={t("user.password")} required>
         <Input
           type="password"
           value={password}
@@ -70,9 +70,7 @@ const SignInForm = (props: { onComplete: () => void }) => {
       <Checkbox label={t("user.sign-in.remember")} />
       <Link href="/user/register">{t("user.sign-in.forgot")}</Link>
       <Button
-        onClick={() =>
-          onFinish({ username: username, password: password })
-        }
+        onClick={() => onFinish({ username: username, password: password })}
       >
         {isSigningIn ? <Spinner /> : t("user.sign in")}
       </Button>

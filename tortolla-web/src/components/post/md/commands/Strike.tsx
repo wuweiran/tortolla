@@ -11,11 +11,27 @@ const Strike = (props: ToolBarCommandProps) => {
     if (!selection) return;
     editor.executeEdits("strikethrough", [
       { range: selection, text: "~~", forceMoveMarkers: true },
-      { range: new monaco.Range(selection.endLineNumber, selection.endColumn, selection.endLineNumber, selection.endColumn), text: "~~", forceMoveMarkers: true }
+      {
+        range: new monaco.Range(
+          selection.endLineNumber,
+          selection.endColumn,
+          selection.endLineNumber,
+          selection.endColumn
+        ),
+        text: "~~",
+        forceMoveMarkers: true,
+      },
     ]);
-    editor.setSelection(new monaco.Selection(selection.startLineNumber, selection.startColumn + 2, selection.endLineNumber, selection.endColumn + 2));
+    editor.setSelection(
+      new monaco.Selection(
+        selection.startLineNumber,
+        selection.startColumn + 2,
+        selection.endLineNumber,
+        selection.endColumn + 2
+      )
+    );
   };
-  
+
   return (
     <ToolbarButton
       key={"strike"}

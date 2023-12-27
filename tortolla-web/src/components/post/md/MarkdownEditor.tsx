@@ -83,7 +83,7 @@ const MarkdownEditor = forwardRef<MarkdownEditorRef>(
       editor.setValue(text);
       editor.onDidChangeModelContent(() => {
         setText(editor.getValue());
-      })
+      });
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

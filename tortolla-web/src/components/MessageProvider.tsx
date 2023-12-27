@@ -69,7 +69,9 @@ export const MessageProvider = (props: React.PropsWithChildren) => {
 
   // Return the provider component with the value prop
   return (
-    <MessageContext.Provider value={{ messages, info, warn, error, success, dismiss }}>
+    <MessageContext.Provider
+      value={{ messages, info, warn, error, success, dismiss }}
+    >
       {props.children}
     </MessageContext.Provider>
   );
