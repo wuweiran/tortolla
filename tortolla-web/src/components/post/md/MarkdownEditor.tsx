@@ -80,11 +80,15 @@ const MarkdownEditor = forwardRef<MarkdownEditorRef>(
       });
 
       monacoEditor.current = editor;
-      editor.setValue(text);
       editor.onDidChangeModelContent(() => {
         setText(editor.getValue());
       });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      setText(editor.getValue());
+
+      return () => {
+        monacoEditor.current?.dispose();
+        monacoEditor.current = undefined;
+      }
     }, []);
 
     useImperativeHandle(

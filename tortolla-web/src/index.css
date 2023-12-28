@@ -30,7 +30,7 @@ body {
 
 .footer {
   grid-area: footer;
-  padding: 12px;
+  padding: 8px;
 }
 
 @media (max-width: 456px) {

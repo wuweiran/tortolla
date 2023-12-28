@@ -42,6 +42,9 @@ const useStyles = makeStyles({
     rowGap: tokens.spacingVerticalS,
     zIndex: 4,
   },
+  wrapper: {
+    backgroundColor: tokens.colorBrandBackground2,
+  },
   header: {
     backgroundColor: tokens.colorBrandBackground,
     display: "flex",
@@ -50,20 +53,32 @@ const useStyles = makeStyles({
     zIndex: 3,
   },
   sider: {
-    backgroundColor: tokens.colorBrandBackground2,
-    boxShadow: tokens.shadow4,
     display: "flex",
     flexDirection: "column",
     alignItems: "stretch",
-    zIndex: 2,
+    zIndex: 1,
   },
   content: {
     backgroundColor: tokens.colorNeutralBackground1,
-    zIndex: 0,
+    zIndex: 2,
+    borderTopLeftRadius: tokens.borderRadiusMedium,
+    borderTopRightRadius: tokens.borderRadiusMedium,
+    borderBottomLeftRadius: tokens.borderRadiusMedium,
+    borderBottomRightRadius: tokens.borderRadiusMedium,
+    boxShadow: tokens.shadow4,
+    marginTop: tokens.spacingVerticalS,
+    marginBottom: tokens.spacingVerticalS,
+    marginRight: tokens.spacingVerticalS,
   },
   footer: {
     backgroundColor: tokens.colorNeutralBackground3,
     zIndex: 1,
+    borderTopLeftRadius: tokens.borderRadiusMedium,
+    borderTopRightRadius: tokens.borderRadiusMedium,
+    borderBottomLeftRadius: tokens.borderRadiusMedium,
+    borderBottomRightRadius: tokens.borderRadiusMedium,
+    marginBottom: tokens.spacingVerticalS,
+    marginRight: tokens.spacingVerticalS,
   },
   tray: {
     display: "flex",
@@ -109,7 +124,7 @@ const App = () => {
           </MessageBar>
         ))}
       </MessageBarGroup>
-      <div className="wrapper">
+      <div className={mergeClasses("wrapper", styles.wrapper)}>
         <header className={mergeClasses("header", styles.header)}>
           <Link to={"/"}>
             <Image
