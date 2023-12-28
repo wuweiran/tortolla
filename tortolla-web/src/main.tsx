@@ -1,4 +1,3 @@
-import "./index.css";
 import "./i18n/config.ts";
 import React from "react";
 import ReactDOM from "react-dom/client";

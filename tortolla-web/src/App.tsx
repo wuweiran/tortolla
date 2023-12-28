@@ -14,8 +14,8 @@ import {
   MessageBarGroup,
   MessageBarTitle,
   Skeleton,
+  makeStaticStyles,
   makeStyles,
-  mergeClasses,
   tokens,
 } from "@fluentui/react-components";
 import Explore from "./components/post/Explore.tsx";
@@ -30,6 +30,73 @@ import Account from "./components/user/Account.tsx";
 import PostDetail from "./components/post/PostDetail.tsx";
 import { useEffect, useState } from "react";
 
+const useStaticStyles = makeStaticStyles({
+  body: {
+    margin: 0,
+  },
+  ".wrapper": {
+    display: "grid",
+    backgroundColor: tokens.colorBrandBackground2,
+    gridTemplateAreas: `
+      "header header header"
+      "sider content content"
+      "sider footer footer"
+    `,
+    gridTemplateColumns: "1fr 3fr 3fr",
+    gridTemplateRows: "auto 1fr auto",
+    minHeight: "100vh",
+    "@media(max-width: 456px)": {
+      gridTemplateColumns: "1fr 5fr 5fr",
+    },
+  },
+  ".header": {
+    gridArea: "header",
+    padding: "12px",
+    zIndex: 3,
+    backgroundColor: tokens.colorBrandBackground,
+    display: "flex",
+    justifyContent: "space-between",
+    boxShadow: tokens.shadow8,
+    "@media(max-width: 456px)": {
+      padding: "8px",
+    },
+  },
+  ".sider": {
+    gridArea: "sider",
+    padding: "12px",
+    zIndex: 1,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "stretch",
+    "@media(max-width: 456px)": {
+      padding: "8px",
+    },
+  },
+  ".content": {
+    gridArea: "content",
+    padding: "16px",
+    marginTop: tokens.spacingVerticalS,
+    marginBottom: tokens.spacingVerticalS,
+    marginRight: tokens.spacingVerticalS,
+    zIndex: 2,
+    backgroundColor: tokens.colorNeutralBackground1,
+    borderRadius: tokens.borderRadiusMedium,
+    boxShadow: tokens.shadow4,
+    "@media(max-width: 456px)": {
+      padding: "12px",
+    },
+  },
+  ".footer": {
+    gridArea: "footer",
+    padding: "8px",
+    marginBottom: tokens.spacingVerticalS,
+    marginRight: tokens.spacingVerticalS,
+    zIndex: 1,
+    backgroundColor: tokens.colorNeutralBackground3,
+    borderRadius: tokens.borderRadiusMedium,
+  },
+});
+
 const useStyles = makeStyles({
   messageBarGroup: {
     position: "fixed",
@@ -42,44 +109,6 @@ const useStyles = makeStyles({
     rowGap: tokens.spacingVerticalS,
     zIndex: 4,
   },
-  wrapper: {
-    backgroundColor: tokens.colorBrandBackground2,
-  },
-  header: {
-    backgroundColor: tokens.colorBrandBackground,
-    display: "flex",
-    justifyContent: "space-between",
-    boxShadow: tokens.shadow8,
-    zIndex: 3,
-  },
-  sider: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "stretch",
-    zIndex: 1,
-  },
-  content: {
-    backgroundColor: tokens.colorNeutralBackground1,
-    zIndex: 2,
-    borderTopLeftRadius: tokens.borderRadiusMedium,
-    borderTopRightRadius: tokens.borderRadiusMedium,
-    borderBottomLeftRadius: tokens.borderRadiusMedium,
-    borderBottomRightRadius: tokens.borderRadiusMedium,
-    boxShadow: tokens.shadow4,
-    marginTop: tokens.spacingVerticalS,
-    marginBottom: tokens.spacingVerticalS,
-    marginRight: tokens.spacingVerticalS,
-  },
-  footer: {
-    backgroundColor: tokens.colorNeutralBackground3,
-    zIndex: 1,
-    borderTopLeftRadius: tokens.borderRadiusMedium,
-    borderTopRightRadius: tokens.borderRadiusMedium,
-    borderBottomLeftRadius: tokens.borderRadiusMedium,
-    borderBottomRightRadius: tokens.borderRadiusMedium,
-    marginBottom: tokens.spacingVerticalS,
-    marginRight: tokens.spacingVerticalS,
-  },
   tray: {
     display: "flex",
     flexDirection: "row",
@@ -89,6 +118,7 @@ const useStyles = makeStyles({
 });
 
 const App = () => {
+  useStaticStyles();
   const styles = useStyles();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -124,8 +154,8 @@ const App = () => {
           </MessageBar>
         ))}
       </MessageBarGroup>
-      <div className={mergeClasses("wrapper", styles.wrapper)}>
-        <header className={mergeClasses("header", styles.header)}>
+      <div className="wrapper">
+        <header className="header">
           <Link to={"/"}>
             <Image
               src={siteLogo}
@@ -143,7 +173,7 @@ const App = () => {
           </div>
         </header>
 
-        <aside className={mergeClasses("sider", styles.sider)}>
+        <aside className="sider">
           <Button
             appearance="subtle"
             icon={<Home24Regular />}
@@ -176,7 +206,7 @@ const App = () => {
             {!isMobile && t("nav.create post")}
           </Button>
         </aside>
-        <div className={mergeClasses("content", styles.content)}>
+        <div className="content">
           <Routes>
             <Route path="/" Component={Skeleton} />
             <Route path="/explore-post" element={<Explore />} />
@@ -185,7 +215,7 @@ const App = () => {
             <Route path="/post/:postId" element={<PostDetail />} />
           </Routes>
         </div>
-        <footer className={mergeClasses("footer", styles.footer)}>
+        <footer className="footer">
           {t("tortolla")} ©2019-2023 {t("m1knight company name")}
         </footer>
       </div>
