@@ -134,7 +134,7 @@ const App = () => {
 
   return (
     <>
-      <MessageBarGroup className={styles.messageBarGroup}>
+      <MessageBarGroup className={styles.messageBarGroup} animate="both">
         {messages.map(({ intent, message, id }) => (
           <MessageBar key={id} intent={intent}>
             <MessageBarBody>
