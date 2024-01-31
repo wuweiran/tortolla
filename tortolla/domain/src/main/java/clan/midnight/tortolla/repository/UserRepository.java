@@ -1,4 +1,4 @@
-package clan.midnight.tortolla;
+package clan.midnight.tortolla.repository;
 
 
 import clan.midnight.tortolla.User;

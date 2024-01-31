@@ -1,5 +1,7 @@
-package clan.midnight.tortolla;
+package clan.midnight.tortolla.repository;
 
+import clan.midnight.tortolla.Post;
+import clan.midnight.tortolla.persist.PostPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;

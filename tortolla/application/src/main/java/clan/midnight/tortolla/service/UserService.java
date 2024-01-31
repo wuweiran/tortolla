@@ -1,5 +1,7 @@
-package clan.midnight.tortolla;
+package clan.midnight.tortolla.service;
 
+import clan.midnight.tortolla.User;
+import clan.midnight.tortolla.repository.UserRepository;
 import clan.midnight.tortolla.util.JwtUtil;
 import clan.midnight.tortolla.util.PasswordEncoder;
 import jakarta.annotation.Resource;

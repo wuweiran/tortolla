@@ -1,5 +1,7 @@
 package clan.midnight.tortolla;
 
+import clan.midnight.tortolla.repository.UserRepository;
+
 import java.util.Date;
 
 @SuppressWarnings("LombokGetterMayBeUsed")

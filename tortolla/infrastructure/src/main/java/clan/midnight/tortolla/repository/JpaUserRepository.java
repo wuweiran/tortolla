@@ -1,5 +1,7 @@
-package clan.midnight.tortolla;
+package clan.midnight.tortolla.repository;
 
+import clan.midnight.tortolla.User;
+import clan.midnight.tortolla.persist.UserPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

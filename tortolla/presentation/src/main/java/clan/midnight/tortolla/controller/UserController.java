@@ -1,11 +1,11 @@
 package clan.midnight.tortolla.controller;
 
 import clan.midnight.tortolla.User;
-import clan.midnight.tortolla.UserRepository;
-import clan.midnight.tortolla.UserService;
+import clan.midnight.tortolla.repository.UserRepository;
 import clan.midnight.tortolla.request.SignInRequest;
 import clan.midnight.tortolla.request.SignUpRequest;
 import clan.midnight.tortolla.response.*;
+import clan.midnight.tortolla.service.UserService;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

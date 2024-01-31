@@ -1,4 +1,4 @@
-package clan.midnight.tortolla;
+package clan.midnight.tortolla.persist;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

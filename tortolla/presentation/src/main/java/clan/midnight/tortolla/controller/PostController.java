@@ -1,9 +1,13 @@
 package clan.midnight.tortolla.controller;
 
-import clan.midnight.tortolla.*;
+import clan.midnight.tortolla.Post;
+import clan.midnight.tortolla.User;
+import clan.midnight.tortolla.repository.PostRepository;
+import clan.midnight.tortolla.repository.UserRepository;
 import clan.midnight.tortolla.request.CreatePostRequest;
 import clan.midnight.tortolla.request.DeletePostRequest;
 import clan.midnight.tortolla.response.*;
+import clan.midnight.tortolla.service.UserService;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
