@@ -10,20 +10,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fluentui/react-components": "^9.46.2",
+    "@fluentui/react-components": "^9.46.5",
     "markdown-it": "^14.0.0",
-    "monaco-editor": "^0.45.0",
+    "monaco-editor": "^0.46.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-i18next": "^14.0.1",
-    "react-router-dom": "^6.21.3"
+    "react-i18next": "^14.0.5",
+    "react-router-dom": "^6.22.1"
   },
   "devDependencies": {
     "@types/markdown-it": "^13.0.7",
-    "@types/react": "^18.2.48",
-    "@types/react-dom": "^18.2.18",
-    "@typescript-eslint/eslint-plugin": "^6.20.0",
-    "@typescript-eslint/parser": "^6.20.0",
+    "@types/react": "^18.2.57",
+    "@types/react-dom": "^18.2.19",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
     "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
@@ -32,6 +32,6 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "prettier-eslint": "^16.3.0",
     "typescript": "^5.3.3",
-    "vite": "^5.0.12"
+    "vite": "^5.1.4"
   }
 }
