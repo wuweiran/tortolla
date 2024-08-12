@@ -216,7 +216,7 @@ const App = () => {
           </Routes>
         </div>
         <footer className="footer">
-          {t("tortolla")} ©2019-2023 {t("m1knight company name")}
+          {t("tortolla")} ©2019-2024 {t("m1knight company name")}
         </footer>
       </div>
     </>
