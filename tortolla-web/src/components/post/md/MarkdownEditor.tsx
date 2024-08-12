@@ -1,4 +1,10 @@
-import { Spinner, makeStyles, tokens } from "@fluentui/react-components";
+import {
+  Spinner,
+  createPresenceComponent,
+  makeStyles,
+  motionTokens,
+  tokens,
+} from "@fluentui/react-components";
 import * as monaco from "monaco-editor";
 import {
   forwardRef,
@@ -58,11 +64,22 @@ self.MonacoEnvironment = {
   },
 };
 
+const Fade = createPresenceComponent({
+  enter: {
+    keyframes: [{ opacity: 0 }, { opacity: 1 }],
+    duration: motionTokens.durationSlower,
+  },
+  exit: {
+    keyframes: [{ opacity: 1 }, { opacity: 0 }],
+    duration: motionTokens.durationSlow,
+  },
+});
+
 const MarkdownEditor = forwardRef<MarkdownEditorRef>(
   function MarkdownEditor(_, ref) {
     const styles = useStyles();
     const monacoContainer = useRef<HTMLDivElement | null>(null);
-    const preview = useRef<HTMLDivElement | null>(null);
+    const [isPreviewVisible, setPreviewVisibility] = useState(false);
     const monacoEditor = useRef<monaco.editor.IStandaloneCodeEditor>();
     const [text, setText] = useState<string>("");
 
@@ -88,7 +105,7 @@ const MarkdownEditor = forwardRef<MarkdownEditorRef>(
       return () => {
         monacoEditor.current?.dispose();
         monacoEditor.current = undefined;
-      }
+      };
     }, []);
 
     useImperativeHandle(
@@ -103,13 +120,18 @@ const MarkdownEditor = forwardRef<MarkdownEditorRef>(
 
     return (
       <div className={styles.root}>
-        <ToolBar editor={monacoEditor} preview={preview} />
+        <ToolBar
+          editor={monacoEditor}
+          setPreviewVisibility={setPreviewVisibility}
+        />
         <div className={styles.wrapper}>
           {!monacoEditor.current && <Spinner />}
           <div ref={monacoContainer} className={styles.editor} />
-          <div ref={preview} className={styles.preview} hidden>
-            <MarkdownPreview source={text} />
-          </div>
+          <Fade visible={isPreviewVisible}>
+            <div className={styles.preview}>
+              <MarkdownPreview source={text} />
+            </div>
+          </Fade>
         </div>
       </div>
     );

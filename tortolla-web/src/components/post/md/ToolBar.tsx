@@ -20,7 +20,7 @@ import Image from "./commands/Image.tsx";
 import Code from "./commands/Code.tsx";
 import CodeBlock from "./commands/CodeBlock.tsx";
 import { Eye20Regular } from "@fluentui/react-icons";
-import { MutableRefObject, RefObject, useState } from "react";
+import { MutableRefObject, useState } from "react";
 import * as monaco from "monaco-editor";
 import React from "react";
 
@@ -30,7 +30,7 @@ export interface ToolBarCommandProps {
 
 export interface ToolBarProps {
   editor: MutableRefObject<monaco.editor.IStandaloneCodeEditor | undefined>;
-  preview: RefObject<HTMLDivElement>;
+  setPreviewVisibility?: (isVisible: boolean) => void;
 }
 
 const ToolBar = React.memo(function ToolBar(props: ToolBarProps) {
@@ -45,8 +45,8 @@ const ToolBar = React.memo(function ToolBar(props: ToolBarProps) {
   ) => {
     if (name === "mode") {
       const isPreviewVisible = checkedItems.includes("preview");
-      if (props.preview.current) {
-        props.preview.current.toggleAttribute("hidden", !isPreviewVisible);
+      if (props.setPreviewVisibility) {
+        props.setPreviewVisibility(isPreviewVisible);
       }
     }
     setCheckedValues((s) => {
