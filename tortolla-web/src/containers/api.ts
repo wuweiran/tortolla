@@ -1,7 +1,7 @@
 import { isSignedIn, loadCurrentUserToken, signOut } from "./user.ts";
 
 const endpoint = import.meta.env.DEV
-  ? "https://tortolla.niceriver-680136a0.eastasia.azurecontainerapps.io"
+  ? "http://localhost:8080"
   : "https://tortolla.niceriver-680136a0.eastasia.azurecontainerapps.io";
 
 enum ApiResponseStatus {
