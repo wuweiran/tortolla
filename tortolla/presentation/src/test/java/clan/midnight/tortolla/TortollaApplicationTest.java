@@ -18,7 +18,8 @@ class TortollaApplicationTest {
     @Test
     void testSignUpThenSignIn() {
         SignUpRequest signUpRequest = new SignUpRequest("Test name", "test_password", "Full Name");
-        controller.signUp(signUpRequest);
+        Response signupResponse = controller.signUp(signUpRequest);
+        assertEquals(Response.STATUS_SUCCESS, signupResponse.getStatus());
         SignInRequest signInRequest = new SignInRequest("Test name", "test_password");
         Response signInResponse = controller.signIn(signInRequest);
         assertEquals(Response.STATUS_SUCCESS, signInResponse.getStatus());
