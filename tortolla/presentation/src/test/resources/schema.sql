@@ -1,3 +1,4 @@
+DROP SCHEMA IF EXISTS `tortolla`;
 CREATE SCHEMA `tortolla`;
 USE tortolla;
 

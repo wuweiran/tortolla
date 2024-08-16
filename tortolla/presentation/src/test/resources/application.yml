@@ -8,4 +8,7 @@ spring:
     open-in-view: false
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
+  sql:
+    init:
+      schema-locations: classpath:/schema.sql
