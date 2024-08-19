@@ -43,8 +43,8 @@ jobs:
         action: deploy
         service-name: tortolla-service
         app-name: tortolla
-        create-new-deployment: true
-        use-staging-deployment: true
+        use-staging-deployment: false
+        deployment-name: default
         package: ${{ github.workspace }}/tortolla/presentation/target/*.jar
         cpu: 0.25
         memory: 512Mi
