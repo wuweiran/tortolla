@@ -45,7 +45,7 @@ jobs:
         app-name: tortolla
         create-new-deployment: true
         use-staging-deployment: true
-        package: ${{ github.workspace }}/tortolla/presentation/*.jar
+        package: ${{ github.workspace }}/tortolla/presentation/target/*.jar
         cpu: 0.25
         memory: 512Mi
         runtime-version: 17
