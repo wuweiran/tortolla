@@ -34,7 +34,7 @@ jobs:
     - name: Login via Azure CLI
       uses: azure/login@v2
       with:
-        creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
+        creds: ${{ secrets.AZURE_SP_CREDS }}
 
     - name: Deploy
       uses: Azure/spring-apps-deploy@v1
