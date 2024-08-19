@@ -6,11 +6,13 @@ on:
       - master
     paths:
       - tortolla/**
+      - .github/workflows/azure-spring-apps.yml
   pull_request:
     branches:
       - master
     paths:
       - tortolla/**
+      - .github/workflows/azure-spring-apps.yml
 
 jobs:
   build-and-deploy:
