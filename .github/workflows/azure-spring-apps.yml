@@ -36,19 +36,33 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_SP_CREDS }}
 
-    - name: Deploy
-      uses: Azure/spring-apps-deploy@v1
+    # - name: Deploy
+    #   uses: Azure/spring-apps-deploy@v1
+    #   with:
+    #     azure-subscription: ${{ secrets.AZURE_SUBSCRIPTION }}
+    #     action: deploy
+    #     service-name: tortolla-service
+    #     app-name: tortolla
+    #     use-staging-deployment: false
+    #     deployment-name: default
+    #     package: ${{ github.workspace }}/tortolla/presentation/target/*.jar
+    #     cpu: 0.25
+    #     memory: 512Mi
+    #     runtime-version: 17
+
+    - name: Azure CLI Action to deploy
+      uses: Azure/cli@v2
       with:
-        azure-subscription: ${{ secrets.AZURE_SUBSCRIPTION }}
-        action: deploy
-        service-name: tortolla-service
-        app-name: tortolla
-        use-staging-deployment: false
-        deployment-name: default
-        package: ${{ github.workspace }}/tortolla/presentation/target/*.jar
-        cpu: 0.25
-        memory: 512Mi
-        runtime-version: 17
+        inlineScript: |
+          az spring app deploy \
+            --subscription ${{ secrets.AZURE_SUBSCRIPTION }}\
+            --resource-group tortolla\
+            --service tortolla-service\
+            --name tortolla\
+            --artifact-path ${{ github.workspace }}/tortolla/presentation/target/*.jar \
+            --runtime-version Java_17\
+            --build-cpu 0.25\
+            --build-memory 512Mi
 
     
         
