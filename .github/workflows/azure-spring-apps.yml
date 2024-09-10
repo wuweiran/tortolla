@@ -53,7 +53,9 @@ jobs:
     - name: Azure CLI Action to deploy
       uses: Azure/cli@v2
       with:
+        azcliversion: 2.64.0
         inlineScript: |
+          az config set extension.dynamic_install_allow_preview=true
           az spring app deploy \
             --subscription ${{ secrets.AZURE_SUBSCRIPTION }}\
             --resource-group tortolla\
@@ -61,7 +63,7 @@ jobs:
             --name tortolla\
             --artifact-path ${{ github.workspace }}/tortolla/presentation/target/*.jar \
             --runtime-version Java_17\
-            --build-cpu 0.25\
+            --build-cpu 250m\
             --build-memory 512Mi
 
     
