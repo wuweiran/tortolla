@@ -3,7 +3,6 @@ spring:
     azure:
       passwordless-enabled: true
     url: jdbc:mysql://tortolla-mysql.mysql.database.azure.com:3306/tortolla?serverTimezone=UTC
-    username: aad_mysql_conn
   jpa:
     open-in-view: false
     defer-datasource-initialization: true
