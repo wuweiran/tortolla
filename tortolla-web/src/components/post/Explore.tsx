@@ -12,6 +12,8 @@ import {
   makeStyles,
   tokens,
   Text,
+  List,
+  ListItem,
 } from "@fluentui/react-components";
 import {
   DocumentText24Regular,
@@ -72,45 +74,47 @@ const Explore = () => {
           <SkeletonItem />
         </Skeleton>
       )}
-      {posts.map((post) => (
-        <div className={styles.card} key={post.id}>
-          <Card title={post.title}>
-            <CardHeader
-              image={<DocumentText24Regular />}
-              header={<Subtitle1>{post.title}</Subtitle1>}
-              description={
-                <>
-                  <Persona size="extra-small" name={post.author.username} />
-                  <Text>
-                    &nbsp;-&nbsp;
-                    {new Date(post.createdTime).toLocaleDateString()}
-                  </Text>
-                </>
-              }
-            />
-            <CardFooter>
-              <Button
-                icon={<Open20Regular />}
-                onClick={() => navigate(`/post/${post.id}`)}
-              >
-                {t("post.open")}
-              </Button>
-              <Button
-                icon={<Share20Regular />}
-                onClick={() => {
-                  void navigator.clipboard
-                    .writeText(
-                      `${window.location.protocol}//${window.location.host}/post/${post.id}`
-                    )
-                    .then(() => info(t("message.post link copied")));
-                }}
-              >
-                {t("post.share")}
-              </Button>
-            </CardFooter>
-          </Card>
-        </div>
-      ))}
+      <List navigationMode="composite">
+        {posts.map((post) => (
+          <ListItem className={styles.card} value={post.id}>
+            <Card title={post.title}>
+              <CardHeader
+                image={<DocumentText24Regular />}
+                header={<Subtitle1>{post.title}</Subtitle1>}
+                description={
+                  <>
+                    <Persona size="extra-small" name={post.author.username} />
+                    <Text>
+                      &nbsp;-&nbsp;
+                      {new Date(post.createdTime).toLocaleDateString()}
+                    </Text>
+                  </>
+                }
+              />
+              <CardFooter>
+                <Button
+                  icon={<Open20Regular />}
+                  onClick={() => navigate(`/post/${post.id}`)}
+                >
+                  {t("post.open")}
+                </Button>
+                <Button
+                  icon={<Share20Regular />}
+                  onClick={() => {
+                    void navigator.clipboard
+                      .writeText(
+                        `${window.location.protocol}//${window.location.host}/post/${post.id}`
+                      )
+                      .then(() => info(t("message.post link copied")));
+                  }}
+                >
+                  {t("post.share")}
+                </Button>
+              </CardFooter>
+            </Card>
+          </ListItem>
+        ))}
+      </List>
     </div>
   );
 };
