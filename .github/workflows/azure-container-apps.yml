@@ -31,6 +31,7 @@ jobs:
       uses: Azure/container-apps-deploy-action@v2
       with:
         appSourcePath: tortolla
+        acrName: tortolla
         containerAppName: tortolla-service
         resourceGroup: tortolla
         containerAppEnvironment: tortolla-container
