@@ -32,6 +32,8 @@ jobs:
       with:
         appSourcePath: tortolla
         acrName: tortolla
+        acrUsername: tortolla
+        acrPassword: ${{ secrets.AZURE_CR_PASSWORD }}
         containerAppName: tortolla-service
         resourceGroup: tortolla
         containerAppEnvironment: tortolla-container
