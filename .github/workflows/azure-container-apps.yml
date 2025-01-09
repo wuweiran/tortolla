@@ -1,0 +1,38 @@
+name: Build and Deploy to Azure Container Apps
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - tortolla/**
+      - .github/workflows/azure-container-apps.yml
+  pull_request:
+    branches:
+      - master
+    paths:
+      - tortolla/**
+      - .github/workflows/azure-container-apps.yml
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Login via Azure CLI
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_SP_CREDS }}
+
+    - name: Azure Container Apps Build and Deploy
+      uses: Azure/container-apps-deploy-action@v2
+      with:
+        appSourcePath: tortolla
+        containerAppName: tortolla-service
+        resourceGroup: tortolla
+        containerAppEnvironment: tortolla-container
+        targetPort: 8080
+        ingress: external
