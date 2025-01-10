@@ -10,7 +10,7 @@ COPY infrastructure /app/infrastructure
 COPY presentation /app/presentation
 RUN ls -la /app
 RUN chmod +x ./mvnw
-RUN ./mvnw dependency:go-offline -B -Dproduction package
+RUN ./mvnw dependency:go-offline -B -Dproduction -Dmaven.test.skip=true package
 
 
 FROM mcr.microsoft.com/openjdk/jdk:21-mariner
