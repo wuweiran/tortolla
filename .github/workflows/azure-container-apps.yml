@@ -38,4 +38,5 @@ jobs:
         resourceGroup: tortolla
         containerAppEnvironment: tortolla-container
         targetPort: 8080
+        environmentVariables: AZURE_CLIENT_ID=${{ secrets.AZURE_MI_CLIENT_ID }}
         ingress: external
