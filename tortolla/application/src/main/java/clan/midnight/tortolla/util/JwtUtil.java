@@ -22,41 +22,12 @@ public class JwtUtil {
     private JwtUtil() {
     }
 
-    public static class PayLoad implements Serializable {
-        @JsonProperty("iss")
-        String issuerKey;
-        @JsonProperty("iat")
-        Long issueTimeKey;
-        @JsonProperty("exp")
-        Long expireTimeKey;
-        @JsonProperty("sub")
-        Long userId;
-
-        public PayLoad() {
-        }
-
-        public PayLoad(String issuerKey, Long issueTimeKey, Long expireTimeKey, Long userId) {
-            this.issuerKey = issuerKey;
-            this.issueTimeKey = issueTimeKey;
-            this.expireTimeKey = expireTimeKey;
-            this.userId = userId;
-        }
-
-        public String getIssuerKey() {
-            return issuerKey;
-        }
-
-        public Long getIssueTimeKey() {
-            return issueTimeKey;
-        }
-
-        public Long getExpireTimeKey() {
-            return expireTimeKey;
-        }
-
-        public Long getUserId() {
-            return userId;
-        }
+    public record PayLoad(
+            @JsonProperty("iss") String issuerKey,
+            @JsonProperty("iat") Long issueTimeKey,
+            @JsonProperty("exp") Long expireTimeKey,
+            @JsonProperty("sub") Long userId
+    ) implements Serializable {
     }
 
     public static String createUserToken(long userId, long interval) {
@@ -90,19 +61,19 @@ public class JwtUtil {
                 return null;
             }
             JwtUtil.PayLoad payLoad = mapper.readValue(payload.toString(), JwtUtil.PayLoad.class);
-            if (!JwtUtil.class.getName().equals(payLoad.getIssuerKey())) {
+            if (!JwtUtil.class.getName().equals(payLoad.issuerKey())) {
                 log.info("Not issued by this class");
                 return null;
             }
-            if (payLoad.getExpireTimeKey() != null) {
-                long extTime = payLoad.getExpireTimeKey();
+            if (payLoad.expireTimeKey() != null) {
+                long extTime = payLoad.expireTimeKey();
                 long curTime = System.currentTimeMillis();
                 if (curTime > extTime) {
                     log.info("Token expired");
                     return null;
                 }
             }
-            return payLoad.getUserId();
+            return payLoad.userId();
         } catch (Exception e) {
             log.error("Illegal token format: {}", tokenString, e);
             return null;

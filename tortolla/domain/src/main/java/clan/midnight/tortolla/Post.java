@@ -4,7 +4,6 @@ import clan.midnight.tortolla.repository.UserRepository;
 
 import java.util.Date;
 
-@SuppressWarnings("LombokGetterMayBeUsed")
 public class Post {
     private final long id;
     private final String title;
