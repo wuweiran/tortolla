@@ -25,10 +25,10 @@ public class UserController {
 
     @PostMapping(value = "/sign-in")
     public Response signIn(@RequestBody SignInRequest request) {
-        if (request.getUsername() == null || request.getUsername().isEmpty()) {
+        if (request.username() == null || request.username().isEmpty()) {
             return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
         }
-        String token = userService.authenticateAndGetToken(request.getUsername(), request.getPassword());
+        String token = userService.authenticateAndGetToken(request.username(), request.password());
         if (token == null) {
             return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
         }
@@ -37,16 +37,16 @@ public class UserController {
 
     @PostMapping(value = "/sign-up")
     public Response signUp(@RequestBody SignUpRequest request) {
-        if (request.getUsername() == null || request.getUsername().isEmpty()) {
+        if (request.username() == null || request.username().isEmpty()) {
             return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
         }
-        if (request.getPassword() == null || request.getPassword().isEmpty()) {
+        if (request.password() == null || request.password().isEmpty()) {
             return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
         }
-        if (request.getFullName() == null || request.getFullName().isEmpty()) {
+        if (request.fullName() == null || request.fullName().isEmpty()) {
             return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
         }
-        String token = userService.registerAndGetToken(request.getUsername(), request.getPassword(), request.getFullName());
+        String token = userService.registerAndGetToken(request.username(), request.password(), request.fullName());
         if (token == null) {
             return new FailedResponse(FailedResponse.ERROR_CODE_CANNOT_NEW);
         }

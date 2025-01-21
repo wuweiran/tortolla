@@ -45,10 +45,10 @@ public class PostController {
 
     @PostMapping(value = "/delete")
     public Response deletePost(@RequestBody DeletePostRequest request, @RequestHeader(name = "x-fd-user-token") String token) {
-        if (request.getPostId() == null) {
+        if (request.postId() == null) {
             return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
         }
-        Post post = postRepository.getById(request.getPostId());
+        Post post = postRepository.getById(request.postId());
         if (post == null) {
             return new FailedResponse(FailedResponse.ERROR_CODE_NOT_FOUND, "Cannot find post");
         }
@@ -60,23 +60,23 @@ public class PostController {
         if (user == null || !post.isPostedBy(user)) {
             return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
         }
-        postRepository.removeById(request.getPostId());
+        postRepository.removeById(request.postId());
         return new SuccessfulResponse<>();
     }
 
     @PostMapping(value = "/create")
     public Response createPost(@RequestBody CreatePostRequest request, @RequestHeader(name = "x-fd-user-token") String token) {
-        if (request.getTitle() == null || request.getTitle().isBlank()) {
+        if (request.title() == null || request.title().isBlank()) {
             return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
         }
-        if (request.getBody() == null || request.getBody().isBlank()) {
+        if (request.body() == null || request.body().isBlank()) {
             return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
         }
         Long id = userService.validateTokenAndGetUserId(token);
         if (id == null) {
             return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
         }
-        long postId = postRepository.put(request.getTitle(), request.getBody(), id);
+        long postId = postRepository.put(request.title(), request.body(), id);
         return new SuccessfulResponse<>(postId);
     }
 
