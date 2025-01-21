@@ -13,11 +13,11 @@ import {
   MessageBarBody,
   MessageBarGroup,
   MessageBarTitle,
-  Skeleton,
   makeStaticStyles,
   makeStyles,
   tokens,
 } from "@fluentui/react-components";
+import Home from "./components/Home.tsx";
 import Explore from "./components/post/Explore.tsx";
 import CreatePost from "./components/post/CreatePost.tsx";
 import UserInfo from "./components/user/UserInfo.tsx";
@@ -208,7 +208,7 @@ const App = () => {
         </aside>
         <div className="content">
           <Routes>
-            <Route path="/" Component={Skeleton} />
+            <Route path="/" element={<Home />} />
             <Route path="/explore-post" element={<Explore />} />
             <Route path="/create-post" element={<CreatePost />} />
             <Route path="/user-info" element={<UserInfo />} />

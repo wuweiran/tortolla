@@ -27,6 +27,10 @@
     "delete post succeed": "帖子成功删除！",
     "delete post fail": "删除失败。"
   },
+  "home": {
+    "title": "欢迎来到托尔托拉",
+    "description": "一个分享思考和想法的简单发帖平台。"
+  },
   "user": {
     "user info": "个人资料",
     "sign in": "登录",

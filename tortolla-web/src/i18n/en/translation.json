@@ -27,6 +27,10 @@
     "delete post succeed": "The post is successfully deleted!",
     "delete post fail": "Failed to delete."
   },
+  "home": {
+    "title": "Welcome to Tortolla",
+    "description": "A simple blog platform for you to share your thoughts and ideas."
+  },
   "user": {
     "user info": "Profile",
     "sign in": "Sign in",
