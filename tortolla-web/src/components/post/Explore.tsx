@@ -26,7 +26,8 @@ import { useMessage } from "../../containers/message.ts";
 
 const useStyles = makeStyles({
   card: {
-    paddingBottom: tokens.spacingVerticalL,
+    marginTop: tokens.spacingVerticalL,
+    marginBottom: tokens.spacingVerticalL,
   },
 });
 
@@ -37,9 +38,10 @@ const Explore = () => {
   const { info } = useMessage();
   const [isLoading, setLoading] = useState<boolean>(true);
   const [posts, setPosts] = useState<PostPreview[]>([]);
+  const pageSize = 10;
 
   useEffect(() => {
-    void listLatestPosts(0, 10).then((posts) => {
+    void listLatestPosts(0, pageSize).then((posts) => {
       setPosts(posts);
       setLoading(false);
     });
@@ -49,8 +51,8 @@ const Explore = () => {
     <div>
       {isLoading && (
         <Skeleton>
-          <div className={styles.card}>
-            <Card>
+          {Array.from({ length: pageSize }, (_) => (
+            <Card className={styles.card}>
               <CardHeader
                 image={<SkeletonItem shape="square" />}
                 header={<SkeletonItem />}
@@ -62,16 +64,15 @@ const Explore = () => {
                 }
               />
               <CardFooter>
-                <Button disabled>
-                  <SkeletonItem />
+                <Button icon={<Open20Regular />} disabled>
+                  {t("post.open")}
                 </Button>
-                <Button disabled>
-                  <SkeletonItem />
+                <Button icon={<Share20Regular />} disabled>
+                  {t("post.share")}
                 </Button>
               </CardFooter>
             </Card>
-          </div>
-          <SkeletonItem />
+          ))}
         </Skeleton>
       )}
       <List navigationMode="composite">

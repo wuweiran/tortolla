@@ -58,10 +58,13 @@ const PostDetail = () => {
   const postId = Number(params.postId!);
 
   useEffect(() => {
-    void getPost(postId).then((post) => {
-      setPost(post);
-      setLoading(false);
-    });
+    void getPost(postId)
+      .then((post) => {
+        setPost(post);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [postId]);
 
   const onDelete = (request: DeletePostRequest) => {
@@ -81,7 +84,9 @@ const PostDetail = () => {
 
   return isLoading ? (
     <Skeleton>
-      <SkeletonItem />
+      <SkeletonItem className={styles.title} size={40} />
+      <Persona className={styles.author}></Persona>
+      <SkeletonItem size={128} />
     </Skeleton>
   ) : post ? (
     <>

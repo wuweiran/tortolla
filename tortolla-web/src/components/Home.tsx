@@ -29,8 +29,7 @@ const Home = () => {
     <div className={styles.root}>
       <div className={styles.banner}>
         <Image
-          shape="rounded"
-          shadow={true}
+          shape="circular"
           src={logo}
           height={100}
           width={100}
