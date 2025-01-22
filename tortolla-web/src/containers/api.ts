@@ -9,22 +9,63 @@ enum ApiResponseStatus {
   FAIL = 1,
 }
 
-enum ApiResponseErrorCode {
-  UNAUTHORIZED = "A0300",
-  WRONG_PARAM = "A0400",
+export enum ApiErrorCode {
+  CANCELLED = "1",
+  UNKNOWN = "2",
+  INVALID_ARGUMENT = "3",
+  DEADLINE_EXCEEDED = "4",
+  NOT_FOUND = "5",
+  ALREADY_EXISTS = "6",
+  PERMISSION_DENIED = "7",
+  RESOURCE_EXHAUSTED = "8",
+  FAILED_PRECONDITION = "9",
+  ABORTED = "10",
+  OUT_OF_RANGE = "11",
+  UNIMPLEMENTED = "12",
+  INTERNAL = "13",
+  UNAVAILABLE = "14",
+  DATA_LOSS = "15",
+  UNAUTHENTICATED = "16",
 }
 
 type ApiResponse<T> = {
   status: ApiResponseStatus;
-  errorCode?: ApiResponseErrorCode;
+  errorCode?: ApiErrorCode;
   errorMsg?: string;
   resultBody?: T;
 };
 
+export type ApiError = {
+  code: ApiErrorCode;
+  message?: string;
+};
+
+interface ApiPromise<Response> {
+  then<TResult1 = Response, TResult2 = never>(
+    onfulfilled?:
+      | ((value: Response) => TResult1 | PromiseLike<TResult1>)
+      | undefined
+      | null,
+    onrejected?:
+      | ((apiError: ApiError) => TResult2 | PromiseLike<TResult2>)
+      | undefined
+      | null
+  ): ApiPromise<TResult1 | TResult2>;
+
+  catch<TResult = never>(
+    onrejected?:
+      | ((apiError: ApiError) => TResult | PromiseLike<TResult>)
+      | undefined
+      | null
+  ): ApiPromise<Response | TResult>;
+
+  finally(onfinally?: (() => void) | undefined | null): ApiPromise<Response>;
+}
+
 export function apiPost<Request, Response>(
   path: string,
   request?: Request
-): Promise<Response> {
+): ApiPromise<Response> {
   const userToken = loadCurrentUserToken();
   return fetch(`${endpoint}${path}`, {
     method: "POST",
@@ -36,18 +77,25 @@ export function apiPost<Request, Response>(
   })
     .then((response) => response.json())
     .catch(() => {
-      throw `Cannot connect ${path}`;
+      console.warn(`Cannot access ${path}`);
+      throw {
+        code: ApiErrorCode.UNAVAILABLE,
+        message: `Cannot access ${path}`,
+      } as ApiError;
     })
     .then((response) => response as ApiResponse<Response>)
     .then((response) => {
       if (response.status !== ApiResponseStatus.SUCCESS) {
         if (
-          response.errorCode == ApiResponseErrorCode.UNAUTHORIZED &&
+          response.errorCode == ApiErrorCode.UNAUTHENTICATED &&
           isSignedIn()
         ) {
           signOut();
         }
-        throw response;
+        throw {
+          code: response.errorCode!,
+          message: response.errorMsg,
+        } as ApiError;
       } else {
         return response.resultBody!;
       }
@@ -57,7 +105,7 @@ export function apiPost<Request, Response>(
 export function apiGet<Response>(
   path: string,
   parameters?: Record<string, unknown>
-): Promise<Response> {
+): ApiPromise<Response> {
   let url = `${endpoint}${path}`;
   if (parameters) {
     const stringParameters = Object.fromEntries(
@@ -79,18 +127,25 @@ export function apiGet<Response>(
   })
     .then((response) => response.json())
     .catch(() => {
-      throw `Cannot connect ${path}`;
+      console.warn(`Cannot access ${path}`);
+      throw {
+        code: ApiErrorCode.UNAVAILABLE,
+        message: `Cannot access ${path}`,
+      } as ApiError;
     })
     .then((response) => response as ApiResponse<Response>)
     .then((response) => {
       if (response.status !== ApiResponseStatus.SUCCESS) {
         if (
-          response.errorCode == ApiResponseErrorCode.UNAUTHORIZED &&
+          response.errorCode == ApiErrorCode.UNAUTHENTICATED &&
           isSignedIn()
         ) {
           signOut();
         }
-        throw response;
+        throw {
+          code: response.errorCode!,
+          message: response.errorMsg,
+        } as ApiError;
       } else {
         return response.resultBody!;
       }

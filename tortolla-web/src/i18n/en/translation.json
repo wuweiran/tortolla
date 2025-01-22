@@ -22,6 +22,7 @@
     "sign up succeed": "Your account has been successfully created.",
     "sign up fail": "Failed to sign up your account.",
     "post link copied": "Link to the post is copied to clipboard.",
+    "post not found": "Cannot find the post.",
     "create post succeed": "Your post is successfully created!",
     "create post fail": "Failed to create.",
     "delete post succeed": "The post is successfully deleted!",

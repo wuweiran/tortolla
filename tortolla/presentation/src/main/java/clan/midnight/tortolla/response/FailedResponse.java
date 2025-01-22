@@ -1,5 +1,6 @@
 package clan.midnight.tortolla.response;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -7,38 +8,52 @@ import java.util.Objects;
 @Getter
 public class FailedResponse extends BaseResponse {
 
-    public static final String ERROR_CODE_WRONG_PARAM = "A0400";
+    public enum ErrorCode {
+        CANCELLED("1"),
+        UNKNOWN("2"),
+        INVALID_ARGUMENT("3"),
+        DEADLINE_EXCEEDED("4"),
+        NOT_FOUND("5"),
+        ALREADY_EXISTS("6"),
+        PERMISSION_DENIED("7"),
+        RESOURCE_EXHAUSTED("8"),
+        FAILED_PRECONDITION("9"),
+        ABORTED("10"),
+        OUT_OF_RANGE("11"),
+        UNIMPLEMENTED("12"),
+        INTERNAL("13"),
+        UNAVAILABLE("14"),
+        DATA_LOSS("15"),
+        UNAUTHENTICATED("16");
 
-    public static final String ERROR_CODE_NOT_FOUND = "001";
+        private final String code;
 
-    public static final String ERROR_CODE_UNAUTHORIZED = "A0300";
+        ErrorCode(String code) {
+            this.code = code;
+        }
 
-    public static final String ERROR_CODE_CANNOT_NEW = "003";
+        @JsonValue
+        public String getCode() {
+            return code;
+        }
+    }
 
-    private String errorCode;
+    private final ErrorCode errorCode;
 
-    private String errorMsg;
+    private final String errorMsg;
 
-    public FailedResponse(String errorCode, String errorMsg) {
+    public FailedResponse(ErrorCode errorCode, String errorMsg) {
         this.status = BaseResponse.STATUS_FAIL;
         this.errorCode = errorCode;
         this.errorMsg = errorMsg;
     }
 
-    public FailedResponse(String errorCode) {
+    public FailedResponse(ErrorCode errorCode) {
         this(errorCode, "");
     }
 
     public FailedResponse() {
-    }
-
-
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public void setErrorMsg(String errorMsg) {
-        this.errorMsg = errorMsg;
+        this(ErrorCode.UNKNOWN);
     }
 
     @Override

@@ -29,6 +29,7 @@ import { currentUser } from "../../containers/user.ts";
 import { useNavigate } from "react-router-dom";
 import { useMessage } from "../../containers/message.ts";
 import MarkdownPreview from "./md/MarkdownPreview.tsx";
+import { ApiErrorCode } from "../../containers/api.ts";
 
 const useStyles = makeStyles({
   article: {
@@ -50,7 +51,7 @@ const PostDetail = () => {
   const { t } = useTranslation();
   const params = useParams();
   const navigate = useNavigate();
-  const { success, warn } = useMessage();
+  const { success, warn, error } = useMessage();
   const [isLoading, setLoading] = useState<boolean>(true);
   const [isDeleting, setDeleting] = useState<boolean>(false);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
@@ -61,6 +62,11 @@ const PostDetail = () => {
     void getPost(postId)
       .then((post) => {
         setPost(post);
+      })
+      .catch((apiError) => {
+        if (apiError.code === ApiErrorCode.NOT_FOUND) {
+          error(t("message.post not found"));
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -141,7 +147,7 @@ const PostDetail = () => {
       )}
     </>
   ) : (
-    <>Cannot find post</>
+    <Text>{t("message.post not found")}</Text>
   );
 };
 

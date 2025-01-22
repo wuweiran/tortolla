@@ -33,11 +33,11 @@ public class PostController {
     @GetMapping(value = "/{id}")
     public Response getPost(@PathVariable Long id) {
         if (id == null) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
+            return new FailedResponse(FailedResponse.ErrorCode.INVALID_ARGUMENT);
         }
         Post post = postRepository.getById(id);
         if (post == null) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_NOT_FOUND, "Cannot find post");
+            return new FailedResponse(FailedResponse.ErrorCode.NOT_FOUND, "Cannot find post");
         }
         return new SuccessfulResponse<>(PostWebDTO.fromDomain(post, post.getAuthor(userRepository)));
     }
@@ -46,19 +46,19 @@ public class PostController {
     @PostMapping(value = "/delete")
     public Response deletePost(@RequestBody DeletePostRequest request, @RequestHeader(name = "x-fd-user-token") String token) {
         if (request.postId() == null) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
+            return new FailedResponse(FailedResponse.ErrorCode.INVALID_ARGUMENT);
         }
         Post post = postRepository.getById(request.postId());
         if (post == null) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_NOT_FOUND, "Cannot find post");
+            return new FailedResponse(FailedResponse.ErrorCode.NOT_FOUND, "Cannot find post");
         }
         Long id = userService.validateTokenAndGetUserId(token);
         if (id == null) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
+            return new FailedResponse(FailedResponse.ErrorCode.UNAUTHENTICATED);
         }
         User user = userRepository.getById(id);
         if (user == null || !post.isPostedBy(user)) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
+            return new FailedResponse(FailedResponse.ErrorCode.PERMISSION_DENIED);
         }
         postRepository.removeById(request.postId());
         return new SuccessfulResponse<>();
@@ -67,14 +67,14 @@ public class PostController {
     @PostMapping(value = "/create")
     public Response createPost(@RequestBody CreatePostRequest request, @RequestHeader(name = "x-fd-user-token") String token) {
         if (request.title() == null || request.title().isBlank()) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
+            return new FailedResponse(FailedResponse.ErrorCode.INVALID_ARGUMENT);
         }
         if (request.body() == null || request.body().isBlank()) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
+            return new FailedResponse(FailedResponse.ErrorCode.INVALID_ARGUMENT);
         }
         Long id = userService.validateTokenAndGetUserId(token);
         if (id == null) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
+            return new FailedResponse(FailedResponse.ErrorCode.UNAUTHENTICATED);
         }
         long postId = postRepository.put(request.title(), request.body(), id);
         return new SuccessfulResponse<>(postId);

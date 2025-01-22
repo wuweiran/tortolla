@@ -22,6 +22,7 @@
     "sign up succeed": "你的账号已被成功创建。",
     "sign up fail": "你的账号创建失败。",
     "post link copied": "已复制链接到剪贴板。",
+    "post not found": "找不到帖子。",
     "create post succeed": "你的贴子已成功创建！",
     "create post fail": "创建失败。",
     "delete post succeed": "帖子成功删除！",

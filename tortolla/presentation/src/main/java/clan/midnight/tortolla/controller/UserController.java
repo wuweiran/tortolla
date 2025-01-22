@@ -26,11 +26,11 @@ public class UserController {
     @PostMapping(value = "/sign-in")
     public Response signIn(@RequestBody SignInRequest request) {
         if (request.username() == null || request.username().isEmpty()) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
+            return new FailedResponse(FailedResponse.ErrorCode.INVALID_ARGUMENT);
         }
         String token = userService.authenticateAndGetToken(request.username(), request.password());
         if (token == null) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
+            return new FailedResponse(FailedResponse.ErrorCode.UNAUTHENTICATED);
         }
         return new SuccessfulResponse<>(token);
     }
@@ -38,17 +38,17 @@ public class UserController {
     @PostMapping(value = "/sign-up")
     public Response signUp(@RequestBody SignUpRequest request) {
         if (request.username() == null || request.username().isEmpty()) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
+            return new FailedResponse(FailedResponse.ErrorCode.INVALID_ARGUMENT);
         }
         if (request.password() == null || request.password().isEmpty()) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
+            return new FailedResponse(FailedResponse.ErrorCode.INVALID_ARGUMENT);
         }
         if (request.fullName() == null || request.fullName().isEmpty()) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
+            return new FailedResponse(FailedResponse.ErrorCode.INVALID_ARGUMENT);
         }
         String token = userService.registerAndGetToken(request.username(), request.password(), request.fullName());
         if (token == null) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_CANNOT_NEW);
+            return new FailedResponse(FailedResponse.ErrorCode.ALREADY_EXISTS);
         }
         return new SuccessfulResponse<>(token);
     }
@@ -56,16 +56,16 @@ public class UserController {
     @GetMapping(value = "/me")
     public Response getFromToken(@RequestHeader(name = "x-fd-user-token") String token) {
         if (token == null) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
+            return new FailedResponse(FailedResponse.ErrorCode.UNAUTHENTICATED);
         }
         Long id = userService.validateTokenAndGetUserId(token);
         if (id == null) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
+            return new FailedResponse(FailedResponse.ErrorCode.UNAUTHENTICATED);
         }
         User user = userRepository.getById(id);
         if (user == null) {
             log.warn("User ID {} doesn't exist.", id);
-            return new FailedResponse(FailedResponse.ERROR_CODE_NOT_FOUND);
+            return new FailedResponse(FailedResponse.ErrorCode.NOT_FOUND);
         }
         return new SuccessfulResponse<>(UserWebDTO.fromDomain(user));
     }
@@ -73,15 +73,15 @@ public class UserController {
     @GetMapping(value = "/{id}")
     public Response getById(@RequestHeader(name = "x-fd-user-token") String token, @PathVariable("id") Long id) {
         if (id == null) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_WRONG_PARAM);
+            return new FailedResponse(FailedResponse.ErrorCode.INVALID_ARGUMENT);
         }
         if (token == null || userService.validateTokenAndGetUserId(token) == null) {
-            return new FailedResponse(FailedResponse.ERROR_CODE_UNAUTHORIZED);
+            return new FailedResponse(FailedResponse.ErrorCode.UNAUTHENTICATED);
         }
         User user = userRepository.getById(id);
         if (user == null) {
             log.warn("User ID {} doesn't exist.", id);
-            return new FailedResponse(FailedResponse.ERROR_CODE_NOT_FOUND);
+            return new FailedResponse(FailedResponse.ErrorCode.NOT_FOUND);
         }
         return new SuccessfulResponse<>(UserBasicWebDTO.fromDomain(user));
     }
