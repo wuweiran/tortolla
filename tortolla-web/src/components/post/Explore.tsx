@@ -55,11 +55,11 @@ const Explore = () => {
             <Card className={styles.card}>
               <CardHeader
                 image={<SkeletonItem shape="square" />}
-                header={<SkeletonItem />}
+                header={<SkeletonItem size={28} />}
                 description={
                   <>
                     <Persona size="extra-small" />
-                    <SkeletonItem />
+                    <SkeletonItem size={20} />
                   </>
                 }
               />
@@ -78,7 +78,7 @@ const Explore = () => {
       <List navigationMode="composite">
         {posts.map((post) => (
           <ListItem className={styles.card} value={post.id}>
-            <Card title={post.title}>
+            <Card>
               <CardHeader
                 image={<DocumentText24Regular />}
                 header={<Subtitle1>{post.title}</Subtitle1>}

@@ -6,6 +6,7 @@ import {
   Input,
   Spinner,
   makeStyles,
+  tokens,
 } from "@fluentui/react-components";
 import { useTranslation } from "react-i18next";
 import {
@@ -19,6 +20,7 @@ const useStyles = makeStyles({
   root: {
     display: "flex",
     flexDirection: "column",
+    gap: tokens.spacingVerticalMNudge,
   },
 });
 

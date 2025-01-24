@@ -2,12 +2,12 @@ import { useState } from "react";
 import { UserSignInRequest, signIn } from "../../containers/user.ts";
 import {
   Button,
-  Checkbox,
   Field,
   Input,
   Spinner,
   makeStyles,
   Link,
+  tokens,
 } from "@fluentui/react-components";
 import { useTranslation } from "react-i18next";
 import { Person24Regular, Key24Regular } from "@fluentui/react-icons";
@@ -17,6 +17,7 @@ const useStyles = makeStyles({
   root: {
     display: "flex",
     flexDirection: "column",
+    gap: tokens.spacingVerticalMNudge,
   },
 });
 
@@ -67,7 +68,6 @@ const SignInForm = (props: { onComplete: () => void }) => {
           placeholder="Password"
         />
       </Field>
-      <Checkbox label={t("user.sign-in.remember")} />
       <Link href="/user/register">{t("user.sign-in.forgot")}</Link>
       <Button
         onClick={() => onFinish({ username: username, password: password })}
